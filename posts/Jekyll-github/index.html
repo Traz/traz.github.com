@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Dr Jekyll and Mister --safe Github</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/posts/Jekyll-github">Dr Jekyll and Mister --safe Github</a>
+    <small><a href="/tag/jekyll.html">jekyll</a>, <a href="/tag/github.html">github</a>, <a href="/tag/bash.html">bash</a>, <a href="/tag/git.html">git</a></small>
+  </h1>
+
+  <section class="byline">
+    March 29, 2013
+  </section>
+
+  <h3>Setup a blog with Jekyll on Github. Back. Again.</h3>
+
+<p>So you've got a nice simple Github pages. Missing some tag ? No problem, check the Jekyll plugins directory, tape one and install it. <code>jekyll serve --port 80</code> locally (i'm on Jekyll 1 prerelease) and all it's fine ! Simple blog, with simple tag management.</p>
+
+<p>One <code>git push origin remote</code> and ... c'est le bordel, as we says here ... First check my code ... but nothing seems wrong. Monkey-patch the plugin ... nothing wrong again ...</p>
+
+<p>Digging Google : Github run his github page with <code>-- safe</code> : <strong>no plugins are allowed to run on Github page</strong> !!</p>
+
+<h3>Solution : static site ... generated dynamically</h3>
+
+<p>Finally have found the solution with <a href="http://edhedges.com/blog/2012/07/30/jekyll-with-plugins-hosted-on-github-pages/">http://edhedges.com/blog/2012/07/30/jekyll-with-plugins-hosted-on-github-pages/</a> : keep Git with 2 different structures,</p>
+
+<ul>
+<li>the master branch : containing only the static site (inside the <em>_site</em> directory of your Jekyll installation)</li>
+<li>a dev branch : containing the full Jekyll site, where i launch the jekyll server for generate the statics pages.</li>
+</ul>
+
+
+<h3>Step by Step :</h3>
+
+<ul>
+<li>create a new branch</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      git checkout -b dev
+      
+</code></pre></div>
+
+
+<ul>
+<li><p>work on this branch only (create another branch from this one for testing new features, or just create some new posts), and use git here (commit, merge from new features, ...)</p></li>
+<li><p>when you want to publish, run jekyll server for generating the statics files in <em>_site</em></p></li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      jekyll build
+      
+</code></pre></div>
+
+
+<ul>
+<li>get a reference id for the tree (<em>_site</em>) : this pointer contain only a reference to the <em>_site</em> tree.</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      git commit-tree dev^<span class="o">{</span>tree<span class="o">}</span>:_site -m <span class="s1">&#39;message&#39;</span>
+      &gt; COMMIT_ID
+      
+</code></pre></div>
+
+
+<p>  and check your log</p>
+
+<div class="highlight"><pre><code class="sh">      git lg COMMIT_ID 
+      
+</code></pre></div>
+
+
+<ul>
+<li>now, update the master branch for pointing only to this tree object :</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      git update-ref refs/heads/master COMMIT_ID
+      
+</code></pre></div>
+
+
+<ul>
+<li>go to the master branch</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      git checkout master
+      
+</code></pre></div>
+
+
+<ul>
+<li>and push it to github (with -f option because our master doesn't have any parent)</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="sh">      git push -f origin master
+      
+</code></pre></div>
+
+
+<p>And that's it !</p>
+
+<h3>One for all</h3>
+
+<p>Ok, do all of this in just one step from the dev branch (after running jekyll) :</p>
+
+<div class="highlight"><pre><code class="sh">    git update-ref refs/heads/master <span class="k">$(</span><span class="nb">echo</span> <span class="s1">&#39;Add commit message here!&#39;</span> | git commit-tree dev^<span class="o">{</span>tree<span class="o">}</span>:_site -p <span class="k">$(</span>cat .git/refs/heads/master<span class="k">))</span>
+    
+</code></pre></div>
+
+
+<h3>Aliasing</h3>
+
+<p>Easing the hacker life :)</p>
+
+<p>So, in [alias] section of <em>.gitconfig</em></p>
+
+<div class="highlight"><pre><code class="sh">    <span class="nv">devtree</span> <span class="o">=</span> <span class="s2">&quot;!sh -c &#39;git update-ref refs/heads/master $(echo \&quot;Transfert\&quot; | git commit-tree dev^{tree}:_site -p $(cat .git/refs/heads/master))&#39;&quot;</span>
+
+    <span class="c">### in quick and dirty way, a shell alias : </span>
+
+    <span class="nb">alias </span><span class="nv">trf</span><span class="o">=</span><span class="s2">&quot;jekyll build &amp;&amp; git add . &amp;&amp; git commit -m &#39;post : upd&#39; &amp;&amp; git devtree &amp;&amp; git co master &amp;&amp; git push origin master &amp;&amp; git co dev&quot;</span>
+    
+</code></pre></div>
+
+
+<p>Now, after commiting my work, I have just to launch a <code>trf</code> command for publishing on Github :)</p>
+
+<h3>In so quick &amp; dirty way : a little bash script</h3>
+
+<p>Feel free to comment / improve it ! In short, use your dev for working and master only for pushing to Github. <a href="https://gist.github.com/Traz/5333597">Gist code</a></p>
+
+<div class="highlight"><pre><code class="sh">    <span class="c">#!/bin/bash  </span>
+
+
+    <span class="nb">echo</span> <span class="s2">&quot;------- Transfer statics pages to Github (make sure jekyll build ok, and git branch dev commited) ---&quot;</span>
+
+    <span class="nv">current_branch</span><span class="o">=</span><span class="k">$(</span>git branch | grep <span class="s1">&#39;*&#39;</span> | cut -c 3-<span class="k">)</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[1;33mGit\033[0m    : Current branch :\033[0;31m $current_branch\033[0m&quot;</span>
+
+    <span class="k">if</span> <span class="o">[</span> <span class="nv">$current_branch</span> !<span class="o">=</span> <span class="s2">&quot;dev&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+<span class="k">      </span><span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;31mERROR : Branch must be dev \033[0m&quot;</span>
+      <span class="nb">echo</span> <span class="s2">&quot;------- Finished&quot;</span>
+      <span class="nb">exit </span>0;
+    <span class="k">fi</span>
+
+<span class="k">    </span><span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;32mJekyll\033[0m : Build&quot;</span>
+    jekyll build
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : add .&quot;</span>
+    git add .
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;34mUSER\033[0m   : enter the commit message for dev branch : &quot;</span>
+    <span class="nb">read </span>dev_commit_message
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : commit dev &quot;</span>
+    git commit -m <span class="s2">&quot;$dev_commit_message&quot;</span>
+
+
+    <span class="nv">master_commit_id</span><span class="o">=</span><span class="k">$(</span>cat .git/refs/heads/master<span class="k">)</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : get the last COMMIT_ID of master branch :\033[0;31m ${master_commit_id:0:7}\033[0m&quot;</span>
+
+
+
+    <span class="nv">commit_tree_id</span><span class="o">=</span><span class="k">$(</span>git commit-tree dev^<span class="o">{</span>tree<span class="o">}</span>:_site -p <span class="nv">$master_commit_id</span> -m <span class="s1">&#39;$dev_commit_message&#39;</span><span class="k">)</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : commit-tree _site, id :\033[0;31m ${commit_tree_id:0:7} \033[0m&quot;</span>
+
+    <span class="nv">new_master_commit_id</span><span class="o">=</span><span class="k">$(</span>git update-ref refs/heads/master <span class="nv">$commit_tree_id</span><span class="k">)</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : update-ref, new master id  : \033[0;31m ${new_master_commit_id:0:7} \033[0m&quot;</span>
+
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : checkout master&quot;</span>
+    git checkout master
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : push origin master to github&quot;</span>
+    git push origin master 
+
+    <span class="nb">echo</span> -e <span class="s2">&quot;-- \033[0;33mGit\033[0m    : checkout dev&quot;</span>
+    git checkout dev 
+
+    <span class="nb">echo</span> <span class="s2">&quot;------- Finished &quot;</span>
+
+    
+</code></pre></div>
+
+
+<p>Don't hesitate to improve it !</p>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>
