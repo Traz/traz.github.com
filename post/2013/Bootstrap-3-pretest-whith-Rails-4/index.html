@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Bootstrap 3 : Install and use it in Rails 4 (Win)</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/Bootstrap-3-pretest-whith-Rails-4">Bootstrap 3 : Install and use it in Rails 4 (Win)</a>
+    <small><a href="/tag/bootstrap%203.html">bootstrap 3</a>, <a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/less.html">less</a>, <a href="/tag/nodejs.html">nodejs</a>, <a href="/tag/uglify.html">uglify</a></small>
+  </h1>
+
+  <section class="byline">
+    April  6, 2013
+  </section>
+
+  <h3>Bootstrap 3 (vs Zurb Foundation ?)</h3>
+
+<p>Ok, I'm not a big fan of Less, but i want to try the new Bootstrap 3 :) Users have just to wait that 1) bootstrap is released, 2) bootstrap-sass gem is up to date.</p>
+
+<p>I have to take a more deep look at <a href="http://foundation.zurb.com/">Zurb Foundation</a> which come with nice sass, but the purpose here is to test a work-in-progress :)</p>
+
+<h3>Installing NodeJS, Less compiler and Uglify compressor</h3>
+
+<p>So for testing, we must compile less files, which is done with <a href="http://nodejs.org/download/">nodeJS</a>. Install it (in <em>c:/dev/</em> as usual for me), and check the library less with the integrated package manager <code>npm</code> : <em>be carefull : npm install in the actual directory</em> so, you can choose to use <code>g</code> option to install it in the global directory (set as $USERPROFILE/appdate/roaming/npm/npm_modules by default ... :( ) or go to your already installed npm library (for me : <em>c:/dev/nodejs/node_modules/npm</em>) and make some alias after in your bash shell).</p>
+
+<blockquote><p>Nota : you can check some <a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI Less compiler for windows</a> if you want.</p></blockquote>
+
+<pre><code>cd c:/dev/nodejs/node_modules/npm
+npm install less
+npm install uglify-js
+</code></pre>
+
+<p>Ok let make an alias for this deep directory in <em>~/.profile</em> or <em>~/.bash_profile</em> and test it :</p>
+
+<div class="highlight"><pre><code class="sh"><span class="nb">alias </span><span class="nv">lessc</span><span class="o">=</span><span class="s1">&#39;C:/Dev/nodejs/node_modules/npm/node_modules/less/bin/lessc&#39;</span>
+<span class="nb">alias </span><span class="nv">uglifyjs</span><span class="o">=</span><span class="s1">&#39;c:/Dev/nodejs/node_modules/npm/node_modules/uglify-js/bin/uglifyjs&#39;</span>
+<span class="nb">alias </span>
+lessc --version
+&gt;&gt;lessc 1.3.3 <span class="o">(</span>LESS Compiler<span class="o">)</span> <span class="o">[</span>JavaScript<span class="o">]</span>
+lessc --help
+</code></pre></div>
+
+
+<blockquote><ul>
+<li>Nota 1 : another solution exist, look at <a href="https://github.com/duncansmart/less.js-windows">https://github.com/duncansmart/less.js-windows</a></li>
+<li>Nota 2 : Check some <a href="http://wbond.net/sublime_packages/community">Sublime Package</a> for syntax highlighting and auto compile less file to css.</li>
+</ul>
+</blockquote>
+
+<h3>Start a new Rails app</h3>
+
+<p>Classical <code>rails new app_name</code></p>
+
+<h3>Compiling files</h3>
+
+<p>The final output are : CSS files, JS files and images files. JS files are not minified for the moment (just testing them), nor the CSS too.</p>
+
+<ul>
+<li><p>First, copy all the Javascript from <em>bootstrap/js</em> to <em>app/assets/javascripts</em>.</p></li>
+<li><p>Idem, copy the <em>fonts</em> directory to <em>app/assets/</em></p></li>
+<li><p>Third compile the Less files from your boostrap git repository to your rails app :</p>
+
+<pre><code>cd /app/assets/stylesheets
+lessc /bootstrap/less/bootstrap.less bootstrap.css # put the full path from your source bootstrap git directory.
+</code></pre></li>
+</ul>
+
+
+<p>And that's done !</p>
+
+<h3>Firsts impressions</h3>
+
+<ul>
+<li>Don't forget to adjust <code>@font-face</code> for the fonts directory in <em>bootsrap.css</em></li>
+<li>Every things work for the moment. Have to build a real site with others components ...</li>
+</ul>
+
+
+<p><strong>Great Work Bootstrap Team !!</strong></p>
+
+<blockquote><p>Nota : Don't forget to regularly use a <code>git pull</code> for get the last bootstrap update !</p></blockquote>
+
+<h3>Customize via semantic css</h3>
+
+<p>Don't overload your html with bootstrap class take a look :<a href="http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html">http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html</a> !</p>
+
+<p>For now, the solution is to create a temporary file witch will declare custom setting before importing the main bootstrap less file. (It's easiest with sass ...)</p>
+
+<ul>
+<li>create a <em>custom</em> directory in your assets</li>
+<li>create a main less file in this directory : <em>main-custom.less</em> with the full directory path to your bootsrap git file ie for me :</li>
+</ul>
+
+
+<div class="highlight"><pre><code class="css">        <span class="c">/* custom less setting mixins before */</span>
+        <span class="k">@import</span> <span class="s2">&quot;c:/www/github/bootstrap/less/bootstrap/less&quot;</span><span class="p">;</span> 
+        
+</code></pre></div>
+
+
+<ul>
+<li>compile <code>lessc main-custom.less ./stylesheets/bootstrap.css</code></li>
+</ul>
+
+
+<h3>Optional : Uglify</h3>
+
+<p>Ok it's somewhere dirty html code with plenty of javascript been call ...
+Let make just one big file and compress them : (nota : for testing/debugging purpose it's not the time)</p>
+
+<div class="highlight"><pre><code class="sh">        <span class="nb">cd</span> /app/assets/javascripts
+        cat bootstrap*.js &gt; bootstrap.js
+        uglify bootstrap.js -c -m &gt; bootstrap.min.js
+    
+</code></pre></div>
+
+
+<p>And change the <em>application.js</em> for not requiring the entire tree.</p>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

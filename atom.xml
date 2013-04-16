@@ -4,7 +4,7 @@
  <title>Traz's notes</title>
  <link href="http://traz.github.com/atom.xml" rel="self"/>
  <link href="http://traz.github.com/"/>
- <updated>2013-04-16T19:05:47+11:00</updated>
+ <updated>2013-04-16T23:04:29+11:00</updated>
  <id>http://traz.github.com</id>
  <author>
    <name>Traz</name>
@@ -13,9 +13,9 @@
  
  <entry>
    <title>Rails Trick & Tips : Rails delegate</title>
-   <link href="http://traz.github.com/posts/tips-rails-delegate"/>
+   <link href="http://traz.github.com/tips/2013/tips-rails-delegate"/>
    <updated>2013-04-15T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/tips-rails-delegate</id>
+   <id>http://traz.github.com/tips/2013/tips-rails-delegate</id>
 <!--    <content type="html">&lt;h3&gt;Rails delegate&lt;/h3&gt;
 
 &lt;ul&gt;
@@ -51,9 +51,9 @@
  
  <entry>
    <title>Rails Trick & Tips : Auto hide Rails flash messages</title>
-   <link href="http://traz.github.com/posts/tips-modal-effect"/>
+   <link href="http://traz.github.com/tips/2013/tips-modal-effect"/>
    <updated>2013-04-15T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/tips-modal-effect</id>
+   <id>http://traz.github.com/tips/2013/tips-modal-effect</id>
 <!--    <content type="html">&lt;h3&gt;Auto hide Rails flash messages&lt;/h3&gt;
 
 &lt;p&gt;Just drop this coffee script in your &lt;em&gt;assets/javascript&lt;/em&gt; folder (look at &lt;a href=&quot;http://reinteractive.net/posts/13-ui-tips-for-flash-messages-in-rails&quot;&gt;http://reinteractive.net/posts/13-ui-tips-for-flash-messages-in-rails&lt;/a&gt;)&lt;/p&gt;
@@ -72,9 +72,9 @@
  
  <entry>
    <title>Rails Trick & Tips : A modal destroy confirmation</title>
-   <link href="http://traz.github.com/posts/tips-modal-destroy-confirmation"/>
+   <link href="http://traz.github.com/tips/2013/tips-modal-destroy-confirmation"/>
    <updated>2013-04-15T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/tips-modal-destroy-confirmation</id>
+   <id>http://traz.github.com/tips/2013/tips-modal-destroy-confirmation</id>
 <!--    <content type="html">&lt;h3&gt;A modal destroy confirmation&lt;/h3&gt;
 
 &lt;p&gt;And at the end of this day, a short tips come from here &lt;a href=&quot;https://gist.github.com/postpostmodern/1862479&quot;&gt;https://gist.github.com/postpostmodern/1862479&lt;/a&gt;, just drop the file in your assets javascript folder with this modification for bootstrap 3 :&lt;/p&gt;
@@ -133,9 +133,9 @@
  
  <entry>
    <title>Rails Trick & Tips : Hirb config for Rails Console</title>
-   <link href="http://traz.github.com/posts/tips-hirb"/>
+   <link href="http://traz.github.com/tips/2013/tips-hirb"/>
    <updated>2013-04-15T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/tips-hirb</id>
+   <id>http://traz.github.com/tips/2013/tips-hirb</id>
 <!--    <content type="html">&lt;h3&gt;Got a Warning ?&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;Hirb Warning: Too many fields for the current width... 
@@ -173,9 +173,9 @@
  
  <entry>
    <title>Rails Trick & Tips : Change console Charset for Jekyll</title>
-   <link href="http://traz.github.com/posts/tips-charset-jekyll"/>
+   <link href="http://traz.github.com/tips/2013/tips-charset-jekyll"/>
    <updated>2013-04-15T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/tips-charset-jekyll</id>
+   <id>http://traz.github.com/tips/2013/tips-charset-jekyll</id>
 <!--    <content type="html">&lt;h3&gt;CP850 error &amp;amp; Co&lt;/h3&gt;
 
 &lt;p&gt;if you&#39;ve got some CP850 error from Liquid under windows, launch a DOS prompt, tape &lt;code&gt;chcp 65001&lt;/code&gt; then launch your bash shell &lt;code&gt;sh -l -i&lt;/code&gt; and launch the jekyll server after.&lt;/p&gt;
@@ -184,9 +184,9 @@
  
  <entry>
    <title>Starting a new Rails 4 : IV. Build an interface</title>
-   <link href="http://traz.github.com/posts/IV-Menu-and-tools"/>
+   <link href="http://traz.github.com/post/2013/IV-Menu-and-tools"/>
    <updated>2013-04-11T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/IV-Menu-and-tools</id>
+   <id>http://traz.github.com/post/2013/IV-Menu-and-tools</id>
 <!--    <content type="html">&lt;h3&gt;Implementing the bootstrap menu&lt;/h3&gt;
 
 &lt;p&gt;First create another layout : for the moment we use the &lt;em&gt;view/layouts/application.html.haml&lt;/em&gt; copy it to &lt;em&gt;home.html.haml&lt;/em&gt;, so we&#39;ve got a different layout for the home page and the rest of the app.&lt;/p&gt;
@@ -395,9 +395,9 @@
  
  <entry>
    <title>Starting a new Rails 4 : III. a date picker</title>
-   <link href="http://traz.github.com/posts/a-datepicker-for-BS3"/>
+   <link href="http://traz.github.com/post/2013/III-A-datepicker-for-BS3"/>
    <updated>2013-04-10T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/a-datepicker-for-BS3</id>
+   <id>http://traz.github.com/post/2013/III-A-datepicker-for-BS3</id>
 <!--    <content type="html">&lt;h3&gt;Seeking a BS3 date picker ...&lt;/h3&gt;
 
 &lt;p&gt;There a library for bootstrap 2 (&lt;a href=&quot;https://github.com/eternicode/bootstrap-datepicker&quot;&gt;https://github.com/eternicode/bootstrap-datepicker&lt;/a&gt;) but she&#39;s not ready for bootstrap 3 ... So I found a fork here : &lt;a href=&quot;https://github.com/ianserlin/bootstrap-datepicker/tree/3.x&quot;&gt;https://github.com/ianserlin/bootstrap-datepicker/tree/3.x&lt;/a&gt; and use it until the standard library will update.&lt;/p&gt;
@@ -440,9 +440,9 @@
  
  <entry>
    <title>Starting a new Rails 4 : II. Forms with Simple_form</title>
-   <link href="http://traz.github.com/posts/Simple_from"/>
+   <link href="http://traz.github.com/post/2013/II-Simple_form"/>
    <updated>2013-04-08T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Simple_from</id>
+   <id>http://traz.github.com/post/2013/II-Simple_form</id>
 <!--    <content type="html">&lt;h3&gt;Some documentation&lt;/h3&gt;
 
 &lt;ul&gt;
@@ -497,9 +497,9 @@
  
  <entry>
    <title>Starting a new Rails 4 : I. Authentication with Sorcery.</title>
-   <link href="http://traz.github.com/posts/Rails-basic-form-and-authentication"/>
+   <link href="http://traz.github.com/post/2013/I-Rails-basic-form-and-authentication"/>
    <updated>2013-04-07T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Rails-basic-form-and-authentication</id>
+   <id>http://traz.github.com/post/2013/I-Rails-basic-form-and-authentication</id>
 <!--    <content type="html">&lt;h3&gt;Skeleton already in place :Gemfile&lt;/h3&gt;
 
 &lt;p&gt;So I got&lt;/p&gt;
@@ -934,9 +934,9 @@ I put only this one and keep other default config :&lt;/p&gt;
  
  <entry>
    <title>Bootstrap 3 : Install and use it in Rails 4 (Win)</title>
-   <link href="http://traz.github.com/posts/Bootstrap-3-pretest-whith-Rails-4"/>
+   <link href="http://traz.github.com/post/2013/Bootstrap-3-pretest-whith-Rails-4"/>
    <updated>2013-04-06T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Bootstrap-3-pretest-whith-Rails-4</id>
+   <id>http://traz.github.com/post/2013/Bootstrap-3-pretest-whith-Rails-4</id>
 <!--    <content type="html">&lt;h3&gt;Bootstrap 3 (vs Zurb Foundation ?)&lt;/h3&gt;
 
 &lt;p&gt;Ok, I&#39;m not a big fan of Less, but i want to try the new Bootstrap 3 :) Users have just to wait that 1) bootstrap is released, 2) bootstrap-sass gem is up to date.&lt;/p&gt;
@@ -1045,9 +1045,9 @@ Let make just one big file and compress them : (nota : for testing/debugging pur
  
  <entry>
    <title>RDiscount Markdown</title>
-   <link href="http://traz.github.com/posts/Markdown-RDiscount"/>
+   <link href="http://traz.github.com/post/2013/Markdown-RDiscount"/>
    <updated>2013-04-05T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Markdown-RDiscount</id>
+   <id>http://traz.github.com/post/2013/Markdown-RDiscount</id>
 <!--    <content type="html">&lt;p&gt;Some memos for RDiscount Markdown&lt;/p&gt;
 
 &lt;h3&gt;Specials characters&lt;/h3&gt;
@@ -1317,9 +1317,9 @@ tag1
  
  <entry>
    <title>Bootstrap 3 : first taste</title>
-   <link href="http://traz.github.com/posts/Bootstrap3-preview"/>
+   <link href="http://traz.github.com/post/2013/Bootstrap3-preview"/>
    <updated>2013-04-05T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Bootstrap3-preview</id>
+   <id>http://traz.github.com/post/2013/Bootstrap3-preview</id>
 <!--    <content type="html">&lt;h3&gt;Getting the source code&lt;/h3&gt;
 
 &lt;p&gt;Simply, clone the Git repository, and go to the right branch :&lt;/p&gt;
@@ -1349,9 +1349,9 @@ git checkout 3.0.0-wip
  
  <entry>
    <title>Rake commands</title>
-   <link href="http://traz.github.com/posts/memo-rake-commands"/>
+   <link href="http://traz.github.com/memos/2013/memo-rake-commands"/>
    <updated>2013-04-02T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/memo-rake-commands</id>
+   <id>http://traz.github.com/memos/2013/memo-rake-commands</id>
 <!--    <content type="html">&lt;h3&gt;Meta commands&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;rake --help
@@ -1392,9 +1392,9 @@ rake assets:clean           ## deleete /public/assets
  
  <entry>
    <title>Dr Jekyll and Mister --safe Github</title>
-   <link href="http://traz.github.com/posts/Jekyll-github"/>
+   <link href="http://traz.github.com/post/2013/Jekyll-github"/>
    <updated>2013-03-29T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Jekyll-github</id>
+   <id>http://traz.github.com/post/2013/Jekyll-github</id>
 <!--    <content type="html">&lt;h3&gt;Setup a blog with Jekyll on Github. Back. Again.&lt;/h3&gt;
 
 &lt;p&gt;So you&#39;ve got a nice simple Github pages. Missing some tag ? No problem, check the Jekyll plugins directory, tape one and install it. &lt;code&gt;jekyll serve --port 80&lt;/code&gt; locally (i&#39;m on Jekyll 1 prerelease) and all it&#39;s fine ! Simple blog, with simple tag management.&lt;/p&gt;
@@ -1576,9 +1576,9 @@ rake assets:clean           ## deleete /public/assets
  
  <entry>
    <title>Pik & Bash</title>
-   <link href="http://traz.github.com/posts/Pik"/>
+   <link href="http://traz.github.com/post/2013/Pik"/>
    <updated>2013-03-28T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Pik</id>
+   <id>http://traz.github.com/post/2013/Pik</id>
 <!--    <content type="html">&lt;h3&gt;Use pik with a bash shell&lt;/h3&gt;
 
 &lt;p&gt;In &lt;em&gt;.bashrc&lt;/em&gt; in you $HOME :&lt;/p&gt;
@@ -1623,9 +1623,9 @@ rake assets:clean           ## deleete /public/assets
  
  <entry>
    <title>PRY colorized prompt</title>
-   <link href="http://traz.github.com/posts/Pry-prompt"/>
+   <link href="http://traz.github.com/post/2013/Pry-prompt"/>
    <updated>2013-03-26T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Pry-prompt</id>
+   <id>http://traz.github.com/post/2013/Pry-prompt</id>
 <!--    <content type="html">&lt;h3&gt;The solution, now !&lt;/h3&gt;
 
 &lt;p&gt;After few hours of digging around several solution, I&#39;ve finally have a working colorized prompt for PRY !*&lt;/p&gt;
@@ -1706,9 +1706,9 @@ SGR (Select Graphic Rendition) parameters&lt;/p&gt;
  
  <entry>
    <title>ConEmu</title>
-   <link href="http://traz.github.com/posts/ConEmu"/>
+   <link href="http://traz.github.com/post/2013/ConEmu"/>
    <updated>2013-03-25T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/ConEmu</id>
+   <id>http://traz.github.com/post/2013/ConEmu</id>
 <!--    <content type="html">&lt;h3&gt;Console2 reboot&lt;/h3&gt;
 
 &lt;p&gt;I&#39;ve used for long time the very good &lt;a href=&quot;http://sourceforge.net/projects/console/&quot;&gt;Console2&lt;/a&gt;. But I&#39;ve discovered last month a Russian programmer who has build some really good stuff !&lt;/p&gt;
@@ -1840,9 +1840,9 @@ sh -cur_console:s2TV:d:C:\www\red -login -i -c &quot;rails server&quot;
  
  <entry>
    <title>Jekyll : Pygments, Markdown and Theming</title>
-   <link href="http://traz.github.com/posts/jekyll_and_pygments"/>
+   <link href="http://traz.github.com/post/2013/jekyll_and_pygments"/>
    <updated>2013-03-20T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/jekyll_and_pygments</id>
+   <id>http://traz.github.com/post/2013/jekyll_and_pygments</id>
 <!--    <content type="html">&lt;h3&gt;Markdown : choosing the right one&lt;/h3&gt;
 
 &lt;p&gt;So we&#39;ve got rdiscount, maruku, redcarpet, redcloth and kramdown ... (look at &lt;a href=&quot;https://www.ruby-toolbox.com/categories/markup_processors&quot;&gt;https://www.ruby-toolbox.com/categories/markup_processors&lt;/a&gt;) The last one, kramdown, seem to be the most active with lot of nice features (simplified code declaration, tables, ...).&lt;/p&gt;
@@ -1900,9 +1900,9 @@ Simply :&lt;/p&gt;
  
  <entry>
    <title>Better irb : PRY !</title>
-   <link href="http://traz.github.com/posts/Pry"/>
+   <link href="http://traz.github.com/post/2013/Pry"/>
    <updated>2013-03-12T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Pry</id>
+   <id>http://traz.github.com/post/2013/Pry</id>
 <!--    <content type="html">&lt;h3&gt;Better IRB - a PRY test&lt;/h3&gt;
 
 &lt;p&gt;Install &lt;code&gt;gem i pry&lt;/code&gt;. When you launch it, you&#39;ve warned by some readline missing gem. But take a look at &lt;a href=&quot;https://github.com/luislavena/rb-readline/issues/81&quot;&gt;this bug&lt;/a&gt; ... the new version of rb-readline (0.5.pre) is not available (&lt;code&gt;gem list -r rb-readline -a&lt;/code&gt;). So :&lt;/p&gt;
@@ -2089,9 +2089,9 @@ Note that some theme are in 256 colors ... and they don&#39;t work well with win
  
  <entry>
    <title>Shells  (Mingw / Msys) : DevKit Git</title>
-   <link href="http://traz.github.com/posts/DevKit-and-Git"/>
+   <link href="http://traz.github.com/post/2013/DevKit-and-Git"/>
    <updated>2013-03-11T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/DevKit-and-Git</id>
+   <id>http://traz.github.com/post/2013/DevKit-and-Git</id>
 <!--    <content type="html">&lt;h3&gt;Shells versions&lt;/h3&gt;
 
 &lt;p&gt;Once you&#39;d installed the basics, you&#39;ve got 2 shells : one on &lt;em&gt;/devkit&lt;/em&gt; and one on &lt;em&gt;/git&lt;/em&gt;&lt;/p&gt;
@@ -2130,9 +2130,9 @@ Note that some theme are in 256 colors ... and they don&#39;t work well with win
  
  <entry>
    <title>Git</title>
-   <link href="http://traz.github.com/posts/memo-Git"/>
+   <link href="http://traz.github.com/memos/2013/memo-Git"/>
    <updated>2013-03-10T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/memo-Git</id>
+   <id>http://traz.github.com/memos/2013/memo-Git</id>
 <!--    <content type="html">&lt;h3&gt;Basic&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code&gt;git init
@@ -2218,9 +2218,9 @@ git push origin --tags # publish all tags on remote
  
  <entry>
    <title>Starting Git</title>
-   <link href="http://traz.github.com/posts/Git"/>
+   <link href="http://traz.github.com/post/2013/Git"/>
    <updated>2013-03-10T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Git</id>
+   <id>http://traz.github.com/post/2013/Git</id>
 <!--    <content type="html">&lt;h3&gt;Create your fist local depot&lt;/h3&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;    mkdir red
@@ -2373,9 +2373,9 @@ just test it : &lt;code&gt;git stat&amp;lt;tab&amp;gt;&lt;/code&gt; for completi
  
  <entry>
    <title>Rails 4, Ruby 2.0 and SQLite3</title>
-   <link href="http://traz.github.com/posts/SQlite3"/>
+   <link href="http://traz.github.com/post/2013/SQlite3"/>
    <updated>2013-03-06T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/SQlite3</id>
+   <id>http://traz.github.com/post/2013/SQlite3</id>
 <!--    <content type="html">&lt;p&gt;After your successful Rails 4 install, you can&#39;t run it (&lt;code&gt;rails server&lt;/code&gt;), because your SQLite3 isn&#39;t compatible with Ruby 2 yet.&lt;/p&gt;
 
 &lt;p&gt;Checking Google, I&#39;ve found this : &lt;a href=&quot;https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion&quot;&gt;https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion&lt;/a&gt; and this &lt;a href=&quot;https://gist.github.com/luislavena/5120722&quot;&gt;https://gist.github.com/luislavena/5120722&lt;/a&gt;&lt;/p&gt;
@@ -2405,9 +2405,9 @@ just test it : &lt;code&gt;git stat&amp;lt;tab&amp;gt;&lt;/code&gt; for completi
  
  <entry>
    <title>Installation from scratch : Ruby 2.0.0 under Windows</title>
-   <link href="http://traz.github.com/posts/Installation"/>
+   <link href="http://traz.github.com/post/2013/Installation"/>
    <updated>2013-03-05T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/Installation</id>
+   <id>http://traz.github.com/post/2013/Installation</id>
 <!--    <content type="html">&lt;p&gt;First set up some tools. Console2 was for longtime my shell manager, but i&#39;ve discovered recently ConEmu which has more pretty options.&lt;/p&gt;
 
 &lt;h3&gt;Console2 2.00b147&lt;/h3&gt;
@@ -2626,9 +2626,9 @@ rails server -p 80
  
  <entry>
    <title>Kaminari</title>
-   <link href="http://traz.github.com/posts/kaminari"/>
+   <link href="http://traz.github.com/post/2012/kaminari"/>
    <updated>2012-09-02T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/kaminari</id>
+   <id>http://traz.github.com/post/2012/kaminari</id>
 <!--    <content type="html">&lt;p&gt;generate Kaminari files :&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;sh&quot;&gt;rails g kaminari:config
@@ -2673,9 +2673,9 @@ rails server -p 80
  
  <entry>
    <title>Rails Dates</title>
-   <link href="http://traz.github.com/posts/memo-railsdate"/>
+   <link href="http://traz.github.com/memos/2012/memo-railsdate"/>
    <updated>2012-09-01T00:00:00+11:00</updated>
-   <id>http://traz.github.com/posts/memo-railsdate</id>
+   <id>http://traz.github.com/memos/2012/memo-railsdate</id>
 <!--    <content type="html">&lt;p&gt;i.e. : &lt;code&gt;@comment.created_at.strftime(&quot;%d %b %y&quot;)&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;%a - The abbreviated weekday name (&#39;&#39;Sun&#39;&#39;)
