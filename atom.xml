@@ -4,12 +4,35 @@
  <title>Traz's notes</title>
  <link href="http://traz.github.com/atom.xml" rel="self"/>
  <link href="http://traz.github.com/"/>
- <updated>2013-04-16T23:05:58+11:00</updated>
+ <updated>2013-04-17T21:38:03+11:00</updated>
  <id>http://traz.github.com</id>
  <author>
    <name>Traz</name>
  </author>
 
+ 
+ <entry>
+   <title>Rails Trick & Tips : A gem pointing to a local git repository</title>
+   <link href="http://traz.github.com/tips/2013/tips-local-gem_with-git"/>
+   <updated>2013-04-16T00:00:00+11:00</updated>
+   <id>http://traz.github.com/tips/2013/tips-local-gem_with-git</id>
+<!--    <content type="html">&lt;h3&gt;A gem pointing to a local git repository&lt;/h3&gt;
+
+&lt;p&gt;Take from &lt;a href=&quot;http://gembundler.com/v1.3/git.html&quot;&gt;http://gembundler.com/v1.3/git.html&lt;/a&gt;, ie here :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git clone https://github.com/laserlemon/vestal_versions.git
+git checkout -b &#39;rails-4&#39;
+bundle config local.vestal_versions /c/my_local_git_dir/vestal_versions/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;and in &lt;em&gt;gemfile&lt;/em&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gem &#39;vestal_versions&#39;, :github =&amp;gt; &#39; laserlemon/vestal_versions&#39;, :branch =&amp;gt; &#39;rails-4&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can visualize the effective presence of the git branch with just a &lt;code&gt;bundle show&lt;/code&gt;&lt;/p&gt;
+</content> -->
+ </entry>
  
  <entry>
    <title>Rails Trick & Tips : Rails delegate</title>
