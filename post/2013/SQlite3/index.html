@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,19 +62,26 @@
     March  6, 2013
   </section>
 
-  <p>After your successful Rails 4 install, you can't run it (<code>rails server</code>), because your SQLite3 isn't compatible with Ruby 2 yet.</p>
+  <p>After your successful Rails 4 install, you can’t run it (<code>rails server</code>), because your SQLite3 isn’t compatible with Ruby 2 yet.</p>
 
-<p>Checking Google, I've found this : <a href="https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion">https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion</a> and this <a href="https://gist.github.com/luislavena/5120722">https://gist.github.com/luislavena/5120722</a></p>
+<p>Checking Google, I’ve found this : <a href="https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion">https://groups.google.com/forum/#!topic/rubyinstaller/gedIaMryCFQ/discussion</a> and this <a href="https://gist.github.com/luislavena/5120722">https://gist.github.com/luislavena/5120722</a></p>
 
 <p>So,</p>
 
 <ol>
-<li><p>uninstall the sqlite3 gem for cleaning : <code>gem uni sqlite3</code></p></li>
-<li><p>download the knapsack found in the discussion, and place it in a temp repertory (ie <em>c:/dev/temp</em>).</p></li>
-<li><p>compile sqlite3 with the knapsack <code>gem install sqlite3 --platform=ruby -- --with-opt-dir=C:/dev/temp</code></p></li>
-<li><p>Test it :</p></li>
+  <li>
+    <p>uninstall the sqlite3 gem for cleaning : <code>gem uni sqlite3</code> </p>
+  </li>
+  <li>
+    <p>download the knapsack found in the discussion, and place it in a temp repertory (ie <em>c:/dev/temp</em>). </p>
+  </li>
+  <li>
+    <p>compile sqlite3 with the knapsack <code>gem install sqlite3 --platform=ruby -- --with-opt-dir=C:/dev/temp</code> </p>
+  </li>
+  <li>
+    <p>Test it :</p>
+  </li>
 </ol>
-
 
 <div class="highlight"><pre><code class="irb"><span class="go">    irb</span>
 <span class="go">    require &#39;sqlite3&#39;</span>
@@ -81,10 +89,9 @@
 <span class="go">    </span>
 </code></pre></div>
 
+<p>You’re good :) Thanks Luis.</p>
 
-<p>You're good :) Thanks Luis.</p>
-
-<p>PS : often Rails need to update some gem, but if you want to keep some special gem (like this sqlite3), don't use <code>bundle update</code> but <code>bundle update --local</code> and install manually missing gem.</p>
+<p>PS : often Rails need to update some gem, but if you want to keep some special gem (like this sqlite3), don’t use <code>bundle update</code> but <code>bundle update --local</code> and install manually missing gem. </p>
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

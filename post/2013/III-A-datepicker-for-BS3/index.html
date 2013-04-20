@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,15 +62,21 @@
     April 10, 2013
   </section>
 
-  <h3>Seeking a BS3 date picker ...</h3>
+  <ul id="markdown-toc">
+  <li><a href="#seeking-a-bs3-date-picker-">Seeking a BS3 date picker …</a></li>
+  <li><a href="#install">Install</a></li>
+  <li><a href="#usage">Usage</a></li>
+</ul>
 
-<p>There a library for bootstrap 2 (<a href="https://github.com/eternicode/bootstrap-datepicker">https://github.com/eternicode/bootstrap-datepicker</a>) but she's not ready for bootstrap 3 ... So I found a fork here : <a href="https://github.com/ianserlin/bootstrap-datepicker/tree/3.x">https://github.com/ianserlin/bootstrap-datepicker/tree/3.x</a> and use it until the standard library will update.</p>
+<h3 id="seeking-a-bs3-date-picker-">Seeking a BS3 date picker …</h3>
 
-<h3>Install</h3>
+<p>There a library for bootstrap 2 (<a href="https://github.com/eternicode/bootstrap-datepicker">https://github.com/eternicode/bootstrap-datepicker</a>) but she’s not ready for bootstrap 3 … So I found a fork here : <a href="https://github.com/ianserlin/bootstrap-datepicker/tree/3.x">https://github.com/ianserlin/bootstrap-datepicker/tree/3.x</a> and use it until the standard library will update. </p>
+
+<h3 id="install">Install</h3>
 
 <p>Just copy the CSS file and the JS file to you <em>assets</em> rails directory.</p>
 
-<h3>Usage</h3>
+<h3 id="usage">Usage</h3>
 
 <p>Two step : declare the class for the date picker, and place the javascript call. In <em>view/users/_form.html.haml</em> :</p>
 
@@ -95,7 +102,6 @@
 
     
 </code></pre></div>
-
 
 <p>Note that the date format must match the database date format. Check the documentation for the options.</p>
 

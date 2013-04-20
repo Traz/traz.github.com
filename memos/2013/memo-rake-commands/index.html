@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,14 +62,14 @@
     April  2, 2013
   </section>
 
-  <h3>Meta commands</h3>
+  <h3 id="meta-commands">Meta commands</h3>
 
 <pre><code>rake --help
 rake -T db:       # list all db:* commands
 rake -d db:setup  # describe the command
 </code></pre>
 
-<h3>db commands</h3>
+<h3 id="db-commands">db commands</h3>
 
 <pre><code>rake db:fixtures:load
 rake db:fixtures:load FIXTURES=cities,users
@@ -86,16 +87,17 @@ rake db:rollback STEP=3  # the last 3
 rake db:migrate:redo STEP=3
 </code></pre>
 
-<h3>assets commands</h3>
+<h3 id="assets-commands">assets commands</h3>
 
 <pre><code>rake assets:precompile
 rake assets:clean           ## deleete /public/assets
 </code></pre>
 
-<h3>routes commands</h3>
+<h3 id="routes-commands">routes commands</h3>
 
 <pre><code>rake routes
 </code></pre>
+
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

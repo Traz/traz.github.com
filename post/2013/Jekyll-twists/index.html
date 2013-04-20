@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Jekyll twists : from rdiscount to kramdown</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/Jekyll-twists">Jekyll twists : from rdiscount to kramdown</a>
+    <small><a href="/tag/jekyll.html">jekyll</a>, <a href="/tag/kramdown.html">kramdown</a>, <a href="/tag/sublimetext.html">sublimetext</a>, <a href="/tag/table%20editor.html">table editor</a></small>
+  </h1>
+
+  <section class="byline">
+    April 16, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#pygments-with-line-number">Pygments with line number</a></li>
+  <li><a href="#some-kramdown-config">Some kramdown config</a></li>
+  <li><a href="#what-i-had-to-change-">What I had to change :</a></li>
+  <li><a href="#sublime-text--table-editor">Sublime Text : Table Editor</a></li>
+</ul>
+
+<h3 id="pygments-with-line-number">Pygments with line number</h3>
+
+<p>Use pygments with options, <code>linenos</code>, <code>hl_lines</code>, … check the pygment <a href="http://pygments.org/docs/formatters/">pygment formatter options</a>.</p>
+
+<pre><code>% highlight ruby linenos=table hl_lines=7 %
+</code></pre>
+
+<p>But there a bug when you use the <code>table</code> option with lineos, have to investigate …</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="lineno"> 1</span>     <span class="k">class</span> <span class="nc">Project</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+<span class="lineno"> 2</span>       <span class="n">belongs_to</span> <span class="ss">:user</span>
+<span class="lineno"> 3</span>       <span class="n">belongs_to</span> <span class="ss">:owner</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;User&#39;</span><span class="p">,</span> <span class="ss">:foreign_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;owner_id&#39;</span>
+<span class="lineno"> 4</span>     <span class="k">end</span>
+<span class="lineno"> 5</span> 
+<span class="lineno"> 6</span>     <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+<span class="lineno"> 7</span> <span class="hll">      <span class="n">authenticates_with_sorcery!</span>
+</span><span class="lineno"> 8</span>      
+<span class="lineno"> 9</span>       <span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span>                <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">confirmation</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">length</span><span class="p">:</span> <span class="p">{</span> <span class="ss">minimum</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="ss">:password</span>
+<span class="lineno">10</span>       <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span>                   <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">uniqueness</span><span class="p">:</span> <span class="kp">true</span>
+<span class="lineno">11</span>       <span class="n">validates</span> <span class="ss">:password_confirmation</span><span class="p">,</span>   <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">:if</span> <span class="o">=&gt;</span> <span class="ss">:password</span>
+<span class="lineno">12</span>       <span class="n">validates</span> <span class="ss">:username</span><span class="p">,</span>                <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+<span class="lineno">13</span> 
+<span class="lineno">14</span>       <span class="n">has_many</span> <span class="ss">:projects</span> 
+<span class="lineno">15</span>       <span class="n">has_many</span> <span class="ss">:owners</span><span class="p">,</span> <span class="ss">:class_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Project&#39;</span><span class="p">,</span> <span class="ss">:foreign_key</span> <span class="o">=&gt;</span> <span class="s1">&#39;owner_id&#39;</span>
+<span class="lineno">16</span>     <span class="k">end</span>
+</code></pre></div>
+
+<h3 id="some-kramdown-config">Some kramdown config</h3>
+
+<p>Change in <em>_config.yml</em> :</p>
+
+<pre><code>markdown: kramdown
+...
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  use_coderay: false
+  parse_block_html: true
+</code></pre>
+
+<h3 id="what-i-had-to-change-">What I had to change :</h3>
+
+<p>The Table of Content work easily with just : (and with some css adjustment)</p>
+
+<pre><code>* toc
+{:toc} 
+</code></pre>
+
+<p>And use of some inline attributes like :</p>
+
+<pre><code>This is *red*{: style="color: red"}.
+
+**This is a test**
+{: style="text-align: center"}
+
+Title
+===
+{: .big .thin}
+</code></pre>
+
+<p>And for some pages, I had to declare inner markdown usage in html block ie :</p>
+
+<pre><code>{::options parse_block_html="true" /}
+&lt;div&gt;
+  test **test**
+&lt;/div&gt;
+</code></pre>
+
+<p>Nota : some ordered list doesn’t seems to work :</p>
+
+<p>I. one
+II. two
+III. three    </p>
+
+<p>a. aa
+b. bb
+c. cc</p>
+
+<h3 id="sublime-text--table-editor">Sublime Text : Table Editor</h3>
+
+<p>A very good plugin for ST2 : <a href="https://github.com/vkocubinsky/SublimeTableEditor">https://github.com/vkocubinsky/SublimeTableEditor</a>, work well with kramdown.</p>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

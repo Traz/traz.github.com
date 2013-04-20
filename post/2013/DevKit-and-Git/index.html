@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,17 +62,23 @@
     March 11, 2013
   </section>
 
-  <h3>Shells versions</h3>
+  <ul id="markdown-toc">
+  <li><a href="#shells-versions">Shells versions</a></li>
+  <li><a href="#shell-personnalisation">Shell personnalisation</a></li>
+  <li><a href="#vi--vim--gvim">VI / VIM / GVIM</a></li>
+</ul>
 
-<p>Once you'd installed the basics, you've got 2 shells : one on <em>/devkit</em> and one on <em>/git</em></p>
+<h3 id="shells-versions">Shells versions</h3>
 
-<p>It may cause some conflict (different version, different tools ...). So, i choose to drop the Git shell from th ePATH environment variable (<em>c:/dev/git/bin</em>) but keep the path for git command (<em>c:/dev/git/cmd</em>) : you can run the both shell (the git one can have autocompletion on git command, plus a nice PS1), but the Devkit shell is the default one.</p>
+<p>Once you’d installed the basics, you’ve got 2 shells : one on <em>/devkit</em> and one on <em>/git</em></p>
 
-<h3>Shell personnalisation</h3>
+<p>It may cause some conflict (different version, different tools …). So, i choose to drop the Git shell from th ePATH environment variable (<em>c:/dev/git/bin</em>) but keep the path for git command (<em>c:/dev/git/cmd</em>) : you can run the both shell (the git one can have autocompletion on git command, plus a nice PS1), but the Devkit shell is the default one.</p>
 
-<p>On Windows you've got a standard home path, but it's too easy to become a piece of trash with other win programs ...</p>
+<h3 id="shell-personnalisation">Shell personnalisation</h3>
 
-<p>So I'd try in first to set up a new home directory for all bash shell : <em>c:/dev/home</em>, but in final there too many tools or gem who did or didn't respect this, and I revert $HOME to windows $USERPROFILE. So, I'd just puts some modification on profile file from the both shell (<em>c:/dev/devkit/etc/profile</em> and <em>c:/dev/git/etc/profile</em>)</p>
+<p>On Windows you’ve got a standard home path, but it’s too easy to become a piece of trash with other win programs …</p>
+
+<p>So I’d try in first to set up a new home directory for all bash shell : <em>c:/dev/home</em>, but in final there too many tools or gem who did or didn’t respect this, and I revert $HOME to windows $USERPROFILE. So, I’d just puts some modification on profile file from the both shell (<em>c:/dev/devkit/etc/profile</em> and <em>c:/dev/git/etc/profile</em>)</p>
 
 <div class="highlight"><pre><code class="sh">    <span class="nv">HOME</span><span class="o">=</span><span class="nv">$USERPROFILE</span>
     <span class="nv">HOME</span><span class="o">=</span><span class="s2">&quot;$(cd &quot;</span><span class="nv">$HOME</span><span class="s2">&quot; ; pwd)&quot;</span>
@@ -80,19 +87,16 @@
     
 </code></pre></div>
 
-
 <p>Chek also <em>/etc/fstab</em> for some personal mount.</p>
 
-<h3>VI / VIM / GVIM</h3>
+<h3 id="vi--vim--gvim">VI / VIM / GVIM</h3>
 
-<p>VIM is useful with quick simple edit, but is not bundle with DevKit (only with Git). So go to the <a href="http://www.vim.org">VIM web site</a>, download and install it (as usual, in c:/dev/...). It put some .BAT file directly under c:/windows ... but those aren't accessible when you run your shell (only under DOS prompt). So, just add <em>c:/dev/vim/vim73</em> to your PATH variable, and check it :</p>
+<p>VIM is useful with quick simple edit, but is not bundle with DevKit (only with Git). So go to the <a href="http://www.vim.org">VIM web site</a>, download and install it (as usual, in c:/dev/…). It put some .BAT file directly under c:/windows … but those aren’t accessible when you run your shell (only under DOS prompt). So, just add <em>c:/dev/vim/vim73</em> to your PATH variable, and check it :</p>
 
 <div class="highlight"><pre><code class="sh">    sh -l -i
     vim
     
 </code></pre></div>
-
-
 
 
   <div class="pull"></div>

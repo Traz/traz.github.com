@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,7 +62,14 @@
     April  5, 2013
   </section>
 
-  <h3>Getting the source code</h3>
+  <ul id="markdown-toc">
+  <li><a href="#getting-the-source-code">Getting the source code</a></li>
+  <li><a href="#checking-the-new-doc-">Checking the new doc :</a></li>
+  <li><a href="#tip---incompatible-character-encodings-cp850-and-utf-8">TIP :  incompatible character encodings: CP850 and UTF-8</a></li>
+  <li><a href="#follow-bootstrap-3-news">Follow Bootstrap 3 news</a></li>
+</ul>
+
+<h3 id="getting-the-source-code">Getting the source code</h3>
 
 <p>Simply, clone the Git repository, and go to the right branch :</p>
 
@@ -69,20 +77,22 @@
 git checkout 3.0.0-wip
 </code></pre></div>
 
-
-<h3>Checking the new doc :</h3>
+<h3 id="checking-the-new-doc-">Checking the new doc :</h3>
 
 <p>Bootstrap 3 come with some new fresh Doc, managed with a Jekyll server, so :</p>
 
 <div class="highlight"><pre><code class="sh">jekyll serve --port 80
 </code></pre></div>
 
+<blockquote>
+  <h3 id="tip---incompatible-character-encodings-cp850-and-utf-8">TIP :  incompatible character encodings: CP850 and UTF-8</h3>
+</blockquote>
 
-<blockquote><h3>TIP :  incompatible character encodings: CP850 and UTF-8</h3>
+<blockquote>
+  <p><strong>Nota</strong> : if you’ve got some CP850 error from Liquid under windows, launch a DOS prompt, tape <code>chcp 65001</code> then launch your bash shell <code>sh -l -i</code> and launch the jekyll server after.</p>
+</blockquote>
 
-<p><strong>Nota</strong> : if you've got some CP850 error from Liquid under windows, launch a DOS prompt, tape <code>chcp 65001</code> then launch your bash shell <code>sh -l -i</code> and launch the jekyll server after.</p></blockquote>
-
-<h3>Follow Bootstrap 3 news</h3>
+<h3 id="follow-bootstrap-3-news">Follow Bootstrap 3 news</h3>
 
 <p>Check <a href="https://github.com/twitter/bootstrap/pull/6342">https://github.com/twitter/bootstrap/pull/6342</a></p>
 

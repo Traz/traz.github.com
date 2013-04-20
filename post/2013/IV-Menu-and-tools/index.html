@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,9 +62,19 @@
     April 11, 2013
   </section>
 
-  <h3>Implementing the bootstrap menu</h3>
+  <ul id="markdown-toc">
+  <li><a href="#implementing-the-bootstrap-menu">Implementing the bootstrap menu</a></li>
+  <li><a href="#table-and-labels">Table and labels</a></li>
+  <li><a href="#refactoring-view">Refactoring view</a></li>
+  <li><a href="#pagination-with-kaminari">Pagination with Kaminari</a></li>
+  <li><a href="#tip--ssl-certificate-error">TIP : SSL Certificate error</a></li>
+  <li><a href="#kaminari-config--views">Kaminari config &amp; views</a></li>
+  <li><a href="#tip--a-modal-destroy-confirmation">TIP : A modal destroy confirmation</a></li>
+</ul>
 
-<p>First create another layout : for the moment we use the <em>view/layouts/application.html.haml</em> copy it to <em>home.html.haml</em>, so we've got a different layout for the home page and the rest of the app.</p>
+<h3 id="implementing-the-bootstrap-menu">Implementing the bootstrap menu</h3>
+
+<p>First create another layout : for the moment we use the <em>view/layouts/application.html.haml</em> copy it to <em>home.html.haml</em>, so we’ve got a different layout for the home page and the rest of the app.</p>
 
 <p><em>application.html.haml</em> :</p>
 
@@ -74,7 +85,6 @@
           <span class="p">=</span> <span class="k">yield</span>
     
 </code></pre></div>
-
 
 <p>And create the <em>views/shared/_navbar.html.haml</em> :</p>
 
@@ -109,10 +119,9 @@
     
 </code></pre></div>
 
+<p>It’s done :)</p>
 
-<p>It's done :)</p>
-
-<h3>Table and labels</h3>
+<h3 id="table-and-labels">Table and labels</h3>
 
 <p>Just modify <code>%table.table.table-condensed</code> in <em>views/users/index.html.haml</em> for a better look.</p>
 
@@ -124,12 +133,11 @@
     
 </code></pre></div>
 
-
 <p>for a label test.</p>
 
-<h3>Refactoring view</h3>
+<h3 id="refactoring-view">Refactoring view</h3>
 
-<p>There a lot of solution for a standard view (even some gem), use some tags like table, p, dl/dt/dd ... For the moment I choose the easiest : p, with some helper for proper rending of a blank element.</p>
+<p>There a lot of solution for a standard view (even some gem), use some tags like table, p, dl/dt/dd … For the moment I choose the easiest : p, with some helper for proper rending of a blank element.</p>
 
 <p>In <em>application\helper.rb</em> :</p>
 
@@ -138,7 +146,6 @@
     <span class="k">end</span>
     
 </code></pre></div>
-
 
 <p>And my view <em>users/show.haml.haml</em> :</p>
 
@@ -173,20 +180,21 @@
     
 </code></pre></div>
 
-
-<h3>Pagination with Kaminari</h3>
+<h3 id="pagination-with-kaminari">Pagination with Kaminari</h3>
 
 <p>Ok, lets build some fakes users for the list view.</p>
 
 <p>First install <strong>kaminari</strong> (there other like will_paginate who work well also) : <code>gem i kaminari</code> and declare it in the <em>gemfile</em>.</p>
 
-<p>Generate the configuration file <code>rails g kaminari:config</code> and <code>rails g kaminari:views bootstrap</code> ... If you're starting with Ruby, you may have a strange SSL error ...</p>
+<p>Generate the configuration file <code>rails g kaminari:config</code> and <code>rails g kaminari:views bootstrap</code> … If you’re starting with Ruby, you may have a strange SSL error …</p>
 
-<blockquote><h3>TIP : SSL Certificate error</h3></blockquote>
+<blockquote>
+  <h3 id="tip--ssl-certificate-error">TIP : SSL Certificate error</h3>
+</blockquote>
 
-<p>The solution : <a href="https://gist.github.com/fnichol/867550">https://gist.github.com/fnichol/867550</a> follow the instruction (copy the certificate file, declare an enviroment variable), and it's work :) Thanks !!</p>
+<p>The solution : <a href="https://gist.github.com/fnichol/867550">https://gist.github.com/fnichol/867550</a> follow the instruction (copy the certificate file, declare an enviroment variable), and it’s work :) Thanks !!</p>
 
-<h3>Kaminari config &amp; views</h3>
+<h3 id="kaminari-config--views">Kaminari config &amp; views</h3>
 
 <p>So now we have the config file <em>config/initializers/kaminari_config.rb</em> to change the whole pagination configuration if you want. And the views files in <em>app/views/kaminari</em>.</p>
 
@@ -199,8 +207,7 @@
     
 </code></pre></div>
 
-
-<p>to</p>
+<p>to </p>
 
 <div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">render</span> <span class="k">do</span>
       <span class="nt">%ul</span><span class="nc">.pagination</span>
@@ -208,10 +215,11 @@
      
 </code></pre></div>
 
-
 <p>Add a <code>= paginate @users</code> in your view file and modify the controller methods with <code>@users = User.all.page(params[:page]).per(2)</code> (the per(2) is for testing purpose, drop it after).</p>
 
-<blockquote><h3>TIP : A modal destroy confirmation</h3></blockquote>
+<blockquote>
+  <h3 id="tip--a-modal-destroy-confirmation">TIP : A modal destroy confirmation</h3>
+</blockquote>
 
 <p>And at the end of this day, a short tips come from here <a href="https://gist.github.com/postpostmodern/1862479">https://gist.github.com/postpostmodern/1862479</a>, just drop the file in your assets javascript folder with this modification for bootstrap 3 :</p>
 
@@ -263,7 +271,6 @@
 
       
 </code></pre></div>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

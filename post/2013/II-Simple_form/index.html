@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,19 +62,24 @@
     April  8, 2013
   </section>
 
-  <h3>Some documentation</h3>
-
-<ul>
-<li><a href="https://github.com/plataformatec/simple_form">https://github.com/plataformatec/simple_form</a></li>
-<li><a href="http://simple-form-bootstrap.plataformatec.com.br/">http://simple-form-bootstrap.plataformatec.com.br/</a> detailed example</li>
+  <ul id="markdown-toc">
+  <li><a href="#some-documentation">Some documentation</a></li>
+  <li><a href="#setup">Setup</a></li>
+  <li><a href="#usage">Usage</a></li>
 </ul>
 
+<h3 id="some-documentation">Some documentation</h3>
 
-<h3>Setup</h3>
+<ul>
+  <li><a href="https://github.com/plataformatec/simple_form">https://github.com/plataformatec/simple_form</a></li>
+  <li><a href="http://simple-form-bootstrap.plataformatec.com.br/">http://simple-form-bootstrap.plataformatec.com.br/</a> detailed example</li>
+</ul>
 
-<p>For Rails 4 you'll need the prerelease, so <code>gem i simple_form --pre</code>, put it in gemfile and install it (with bootstrap structure) : <code>rails g simple_form:install --bootstrap</code>.</p>
+<h3 id="setup">Setup</h3>
 
-<h3>Usage</h3>
+<p>For Rails 4 you’ll need the prerelease, so <code>gem i simple_form --pre</code>, put it in gemfile and install it (with bootstrap structure) : <code>rails g simple_form:install --bootstrap</code>.</p>
+
+<h3 id="usage">Usage</h3>
 
 <p>This is the new login form from the welcome page (look at the part I)</p>
 
@@ -93,8 +99,7 @@
     
 </code></pre></div>
 
-
-<p>As usual, later refactoring is need for semantic css ...</p>
+<p>As usual, later refactoring is need for semantic css …</p>
 
 <p>The close button <code>= button_close_modal</code> is done this time with an helper method in <em>application_helper.rb</em> :</p>
 
@@ -106,8 +111,7 @@
     
 </code></pre></div>
 
-
-<p>Further note when I'll found something interesting ; but the documentation is up to date and every thing work well for the moment :)</p>
+<p>Further note when I’ll found something interesting ; but the documentation is up to date and every thing work well for the moment :)</p>
 
 <p>Next step may be a date picker :)</p>
 

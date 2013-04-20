@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,17 +62,29 @@
     April  6, 2013
   </section>
 
-  <h3>Bootstrap 3 (vs Zurb Foundation ?)</h3>
+  <ul id="markdown-toc">
+  <li><a href="#bootstrap-3-vs-zurb-foundation-">Bootstrap 3 (vs Zurb Foundation ?)</a></li>
+  <li><a href="#installing-nodejs-less-compiler-and-uglify-compressor">Installing NodeJS, Less compiler and Uglify compressor</a></li>
+  <li><a href="#start-a-new-rails-app">Start a new Rails app</a></li>
+  <li><a href="#compiling-files">Compiling files</a></li>
+  <li><a href="#firsts-impressions">Firsts impressions</a></li>
+  <li><a href="#customize-via-semantic-css">Customize via semantic css</a></li>
+  <li><a href="#optional--uglify">Optional : Uglify</a></li>
+</ul>
 
-<p>Ok, I'm not a big fan of Less, but i want to try the new Bootstrap 3 :) Users have just to wait that 1) bootstrap is released, 2) bootstrap-sass gem is up to date.</p>
+<h3 id="bootstrap-3-vs-zurb-foundation-">Bootstrap 3 (vs Zurb Foundation ?)</h3>
+
+<p>Ok, I’m not a big fan of Less, but i want to try the new Bootstrap 3 :) Users have just to wait that 1) bootstrap is released, 2) bootstrap-sass gem is up to date.</p>
 
 <p>I have to take a more deep look at <a href="http://foundation.zurb.com/">Zurb Foundation</a> which come with nice sass, but the purpose here is to test a work-in-progress :)</p>
 
-<h3>Installing NodeJS, Less compiler and Uglify compressor</h3>
+<h3 id="installing-nodejs-less-compiler-and-uglify-compressor">Installing NodeJS, Less compiler and Uglify compressor</h3>
 
-<p>So for testing, we must compile less files, which is done with <a href="http://nodejs.org/download/">nodeJS</a>. Install it (in <em>c:/dev/</em> as usual for me), and check the library less with the integrated package manager <code>npm</code> : <em>be carefull : npm install in the actual directory</em> so, you can choose to use <code>g</code> option to install it in the global directory (set as $USERPROFILE/appdate/roaming/npm/npm_modules by default ... :( ) or go to your already installed npm library (for me : <em>c:/dev/nodejs/node_modules/npm</em>) and make some alias after in your bash shell).</p>
+<p>So for testing, we must compile less files, which is done with <a href="http://nodejs.org/download/">nodeJS</a>. Install it (in <em>c:/dev/</em> as usual for me), and check the library less with the integrated package manager <code>npm</code> : <em>be carefull : npm install in the actual directory</em> so, you can choose to use <code>g</code> option to install it in the global directory (set as $USERPROFILE/appdate/roaming/npm/npm_modules by default … :( ) or go to your already installed npm library (for me : <em>c:/dev/nodejs/node_modules/npm</em>) and make some alias after in your bash shell).</p>
 
-<blockquote><p>Nota : you can check some <a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI Less compiler for windows</a> if you want.</p></blockquote>
+<blockquote>
+  <p>Nota : you can check some <a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI Less compiler for windows</a> if you want.</p>
+</blockquote>
 
 <pre><code>cd c:/dev/nodejs/node_modules/npm
 npm install less
@@ -88,73 +101,76 @@ lessc --version
 lessc --help
 </code></pre></div>
 
-
-<blockquote><ul>
-<li>Nota 1 : another solution exist, look at <a href="https://github.com/duncansmart/less.js-windows">https://github.com/duncansmart/less.js-windows</a></li>
-<li>Nota 2 : Check some <a href="http://wbond.net/sublime_packages/community">Sublime Package</a> for syntax highlighting and auto compile less file to css.</li>
-</ul>
+<blockquote>
+  <ul>
+    <li>Nota 1 : another solution exist, look at <a href="https://github.com/duncansmart/less.js-windows">https://github.com/duncansmart/less.js-windows</a></li>
+    <li>Nota 2 : Check some <a href="http://wbond.net/sublime_packages/community">Sublime Package</a> for syntax highlighting and auto compile less file to css.</li>
+  </ul>
 </blockquote>
 
-<h3>Start a new Rails app</h3>
+<h3 id="start-a-new-rails-app">Start a new Rails app</h3>
 
-<p>Classical <code>rails new app_name</code></p>
+<p>Classical <code>rails new app_name</code> </p>
 
-<h3>Compiling files</h3>
+<h3 id="compiling-files">Compiling files</h3>
 
 <p>The final output are : CSS files, JS files and images files. JS files are not minified for the moment (just testing them), nor the CSS too.</p>
 
 <ul>
-<li><p>First, copy all the Javascript from <em>bootstrap/js</em> to <em>app/assets/javascripts</em>.</p></li>
-<li><p>Idem, copy the <em>fonts</em> directory to <em>app/assets/</em></p></li>
-<li><p>Third compile the Less files from your boostrap git repository to your rails app :</p>
+  <li>
+    <p>First, copy all the Javascript from <em>bootstrap/js</em> to <em>app/assets/javascripts</em>.</p>
+  </li>
+  <li>
+    <p>Idem, copy the <em>fonts</em> directory to <em>app/assets/</em></p>
+  </li>
+  <li>
+    <p>Third compile the Less files from your boostrap git repository to your rails app :</p>
 
-<pre><code>cd /app/assets/stylesheets
+    <pre><code>cd /app/assets/stylesheets
 lessc /bootstrap/less/bootstrap.less bootstrap.css # put the full path from your source bootstrap git directory.
-</code></pre></li>
+</code></pre>
+  </li>
 </ul>
 
+<p>And that’s done !</p>
 
-<p>And that's done !</p>
-
-<h3>Firsts impressions</h3>
+<h3 id="firsts-impressions">Firsts impressions</h3>
 
 <ul>
-<li>Don't forget to adjust <code>@font-face</code> for the fonts directory in <em>bootsrap.css</em></li>
-<li>Every things work for the moment. Have to build a real site with others components ...</li>
+  <li>Don’t forget to adjust <code>@font-face</code> for the fonts directory in <em>bootsrap.css</em></li>
+  <li>Every things work for the moment. Have to build a real site with others components …</li>
 </ul>
-
 
 <p><strong>Great Work Bootstrap Team !!</strong></p>
 
-<blockquote><p>Nota : Don't forget to regularly use a <code>git pull</code> for get the last bootstrap update !</p></blockquote>
+<blockquote>
+  <p>Nota : Don’t forget to regularly use a <code>git pull</code> for get the last bootstrap update !</p>
+</blockquote>
 
-<h3>Customize via semantic css</h3>
+<h3 id="customize-via-semantic-css">Customize via semantic css</h3>
 
-<p>Don't overload your html with bootstrap class take a look :<a href="http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html">http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html</a> !</p>
+<p>Don’t overload your html with bootstrap class take a look :<a href="http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html">http://ruby.bvision.com/blog/please-stop-embedding-bootstrap-classes-in-your-html</a> !</p>
 
-<p>For now, the solution is to create a temporary file witch will declare custom setting before importing the main bootstrap less file. (It's easiest with sass ...)</p>
+<p>For now, the solution is to create a temporary file witch will declare custom setting before importing the main bootstrap less file. (It’s easiest with sass …)</p>
 
 <ul>
-<li>create a <em>custom</em> directory in your assets</li>
-<li>create a main less file in this directory : <em>main-custom.less</em> with the full directory path to your bootsrap git file ie for me :</li>
+  <li>create a <em>custom</em> directory in your assets</li>
+  <li>create a main less file in this directory : <em>main-custom.less</em> with the full directory path to your bootsrap git file ie for me : </li>
 </ul>
-
 
 <div class="highlight"><pre><code class="css">        <span class="c">/* custom less setting mixins before */</span>
         <span class="k">@import</span> <span class="s2">&quot;c:/www/github/bootstrap/less/bootstrap/less&quot;</span><span class="p">;</span> 
         
 </code></pre></div>
 
-
 <ul>
-<li>compile <code>lessc main-custom.less ./stylesheets/bootstrap.css</code></li>
+  <li>compile <code>lessc main-custom.less ./stylesheets/bootstrap.css</code></li>
 </ul>
 
+<h3 id="optional--uglify">Optional : Uglify</h3>
 
-<h3>Optional : Uglify</h3>
-
-<p>Ok it's somewhere dirty html code with plenty of javascript been call ...
-Let make just one big file and compress them : (nota : for testing/debugging purpose it's not the time)</p>
+<p>Ok it’s somewhere dirty html code with plenty of javascript been call …
+Let make just one big file and compress them : (nota : for testing/debugging purpose it’s not the time)</p>
 
 <div class="highlight"><pre><code class="sh">        <span class="nb">cd</span> /app/assets/javascripts
         cat bootstrap*.js &gt; bootstrap.js
@@ -162,8 +178,8 @@ Let make just one big file and compress them : (nota : for testing/debugging pur
     
 </code></pre></div>
 
-
 <p>And change the <em>application.js</em> for not requiring the entire tree.</p>
+
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

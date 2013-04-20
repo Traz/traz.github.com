@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -66,12 +67,10 @@
 <div class="highlight"><pre><code class="sh">rails g kaminari:config
 </code></pre></div>
 
-
-<p>As Kaminari's paginating scope is just an ordinal AR scope, you can do that in quite natural way.</p>
+<p>As Kaminari’s paginating scope is just an ordinal AR scope, you can do that in quite natural way.</p>
 
 <div class="highlight"><pre><code class="ruby"><span class="no">Book</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;published_at&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">page</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">per</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>Of course default_scope works great with Kaminari for this purpose.</p>
 
@@ -80,7 +79,6 @@
 <span class="k">end</span>
 </code></pre></div>
 
-
 <p>see <a href="https://github.com/amatsuda/kaminari#creating-friendly-urls-and-caching">friendly url</a></p>
 
 <div class="highlight"><pre><code class="ruby"><span class="n">resources</span> <span class="ss">:my_resources</span> <span class="k">do</span>
@@ -88,16 +86,14 @@
 <span class="k">end</span>
 </code></pre></div>
 
-
-<p>views :</p>
+<p>views : </p>
 
 <div class="highlight"><pre><code class="sh">rails g kaminari:views default -e haml
 </code></pre></div>
 
-
 <p>see <a href="http://www.funonrails.com/2011/12/twitter-bootstrap-paginate-and-rails-3.html">bootstrap adaptation</a></p>
 
-<h1>adapt to bootstrap</h1>
+<h1 id="adapt-to-bootstrap">adapt to bootstrap</h1>
 
 <p>Generate view and replace %span by %ul and %li, and in current page, replace link_to_unless by link_to.</p>
 

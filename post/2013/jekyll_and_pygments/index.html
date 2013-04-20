@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,23 +62,31 @@
     March 20, 2013
   </section>
 
-  <h3>Markdown : choosing the right one</h3>
+  <ul id="markdown-toc">
+  <li><a href="#markdown--choosing-the-right-one">Markdown : choosing the right one</a></li>
+  <li><a href="#jekyll--choosing-a-theme">Jekyll : choosing a theme.</a></li>
+  <li><a href="#highlighting-some-code">Highlighting some code</a></li>
+  <li><a href="#some-git">Some Git</a></li>
+  <li><a href="#update-du-april-10-2013">Update du april 10, 2013</a></li>
+</ul>
 
-<p>So we've got rdiscount, maruku, redcarpet, redcloth and kramdown ... (look at <a href="https://www.ruby-toolbox.com/categories/markup_processors">https://www.ruby-toolbox.com/categories/markup_processors</a>) The last one, kramdown, seem to be the most active with lot of nice features (simplified code declaration, tables, ...).</p>
+<h3 id="markdown--choosing-the-right-one">Markdown : choosing the right one</h3>
 
-<p>But, after few try, the configuration Windows + Ruby 2.0 + Jekyll doesn't work with any of them (problem with encoding : "incompatible encoding regexp match (UTF-8 regexp with CP850 string)" ... i have to look further).</p>
+<p>So we’ve got rdiscount, maruku, redcarpet, redcloth and kramdown … (look at <a href="https://www.ruby-toolbox.com/categories/markup_processors">https://www.ruby-toolbox.com/categories/markup_processors</a>) The last one, kramdown, seem to be the most active with lot of nice features (simplified code declaration, tables, …).</p>
 
-<p>Still work : the old rdiscount ... Ok.</p>
+<p>But, after few try, the configuration Windows + Ruby 2.0 + Jekyll doesn’t work with any of them (problem with encoding : “incompatible encoding regexp match (UTF-8 regexp with CP850 string)” … i have to look further).</p>
 
-<h3>Jekyll : choosing a theme.</h3>
+<p>Still work : the old rdiscount … Ok.</p>
 
-<p>After few digs, i choose this one <a href="https://github.com/caarlos0/up">https://github.com/caarlos0/up</a> : it's simple, doesn't have some features (tags, articles) but for the starting, it feet.</p>
+<h3 id="jekyll--choosing-a-theme">Jekyll : choosing a theme.</h3>
 
-<p>Cloning it, changing the configuration and it's ok (it come with Disqus, Gauge, Google analytic, ... with a center configuration in <em>_config.yml</em>).</p>
+<p>After few digs, i choose this one <a href="https://github.com/caarlos0/up">https://github.com/caarlos0/up</a> : it’s simple, doesn’t have some features (tags, articles) but for the starting, it feet.</p>
 
-<h3>Highlighting some code</h3>
+<p>Cloning it, changing the configuration and it’s ok (it come with Disqus, Gauge, Google analytic, … with a center configuration in <em>_config.yml</em>).</p>
 
-<p>With pygments.rb. So : install the gem <code>gem i pygments.rb</code> and ... install Python ! Tried with Python 3, but Pygments doesn't work with it (look at issues on Github), so installed Python 2.7 : work with no error, some hatml class generated ... missing a css !!</p>
+<h3 id="highlighting-some-code">Highlighting some code</h3>
+
+<p>With pygments.rb. So : install the gem <code>gem i pygments.rb</code> and … install Python ! Tried with Python 3, but Pygments doesn’t work with it (look at issues on Github), so installed Python 2.7 : work with no error, some hatml class generated … missing a css !!</p>
 
 <p>Digging again and found this solution : <a href="http://www.stehem.net/2012/02/14/how-to-get-pygments-to-work-with-jekyll.html">http://www.stehem.net/2012/02/14/how-to-get-pygments-to-work-with-jekyll.html</a>.</p>
 
@@ -87,16 +96,15 @@
     
 </code></pre></div>
 
-
 <p>Copy the css file into your jekyll css directory, declare it in the layout, <code>&lt;link href="/css/pygments.css" rel="stylesheet"&gt;</code> and this time all is done :)</p>
 
-<p>For highlighting some code, you must embrace him with a <code>{ % highlight lexer_name % }</code> starting block and finish it with a <code>{ % endhighlight % }</code> block (remove the space between { or } and % for proper work). You've got plenty of lexer : ruby, irb, bash, bat ... check <a href="http://pygments.org/docs/lexers/">http://pygments.org/docs/lexers/</a>.</p>
+<p>For highlighting some code, you must embrace him with a <code>{ % highlight lexer_name % }</code> starting block and finish it with a <code>{ % endhighlight % }</code> block (remove the space between { or } and % for proper work). You’ve got plenty of lexer : ruby, irb, bash, bat … check <a href="http://pygments.org/docs/lexers/">http://pygments.org/docs/lexers/</a>.</p>
 
 <p>Feel free to look in deep at this github repository.</p>
 
-<h3>Some Git</h3>
+<h3 id="some-git">Some Git</h3>
 
-<p>Before sending your pages to Github, check them in local with <code>jekyll serve</code> : if there are some syntax error, you'll find them quickly (on other side, the page with error isn't displayed and there are no warning ...)
+<p>Before sending your pages to Github, check them in local with <code>jekyll serve</code> : if there are some syntax error, you’ll find them quickly (on other side, the page with error isn’t displayed and there are no warning …)
 Simply :</p>
 
 <div class="highlight"><pre><code class="sh">    git add .
@@ -105,14 +113,13 @@ Simply :</p>
     
 </code></pre></div>
 
-
-<h3>Update du april 10, 2013</h3>
+<h3 id="update-du-april-10-2013">Update du april 10, 2013</h3>
 
 <ul>
-<li>The last release of Jekyll have change the config key <code>auto=...</code> to <code>watch=...</code>.</li>
-<li>The <code>jekyll build</code> command stay up, watching the directory ... the solution : set the config key watch to false and launch the server : <code>jekyll serve --watch</code>.</li>
+  <li>The last release of Jekyll have change the config key <code>auto=...</code> to <code>watch=...</code>.</li>
+  <li>The <code>jekyll build</code> command stay up, watching the directory … the solution : set the config key watch to false and launch the server : <code>jekyll serve --watch</code>. </li>
+  <li>Check the pygments options : <a href="http://pygments.org/docs/formatters/">http://pygments.org/docs/formatters/</a></li>
 </ul>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,61 +62,64 @@
     March 12, 2013
   </section>
 
-  <h3>Better IRB - a PRY test</h3>
-
-<p>Install <code>gem i pry</code>. When you launch it, you've warned by some readline missing gem. But take a look at <a href="https://github.com/luislavena/rb-readline/issues/81">this bug</a> ... the new version of rb-readline (0.5.pre) is not available (<code>gem list -r rb-readline -a</code>). So :</p>
-
-<ul>
-<li>clone the depot <code>git clone https://github.com/luislavena/rb-readline.git</code> somewhere</li>
-<li>just launch <code>ruby setup.rb</code> in this cloned directory (you can drop the clone after, and don't install the gem for now, you'll get some nasty bugs ...) : some fresh readline library will be copied on your ruby 2.0 installation.</li>
+  <ul id="markdown-toc">
+  <li><a href="#better-irb---a-pry-test">Better IRB - a PRY test</a></li>
+  <li><a href="#pry---basic-stuff">PRY - basic stuff</a></li>
+  <li><a href="#pry-plugins">Pry Plugins</a></li>
+  <li><a href="#configure-rails-with-pry">Configure Rails with Pry</a></li>
+  <li><a href="#looksee-gem">Looksee gem</a></li>
+  <li><a href="#my-pryrc">My .pryrc</a></li>
 </ul>
 
+<h3 id="better-irb---a-pry-test">Better IRB - a PRY test</h3>
 
-<p>And it's done (except for the warning "DL depreciated ..."). Don't bother for the win32console message, your ANSICON is working (test it : <code>test-ansi</code> in your pry shell)</p>
-
-<h3>PRY - basic stuff</h3>
-
-<p>First, don't forget tab and double tab completion !</p>
+<p>Install <code>gem i pry</code>. When you launch it, you’ve warned by some readline missing gem. But take a look at <a href="https://github.com/luislavena/rb-readline/issues/81">this bug</a> … the new version of rb-readline (0.5.pre) is not available (<code>gem list -r rb-readline -a</code>). So :</p>
 
 <ul>
-<li><code>help</code> for a list of common command</li>
-<li><code>wtf?</code> ... for the last plantage :)</li>
-<li><code>cd Array</code> change the binding for Array class <code>ls</code> list method from the binding <code>cd ..</code> back to the main binding (take a look further at <em>looksee gem</em> also) and <code>nesting</code>for view where we're from ; very useful for Rails <a href="http://railscasts.com/episodes/280-pry-with-rails?view=asciicast">railscast</a></li>
-<li><code>simple-prompt</code> for toggle prompt</li>
-<li><code>hist -tail 5</code> : list last commands ; <code>hist --grep try</code> for listing command with try and <code>hist --replay 70..72</code> for replaying lines 70 to 72 (work fine with just one line too)</li>
-<li><code>.ls .pwd .mkdir ...</code> : you can access directly to all bash / dos command with a dot prefix ; another example (from pry wiki page) how to use ruby variables in shell command :</li>
+  <li>clone the depot <code>git clone https://github.com/luislavena/rb-readline.git</code> somewhere</li>
+  <li>just launch <code>ruby setup.rb</code> in this cloned directory (you can drop the clone after, and don’t install the gem for now, you’ll get some nasty bugs …) : some fresh readline library will be copied on your ruby 2.0 installation.</li>
 </ul>
 
+<p>And it’s done (except for the warning “DL depreciated …”). Don’t bother for the win32console message, your ANSICON is working (test it : <code>test-ansi</code> in your pry shell)</p>
+
+<h3 id="pry---basic-stuff">PRY - basic stuff</h3>
+
+<p>First, don’t forget tab and double tab completion !</p>
+
+<ul>
+  <li><code>help</code> for a list of common command</li>
+  <li><code>wtf?</code> … for the last plantage :)</li>
+  <li><code>cd Array</code> change the binding for Array class <code>ls</code> list method from the binding <code>cd ..</code> back to the main binding (take a look further at <em>looksee gem</em> also) and <code>nesting</code>for view where we’re from ; very useful for Rails <a href="http://railscasts.com/episodes/280-pry-with-rails?view=asciicast">railscast</a> </li>
+  <li><code>simple-prompt</code> for toggle prompt</li>
+  <li><code>hist -tail 5</code> : list last commands ; <code>hist --grep try</code> for listing command with try and <code>hist --replay 70..72</code> for replaying lines 70 to 72 (work fine with just one line too)</li>
+  <li><code>.ls .pwd .mkdir ...</code> : you can access directly to all bash / dos command with a dot prefix ; another example (from pry wiki page) how to use ruby variables in shell command : </li>
+</ul>
 
 <div class="highlight"><pre><code class="irb"><span class="go">    pry(main)&gt; x = &quot;[mM]&quot;</span>
 <span class="go">    =&gt; &quot;[mM]&quot;</span>
 <span class="go">    pry(main)&gt; .ls | grep #{x}</span>
 </code></pre></div>
 
-
 <ul>
-<li><code>find-method history</code> : to find a method declared in charged gems, add <code>-c</code> arg option to see who's calling this method</li>
-<li><code>cat GemFile -l -s 10</code> : show the file with -l line number, starting from -s the 10th line. Remember you're under some improved cat command for navigation around the file (q for quit, ... )</li>
-<li><code>gem-cd rails</code> : the gem-cd command change the directory directly to the gem's one.</li>
-<li><code>__out[23]__</code> : use the output result from the 23th command (<code>__in[23]__</code> for the input command)</li>
-<li><code>edit myfile.rb</code> launch your editor ; now when you test ie</li>
+  <li><code>find-method history</code> : to find a method declared in charged gems, add <code>-c</code> arg option to see who’s calling this method</li>
+  <li><code>cat GemFile -l -s 10</code> : show the file with -l line number, starting from -s the 10th line. Remember you’re under some improved cat command for navigation around the file (q for quit, … )</li>
+  <li><code>gem-cd rails</code> : the gem-cd command change the directory directly to the gem’s one.</li>
+  <li><code>__out[23]__</code> : use the output result from the 23th command (<code>__in[23]__</code> for the input command)</li>
+  <li><code>edit myfile.rb</code> launch your editor ; now when you test ie </li>
 </ul>
-
 
 <div class="highlight"><pre><code class="ruby"><span class="k">def</span> <span class="nf">hello</span>
   <span class="nb">puts</span> <span class="s2">&quot;hi !&quot;</span>
 <span class="k">end</span>
 </code></pre></div>
 
+<p>you can use <code>edit hello</code>for invoking your editor upon your method, or just <code>edit -t</code> for invoking a temp file</p>
 
-<p>  you can use <code>edit hello</code>for invoking your editor upon your method, or just <code>edit -t</code> for invoking a temp file</p>
-
-<h3>Pry Plugins</h3>
+<h3 id="pry-plugins">Pry Plugins</h3>
 
 <div class="highlight"><pre><code class="sh">    gem i <span class="s1">&#39;pry-theme&#39;</span>
     
 </code></pre></div>
-
 
 <p>and in <em>.pryrc</em></p>
 
@@ -123,18 +127,16 @@
     
 </code></pre></div>
 
-
 <p>you can change on the fly in Pry with <code>pry-theme try _themename_</code>
-Note that some theme are in 256 colors ... and they don't work well with windows, so no railscast theme running for the moment ...</p>
+Note that some theme are in 256 colors … and they don’t work well with windows, so no railscast theme running for the moment …</p>
 
-<h3>Configure Rails with Pry</h3>
+<h3 id="configure-rails-with-pry">Configure Rails with Pry</h3>
 
 <p>Install the gem in the <em>gemfile</em></p>
 
 <div class="highlight"><pre><code class="sh">    gem i <span class="s1">&#39;pry-rails&#39;</span>, :group <span class="o">=</span>&gt;development
     
 </code></pre></div>
-
 
 <p>Usage :</p>
 
@@ -144,26 +146,22 @@ Note that some theme are in 256 colors ... and they don't work well with windows
     
 </code></pre></div>
 
-
-<h3>Looksee gem</h3>
+<h3 id="looksee-gem">Looksee gem</h3>
 
 <pre><code>gem i looksee
 </code></pre>
 
 <p>in <em>.pryrc</em></p>
 
-<pre><code>require 'looksee'
-</code></pre>
+<pre><code>require 'looksee' Usage :
 
-<p>Usage :</p>
-
-<pre><code>&gt;[].ls
+&gt;[].ls
 &gt;[].ls /^to/
 </code></pre>
 
-<h3>My .pryrc</h3>
+<h3 id="my-pryrc">My .pryrc</h3>
 
-<p>From several sources. I've try to colorize the prompt, but i still have a got a small bug.</p>
+<p>From several sources. I’ve try to colorize the prompt, but i still have a got a small bug.</p>
 
 <div class="highlight"><pre><code class="ruby">    <span class="no">Pry</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">auto_indent</span> <span class="o">=</span> <span class="kp">true</span>
     <span class="no">Pry</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="kp">true</span>
@@ -241,7 +239,6 @@ Note that some theme are in 256 colors ... and they don't work well with windows
 
     
 </code></pre></div>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

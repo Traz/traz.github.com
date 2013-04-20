@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,9 +62,15 @@
     March 26, 2013
   </section>
 
-  <h3>The solution, now !</h3>
+  <ul id="markdown-toc">
+  <li><a href="#the-solution-now-">The solution, now !</a></li>
+  <li><a href="#explications">Explications</a></li>
+  <li><a href="#further-reading">Further reading</a></li>
+</ul>
 
-<p>After few hours of digging around several solution, I've finally have a working colorized prompt for PRY !*</p>
+<h3 id="the-solution-now-">The solution, now !</h3>
+
+<p>After few hours of digging around several solution, I’ve finally have a working colorized prompt for PRY !*</p>
 
 <p>So the final solution now : (puts those lines in your <em>.pryrc</em> at you $HOME)</p>
 
@@ -78,8 +85,7 @@
     
 </code></pre></div>
 
-
-<h3>Explications</h3>
+<h3 id="explications">Explications</h3>
 
 <p>First the color code :</p>
 
@@ -93,7 +99,6 @@
     Light Gray  0;37     White         1;37
     
 </code></pre></div>
-
 
 <p>The color format is <code>\e[0;31m</code> for a red and <code>\e[1;31m</code> for a light red, ending with a <code>\e[0m</code> sequence (full ANSI sequence : <strong>{ESC}[{attr};{bg};{256colors};{fg}m</strong> )</p>
 
@@ -114,9 +119,9 @@ SGR (Select Graphic Rendition) parameters</p>
 49  Reset background color to defaults 
 </code></pre>
 
-<p>But you have to escape those special characters because the readline library doesn't count well the line length. So this why we got a <code>\001</code> in starting and a <code>\001</code> in finish.</p>
+<p>But you have to escape those special characters because the readline library doesn’t count well the line length. So this why we got a <code>\001</code> in starting and a <code>\001</code> in finish.</p>
 
-<h3>Further reading</h3>
+<h3 id="further-reading">Further reading</h3>
 
 <p>Pry prompt can change in real-time in the pry shell with the <code>_pry_</code> variable, ie :</p>
 
@@ -125,17 +130,15 @@ SGR (Select Graphic Rendition) parameters</p>
     
 </code></pre></div>
 
-
 <p>Check those links :</p>
 
 <ul>
-<li><a href="https://github.com/pry/pry/wiki/Customization-and-configuration#runtime-customization">Pry customization</a></li>
-<li><a href="https://github.com/pry/pry/issues/493">Pry issue on colorizing the prompt</a></li>
-<li><a href="http://stackoverflow.com/questions/8992330/why-does-my-irb-prompt-with-ansi-color-codes-mess-up-page-up-down-behavior-with">Stakoverflow discussion about escaping sequence</a></li>
-<li><a href="http://stackoverflow.com/questions/8806643/colorized-output-breaks-linewrapping-with-readline/8916332#8916332">Another stakeoverflow about readline and color</a></li>
-<li><a href="http://superuser.com/questions/301353/escape-non-printing-characters-in-a-function-for-a-bash-prompt">The right explication for the escaping sequence in readline</a></li>
+  <li><a href="https://github.com/pry/pry/wiki/Customization-and-configuration#runtime-customization">Pry customization</a></li>
+  <li><a href="https://github.com/pry/pry/issues/493">Pry issue on colorizing the prompt</a></li>
+  <li><a href="http://stackoverflow.com/questions/8992330/why-does-my-irb-prompt-with-ansi-color-codes-mess-up-page-up-down-behavior-with">Stakoverflow discussion about escaping sequence</a></li>
+  <li><a href="http://stackoverflow.com/questions/8806643/colorized-output-breaks-linewrapping-with-readline/8916332#8916332">Another stakeoverflow about readline and color</a></li>
+  <li><a href="http://superuser.com/questions/301353/escape-non-printing-characters-in-a-function-for-a-bash-prompt">The right explication for the escaping sequence in readline</a></li>
 </ul>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

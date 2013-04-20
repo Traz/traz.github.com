@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,7 +62,7 @@
     March 10, 2013
   </section>
 
-  <h3>Basic</h3>
+  <h3 id="basic">Basic</h3>
 
 <pre><code>git init
 
@@ -70,7 +71,7 @@ git add .  # add all change
 git commit -m "message" # save all change    
 </code></pre>
 
-<h3>Remote &amp; local</h3>
+<h3 id="remote--local">Remote &amp; local</h3>
 
 <pre><code>git remote -v # list dépots
 
@@ -90,13 +91,13 @@ git log --oneline -2 # last 2 commit
 git log -1 --pretty=%B # last commit message
 </code></pre>
 
-<h3>A better git log : aliasing command</h3>
+<h3 id="a-better-git-log--aliasing-command">A better git log : aliasing command</h3>
 
 <pre><code>git lg
 git lgf
 </code></pre>
 
-<h3>Classics alias</h3>
+<h3 id="classics-alias">Classics alias</h3>
 
 <pre><code>st = status -s
 cl = clone
@@ -108,18 +109,18 @@ changes = diff --name-status
 ll = log --stat --abbrev-commit
 </code></pre>
 
-<h3>Git tag</h3>
+<h3 id="git-tag">Git tag</h3>
 
 <pre><code>git tag v0.1.2
 git push origin --tags # publish all tags on remote
 </code></pre>
 
-<h3>How to discard all deleted files since last commit :</h3>
+<h3 id="how-to-discard-all-deleted-files-since-last-commit-">How to discard all deleted files since last commit :</h3>
 
 <pre><code>git add -u
 </code></pre>
 
-<h3>How to discard all change since the last commit :</h3>
+<h3 id="how-to-discard-all-change-since-the-last-commit-">How to discard all change since the last commit :</h3>
 
 <p>First discard modified files :</p>
 
@@ -131,16 +132,15 @@ git push origin --tags # publish all tags on remote
 <pre><code>git clean -f -d -n 
 </code></pre>
 
-<h3>Useful git links</h3>
+<h3 id="useful-git-links">Useful git links</h3>
 
 <p>Check this one :</p>
 
 <ul>
-<li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></li>
-<li><a href="http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/">http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/</a></li>
-<li><a href="https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments">https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments</a></li>
+  <li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></li>
+  <li><a href="http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/">http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/</a></li>
+  <li><a href="https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments">https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments</a></li>
 </ul>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

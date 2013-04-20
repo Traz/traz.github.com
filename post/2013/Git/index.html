@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,7 +62,22 @@
     March 10, 2013
   </section>
 
-  <h3>Create your fist local depot</h3>
+  <ul id="markdown-toc">
+  <li><a href="#create-your-fist-local-depot">Create your fist local depot</a></li>
+  <li><a href="#first-some-commands-">First, some commands :</a></li>
+  <li><a href="#windows-explorer-integration--disable-contextual-menu">Windows explorer integration : disable contextual menu</a></li>
+  <li><a href="#a-better-git-log--aliasing-command">A better git log : aliasing command</a></li>
+  <li><a href="#classic-alias-take-from-several-pages">Classic alias (take from several pages)</a></li>
+  <li><a href="#git-completion">Git completion</a></li>
+  <li><a href="#config-tips">Config Tips</a></li>
+  <li><a href="#git-tag">Git tag</a></li>
+  <li><a href="#how-to-discard-all-change-since-the-last-commit-">How to discard all change since the last commit :</a></li>
+  <li><a href="#create-a-new-rails-4-app-">Create a new Rails 4 app :</a></li>
+  <li><a href="#and-first-commit-in-git">And first commit in Git</a></li>
+  <li><a href="#useful-git-links">Useful git links</a></li>
+</ul>
+
+<h3 id="create-your-fist-local-depot">Create your fist local depot</h3>
 
 <div class="highlight"><pre><code class="sh">    mkdir red
     <span class="nb">cd </span>red
@@ -69,8 +85,7 @@
     
 </code></pre></div>
 
-
-<h3>First, some commands :</h3>
+<h3 id="first-some-commands-">First, some commands :</h3>
 
 <div class="highlight"><pre><code class="sh">    git status <span class="c"># list of modifications</span>
     git add .  <span class="c"># add all change </span>
@@ -95,18 +110,17 @@
     
 </code></pre></div>
 
+<h3 id="windows-explorer-integration--disable-contextual-menu">Windows explorer integration : disable contextual menu</h3>
 
-<h3>Windows explorer integration : disable contextual menu</h3>
-
-<p>Context menu in explorer are too long, and since i use only command line for git, let's do this :</p>
+<p>Context menu in explorer are too long, and since i use only command line for git, let’s do this :</p>
 
 <pre><code>cd \Git\git-cheetah
 regsvr32 /u git_shell_ext.dll
 </code></pre>
 
-<h3>A better git log : aliasing command</h3>
+<h3 id="a-better-git-log--aliasing-command">A better git log : aliasing command</h3>
 
-<p>From <a href="https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git">https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git</a>, the command is :</p>
+<p>From <a href="https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git">https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git</a>, the command is : </p>
 
 <pre><code>git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit
 </code></pre>
@@ -125,7 +139,7 @@ regsvr32 /u git_shell_ext.dll
 
 <p>Use it : <code>git lgf -3</code>.</p>
 
-<h3>Classic alias (take from several pages)</h3>
+<h3 id="classic-alias-take-from-several-pages">Classic alias (take from several pages)</h3>
 
 <p>You can manage your alias more easly in editing the [alias] section in your <em>.gitconfig</em> file.</p>
 
@@ -139,12 +153,14 @@ changes = diff --name-status
 ll = log --stat --abbrev-commit
 </code></pre>
 
-<h3>Git completion</h3>
+<h3 id="git-completion">Git completion</h3>
 
-<blockquote><p>Don't forget useful git completion help !
-just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&lt;tab&gt;&lt;tab&gt;</code> for a list of available commands.</p></blockquote>
+<blockquote>
+  <p>Don’t forget useful git completion help !
+just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&lt;tab&gt;&lt;tab&gt;</code> for a list of available commands.</p>
+</blockquote>
 
-<h3>Config Tips</h3>
+<h3 id="config-tips">Config Tips</h3>
 
 <p>Working on windows, publishing on github, you can have sometime problem with case filename management.</p>
 
@@ -153,19 +169,19 @@ just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&
 <pre><code>git config core.ignorecase false
 </code></pre>
 
-<h3>Git tag</h3>
+<h3 id="git-tag">Git tag</h3>
 
 <p>Easy way : just :</p>
 
 <pre><code>git tag v0.1.2
 </code></pre>
 
-<p><strong>Nota</strong> : By default, the git push command doesn't transfer tags to remote servers (see <a href="http://git-scm.com/book/en/Git-Basics-Tagging">http://git-scm.com/book/en/Git-Basics-Tagging</a>). Transfer by  :</p>
+<p><strong>Nota</strong> : By default, the git push command doesn’t transfer tags to remote servers (see <a href="http://git-scm.com/book/en/Git-Basics-Tagging">http://git-scm.com/book/en/Git-Basics-Tagging</a>). Transfer by  :</p>
 
 <pre><code>git push origin --tags
 </code></pre>
 
-<h3>How to discard all change since the last commit :</h3>
+<h3 id="how-to-discard-all-change-since-the-last-commit-">How to discard all change since the last commit :</h3>
 
 <p>First discard modified files :</p>
 
@@ -177,7 +193,7 @@ just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&
 <pre><code>git clean -f -d -n 
 </code></pre>
 
-<h3>Create a new Rails 4 app :</h3>
+<h3 id="create-a-new-rails-4-app-">Create a new Rails 4 app :</h3>
 
 <div class="highlight"><pre><code class="sh">    <span class="nb">cd</span> /c/www
     rails new red -B  <span class="c"># don&#39;t check the gem library now</span>
@@ -186,8 +202,7 @@ just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&
     
 </code></pre></div>
 
-
-<h3>And first commit in Git</h3>
+<h3 id="and-first-commit-in-git">And first commit in Git</h3>
 
 <div class="highlight"><pre><code class="sh">    git status
     git add --all
@@ -197,17 +212,15 @@ just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&
     
 </code></pre></div>
 
-
-<h3>Useful git links</h3>
+<h3 id="useful-git-links">Useful git links</h3>
 
 <p>Check this one :</p>
 
 <ul>
-<li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></li>
-<li><a href="http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/">http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/</a></li>
-<li><a href="https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments">https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments</a></li>
+  <li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></li>
+  <li><a href="http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/">http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/</a></li>
+  <li><a href="https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments">https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments</a></li>
 </ul>
-
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"

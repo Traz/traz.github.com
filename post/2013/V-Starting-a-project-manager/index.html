@@ -17,6 +17,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
   rel='stylesheet' type='text/css'>
 
+
   <!--[if lt IE 9]>
   <link href="/css/font-awesome-ie7.css" rel="stylesheet">
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -61,25 +62,37 @@
     April 13, 2013
   </section>
 
-  <h3>Roadmap</h3>
+  <ul id="markdown-toc">
+  <li><a href="#roadmap">Roadmap</a></li>
+  <li><a href="#creating-the-project-model">Creating the Project model</a></li>
+  <li><a href="#some-views-adjustment--the-demeter-way">Some views adjustment : The Demeter Way</a></li>
+  <li><a href="#tip--rails-delegate">TIP : Rails delegate</a></li>
+  <li><a href="#wiki-pages">Wiki pages</a></li>
+  <li><a href="#wiki-editor">Wiki Editor</a></li>
+  <li><a href="#simple-dirty-wikiwords">Simple (dirty) WikiWords</a></li>
+  <li><a href="#versioning--papertrail-or-vestalversions-">Versioning : PaperTrail or Vestal_versions …</a></li>
+  <li><a href="#tip--a-gem-pointing-to-a-local-git-repository">TIP : a gem pointing to a local git repository</a></li>
+  <li><a href="#vestalversion--installation-and-usage">Vestal_version : installation and usage</a></li>
+  <li><a href="#link-to-a-project">Link to a project</a></li>
+</ul>
+
+<h3 id="roadmap">Roadmap</h3>
 
 <p>So let start a project manager, and make a short TODO List :</p>
 
 <ul>
-<li>create a basic structure project M/V/C</li>
-<li>create Wiki structure
-
-<ul>
-<li>versionning / history / WikiLinks / linking to project</li>
+  <li>create a basic structure project M/V/C</li>
+  <li>create Wiki structure
+    <ul>
+      <li>versionning / history / WikiLinks / linking to project</li>
+    </ul>
+  </li>
+  <li>a file manager / uploader with versionning, per project ?</li>
+  <li>How to manage rights for users</li>
+  <li>Activity feed</li>
 </ul>
-</li>
-<li>a file manager / uploader with versionning, per project ?</li>
-<li>How to manage rights for users</li>
-<li>Activity feed</li>
-</ul>
 
-
-<h3>Creating the Project model</h3>
+<h3 id="creating-the-project-model">Creating the Project model</h3>
 
 <p>Classical :</p>
 
@@ -109,24 +122,23 @@ rake db:migrate
     
 </code></pre></div>
 
+<h3 id="some-views-adjustment--the-demeter-way">Some views adjustment : The Demeter Way</h3>
 
-<h3>Some views adjustment : The Demeter Way</h3>
+<p>Same things already used by the users view (paginate, simple_form, … ) It’s not DRY for the moment but there some solution with generators for later notes :)</p>
 
-<p>Same things already used by the users view (paginate, simple_form, ... ) It's not DRY for the moment but there some solution with generators for later notes :)</p>
+<p>One interesting thing : in index view I want to show the owner name <code>%td= project.owner.username</code>, but it may be null some time. The easy way : <code>%td= project.owner.try(:username)</code> … Dirty somewhere no ?</p>
 
-<p>One interesting thing : in index view I want to show the owner name <code>%td= project.owner.username</code>, but it may be null some time. The easy way : <code>%td= project.owner.try(:username)</code> ... Dirty somewhere no ?</p>
-
-<blockquote><h3>TIP : Rails delegate</h3></blockquote>
+<blockquote>
+  <h3 id="tip--rails-delegate">TIP : Rails delegate</h3>
+</blockquote>
 
 <ul>
-<li>This will become a table of contents (this text will be scraped).
-{:toc}</li>
+  <li>This will become a table of contents (this text will be scraped).</li>
 </ul>
-
 
 <p>So checkout this page : <a href="http://devblog.avdi.org/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/">http://devblog.avdi.org/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/</a></p>
 
-<p>Here, adding some delegate to the user class :</p>
+<p>Here, adding some delegate to the user class : </p>
 
 <div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">Project</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
 
@@ -140,27 +152,26 @@ rake db:migrate
     
 </code></pre></div>
 
-
 <p>And now in the <em>show.html.haml</em> , we can use (with possibly null value) :</p>
 
 <pre><code>  %p= @project.owner_username
   %p= @project.author_usermane
 </code></pre>
 
-<h3>Wiki pages</h3>
+<h3 id="wiki-pages">Wiki pages</h3>
 
 <p>Build the scaffold :</p>
 
 <pre><code>rails g scaffold wiki name:string content:text owner:references author:references status:string --no-stylesheets
 </code></pre>
 
-<p>As usual, adapt the view, the model and the controller ... (check the source).</p>
+<p>As usual, adapt the view, the model and the controller … (check the source).</p>
 
-<h3>Wiki Editor</h3>
+<h3 id="wiki-editor">Wiki Editor</h3>
 
-<p>WYSIWYG HTML5 editor becomes usual over markup editor ... Will check one in the future, but for now, I choose using <a href="https://github.com/bhollis/maruku">Maruku</a>.</p>
+<p>WYSIWYG HTML5 editor becomes usual over markup editor … Will check one in the future, but for now, I choose using <a href="https://github.com/bhollis/maruku">Maruku</a>.  </p>
 
-<h3>Simple (dirty) WikiWords</h3>
+<h3 id="simple-dirty-wikiwords">Simple (dirty) WikiWords</h3>
 
 <div class="highlight"><pre><code class="ruby">    <span class="k">module</span> <span class="nn">WikisHelper</span>
 
@@ -184,16 +195,17 @@ rake db:migrate
     
 </code></pre></div>
 
-
 <p>and call it in view by <code>= raw wiki_style @wiki.content</code></p>
 
-<h3>Versioning : PaperTrail or Vestal_versions ...</h3>
+<h3 id="versioning--papertrail-or-vestalversions-">Versioning : PaperTrail or Vestal_versions …</h3>
 
-<p>I choose <a href="https://github.com/laserlemon/vestal_versions">Vestal_versions</a>, but both gems aren't ready for Rails 4.</p>
+<p>I choose <a href="https://github.com/laserlemon/vestal_versions">Vestal_versions</a>, but both gems aren’t ready for Rails 4.</p>
 
-<p>So clone the Github, checkout a new branch, and let's work on it, with a little tips :</p>
+<p>So clone the Github, checkout a new branch, and let’s work on it, with a little tips :</p>
 
-<blockquote><h3>TIP : a gem pointing to a local git repository</h3></blockquote>
+<blockquote>
+  <h3 id="tip--a-gem-pointing-to-a-local-git-repository">TIP : a gem pointing to a local git repository</h3>
+</blockquote>
 
 <p>Take from <a href="http://gembundler.com/v1.3/git.html">http://gembundler.com/v1.3/git.html</a>, ie here :</p>
 
@@ -209,7 +221,7 @@ bundle config local.vestal_versions /c/my_local_git_dir/vestal_versions/
 
 <p>You can visualize the presence of the git branch with just a <code>bundle show</code></p>
 
-<h3>Vestal_version : installation and usage</h3>
+<h3 id="vestalversion--installation-and-usage">Vestal_version : installation and usage</h3>
 
 <p>First, in your local git branch of vestal, remove all the gems dependencies you can find (and check the result with <code>bundle check</code>).</p>
 
@@ -219,7 +231,7 @@ bundle config local.vestal_versions /c/my_local_git_dir/vestal_versions/
 rails db:migrate
 </code></pre>
 
-<p>Add the declaration to the model  <em>models/wiki.rb</em> : <code>versioned</code>. Now have to track incompatibility with Rails 4 ...</p>
+<p>Add the declaration to the model  <em>models/wiki.rb</em> : <code>versioned</code>. Now have to track incompatibility with Rails 4 …</p>
 
 <p>For the views, I used <a href="http://asciicasts.com/episodes/177-model-versioning">http://asciicasts.com/episodes/177-model-versioning</a> : <em>views/wikis/show.html.haml</em> :</p>
 
@@ -230,7 +242,6 @@ rails db:migrate
     
 </code></pre></div>
 
-
 <p>and in the controller :</p>
 
 <div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">show</span>
@@ -239,10 +250,10 @@ rails db:migrate
     
 </code></pre></div>
 
+<h3 id="link-to-a-project">Link to a project</h3>
 
-<h3>Link to a project</h3>
+<p>I’ve put for the moment a quick link to a wiki page created when a new project is created.</p>
 
-<p>I've put for the moment a quick link to a wiki page created when a new project is created.</p>
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"
