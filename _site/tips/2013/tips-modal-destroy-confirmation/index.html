@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Rails Trick & Tips : A modal destroy confirmation</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/tips/2013/tips-modal-destroy-confirmation">Rails Trick & Tips : A modal destroy confirmation</a>
+    <small><a href="/tag/bootstrap%203.html">bootstrap 3</a>, <a href="/tag/destroy%20confirmation.html">destroy confirmation</a>, <a href="/tag/rails%20tips%20%26%20tricks.html">rails tips & tricks</a></small>
+  </h1>
+
+  <section class="byline">
+    April 15, 2013
+  </section>
+
+  <h3 id="a-modal-destroy-confirmation">A modal destroy confirmation</h3>
+
+<p>And at the end of this day, a short tips come from here <a href="https://gist.github.com/postpostmodern/1862479">https://gist.github.com/postpostmodern/1862479</a>, just drop the file in your assets javascript folder with this modification for bootstrap 3 :</p>
+
+<div class="highlight"><pre><code class="coffeescript">    <span class="c1"># Override Rails handling of confirmation</span>
+
+    <span class="nv">$.rails.allowAction = </span><span class="nf">(element) -&gt;</span>
+      <span class="c1"># The message is something like &quot;Are you sure?&quot;</span>
+      <span class="nv">message = </span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s">&#39;confirm&#39;</span><span class="p">)</span>
+      <span class="c1"># If there&#39;s no message, there&#39;s no data-confirm attribute, </span>
+      <span class="c1"># which means there&#39;s nothing to confirm</span>
+      <span class="k">return</span> <span class="kc">true</span> <span class="k">unless</span> <span class="nx">message</span>
+      <span class="c1"># Clone the clicked element (probably a delete link) so we can use it in the dialog box.</span>
+      <span class="nv">$link = </span><span class="nx">element</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="c1"># We don&#39;t necessarily want the same styling as the original link/button.</span>
+        <span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span>
+        <span class="c1"># We don&#39;t want to pop up another confirmation (recursion)</span>
+        <span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s">&#39;data-confirm&#39;</span><span class="p">)</span>
+        <span class="c1"># We want a button</span>
+        <span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;btn&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;btn-danger&#39;</span><span class="p">)</span>
+        <span class="c1"># We want it to sound confirmy</span>
+        <span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="s">&quot;Yes, I&#39;m positively certain.&quot;</span><span class="p">)</span>
+
+      <span class="c1"># Create the modal box with the message</span>
+      <span class="nv">modal_html = </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">                    &lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot;&gt;</span>
+<span class="s">                      &lt;div class=&quot;modal-dialog&quot;&gt;</span>
+<span class="s">                        &lt;div class=&quot;modal-content&quot;&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-header&quot;&gt;</span>
+<span class="s">                            &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/button&gt;</span>
+<span class="s">                            &lt;h3&gt;</span><span class="si">#{</span><span class="nx">message</span><span class="si">}</span><span class="s">&lt;/h3&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-body&quot;&gt;</span>
+<span class="s">                            &lt;p&gt;Be certain, sonny.&lt;/p&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-footer&quot;&gt;</span>
+<span class="s">                            &lt;a data-dismiss=&quot;modal&quot; class=&quot;btn&quot;&gt;Cancel&lt;/a&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                        &lt;/div&gt;</span>
+<span class="s">                      &lt;/div&gt;</span>
+<span class="s">                    &lt;/div&gt;</span>
+<span class="s">                   &quot;&quot;&quot;</span>
+      <span class="nv">$modal_html = </span><span class="nx">$</span><span class="p">(</span><span class="nx">modal_html</span><span class="p">)</span>
+      <span class="c1"># Add the new button to the modal box</span>
+      <span class="nx">$modal_html</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s">&#39;.modal-footer&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$link</span><span class="p">)</span>
+      <span class="c1"># Pop it up</span>
+      <span class="nx">$modal_html</span><span class="p">.</span><span class="nx">modal</span><span class="p">()</span>
+      <span class="c1"># Prevent the original link from working</span>
+      <span class="k">return</span> <span class="kc">false</span>
+
+      
+</code></pre></div>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

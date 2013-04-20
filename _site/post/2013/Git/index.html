@@ -1,0 +1,301 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Starting Git</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/Git">Starting Git</a>
+    <small><a href="/tag/git.html">git</a></small>
+  </h1>
+
+  <section class="byline">
+    March 10, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#create-your-fist-local-depot">Create your fist local depot</a></li>
+  <li><a href="#first-some-commands-">First, some commands :</a></li>
+  <li><a href="#windows-explorer-integration--disable-contextual-menu">Windows explorer integration : disable contextual menu</a></li>
+  <li><a href="#a-better-git-log--aliasing-command">A better git log : aliasing command</a></li>
+  <li><a href="#classic-alias-take-from-several-pages">Classic alias (take from several pages)</a></li>
+  <li><a href="#git-completion">Git completion</a></li>
+  <li><a href="#config-tips">Config Tips</a></li>
+  <li><a href="#git-tag">Git tag</a></li>
+  <li><a href="#how-to-discard-all-change-since-the-last-commit-">How to discard all change since the last commit :</a></li>
+  <li><a href="#create-a-new-rails-4-app-">Create a new Rails 4 app :</a></li>
+  <li><a href="#and-first-commit-in-git">And first commit in Git</a></li>
+  <li><a href="#useful-git-links">Useful git links</a></li>
+</ul>
+
+<h3 id="create-your-fist-local-depot">Create your fist local depot</h3>
+
+<div class="highlight"><pre><code class="sh">    mkdir red
+    <span class="nb">cd </span>red
+    git init
+    
+</code></pre></div>
+
+<h3 id="first-some-commands-">First, some commands :</h3>
+
+<div class="highlight"><pre><code class="sh">    git status <span class="c"># list of modifications</span>
+    git add .  <span class="c"># add all change </span>
+    git commit -m <span class="s2">&quot;message&quot;</span> <span class="c"># save all change</span>
+
+    git remote -v <span class="c"># list dépots</span>
+
+    git branch <span class="c"># list all branch</span>
+    git checkout -b branch_name <span class="c"># create a new branch and use it</span>
+    git checkout master <span class="c"># change to branch master</span>
+    git branch -a <span class="c"># list all branch, local and remote</span>
+    git branch -d branch_name <span class="c"># delete branch_name</span>
+    git push origin branch_name <span class="c"># puts the branch to the distant depot</span>
+    git push origin master <span class="c"># puts the modification to the distant depot</span>
+    git merge branch_name <span class="c"># fusion with master and branch_name</span>
+
+    git tag tag_name <span class="c"># create a new tag</span>
+
+    git log <span class="c"># show the log</span>
+    git log --oneline -2 <span class="c"># last 2 commit</span>
+    git log -1 --pretty<span class="o">=</span>%B <span class="c"># last commit message</span>
+    
+</code></pre></div>
+
+<h3 id="windows-explorer-integration--disable-contextual-menu">Windows explorer integration : disable contextual menu</h3>
+
+<p>Context menu in explorer are too long, and since i use only command line for git, let’s do this :</p>
+
+<pre><code>cd \Git\git-cheetah
+regsvr32 /u git_shell_ext.dll
+</code></pre>
+
+<h3 id="a-better-git-log--aliasing-command">A better git log : aliasing command</h3>
+
+<p>From <a href="https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git">https://coderwall.com/p/euwpig?i=3&amp;p=1&amp;t=git</a>, the command is : </p>
+
+<pre><code>git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit
+</code></pre>
+
+<p>You can add a git alias for this :</p>
+
+<pre><code>git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"
+</code></pre>
+
+<p>And now use it with a simple <code>git lg</code> or <code>git lg -1</code> for just the last log :)</p>
+
+<p>In the same way, this alias list all file modified by commit :</p>
+
+<pre><code>git config --global alias.lgf "log --pretty=format:'%Cred%h%Creset%d - %C(yellow)%s%C(bold blue) &lt;%cn&gt;' --decorate --numstat"
+</code></pre>
+
+<p>Use it : <code>git lgf -3</code>.</p>
+
+<h3 id="classic-alias-take-from-several-pages">Classic alias (take from several pages)</h3>
+
+<p>You can manage your alias more easly in editing the [alias] section in your <em>.gitconfig</em> file.</p>
+
+<pre><code>st = status -s
+cl = clone
+ci = commit
+co = checkout
+br = branch 
+logtree = log --graph --oneline --decorate --all
+changes = diff --name-status
+ll = log --stat --abbrev-commit
+</code></pre>
+
+<h3 id="git-completion">Git completion</h3>
+
+<blockquote>
+  <p>Don’t forget useful git completion help !
+just test it : <code>git stat&lt;tab&gt;</code> for completion or <code>git sta&lt;tab&gt;&lt;tab&gt;</code> for a list of available commands.</p>
+</blockquote>
+
+<h3 id="config-tips">Config Tips</h3>
+
+<p>Working on windows, publishing on github, you can have sometime problem with case filename management.</p>
+
+<p>So, change the case config :</p>
+
+<pre><code>git config core.ignorecase false
+</code></pre>
+
+<h3 id="git-tag">Git tag</h3>
+
+<p>Easy way : just :</p>
+
+<pre><code>git tag v0.1.2
+</code></pre>
+
+<p><strong>Nota</strong> : By default, the git push command doesn’t transfer tags to remote servers (see <a href="http://git-scm.com/book/en/Git-Basics-Tagging">http://git-scm.com/book/en/Git-Basics-Tagging</a>). Transfer by  :</p>
+
+<pre><code>git push origin --tags
+</code></pre>
+
+<h3 id="how-to-discard-all-change-since-the-last-commit-">How to discard all change since the last commit :</h3>
+
+<p>First discard modified files :</p>
+
+<pre><code>git checkout -- .
+</code></pre>
+
+<p>And discard the new untracked files (first with -n just for checking, and for real without it)</p>
+
+<pre><code>git clean -f -d -n 
+</code></pre>
+
+<h3 id="create-a-new-rails-4-app-">Create a new Rails 4 app :</h3>
+
+<div class="highlight"><pre><code class="sh">    <span class="nb">cd</span> /c/www
+    rails new red -B  <span class="c"># don&#39;t check the gem library now</span>
+    bundle check
+    bundle install --local
+    
+</code></pre></div>
+
+<h3 id="and-first-commit-in-git">And first commit in Git</h3>
+
+<div class="highlight"><pre><code class="sh">    git status
+    git add --all
+    git status
+    git commit -m <span class="s1">&#39;initial commit, rails empty&#39;</span>
+    git tag v0.0 -m <span class="s1">&#39;initial version&#39;</span>
+    
+</code></pre></div>
+
+<h3 id="useful-git-links">Useful git links</h3>
+
+<p>Check this one :</p>
+
+<ul>
+  <li><a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></li>
+  <li><a href="http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/">http://durdn.com/blog/2012/11/22/must-have-git-aliases-advanced-examples/</a></li>
+  <li><a href="https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments">https://git.wiki.kernel.org/index.php/Aliases#Advanced_aliases_with_arguments</a></li>
+</ul>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

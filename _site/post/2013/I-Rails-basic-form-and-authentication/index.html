@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Starting a new Rails 4 : I. Authentication with Sorcery.</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/I-Rails-basic-form-and-authentication">Starting a new Rails 4 : I. Authentication with Sorcery.</a>
+    <small><a href="/tag/bootstrap%203.html">bootstrap 3</a>, <a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/sorcery.html">sorcery</a>, <a href="/tag/bcrypt.html">bcrypt</a>, <a href="/tag/flash%20message.html">flash message</a></small>
+  </h1>
+
+  <section class="byline">
+    April  7, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#skeleton-already-in-place-gemfile">Skeleton already in place :Gemfile</a></li>
+  <li><a href="#custom-configuration-file-">Custom configuration file :</a></li>
+  <li><a href="#creating-some-pages-">Creating some pages :</a></li>
+  <li><a href="#scaffolding-a-user-model-">Scaffolding a User model :</a></li>
+  <li><a href="#authentication-with-sorcery">Authentication with Sorcery</a></li>
+  <li><a href="#sorcery-configuration">Sorcery Configuration</a></li>
+  <li><a href="#basic-workflow">Basic workflow</a></li>
+  <li><a href="#welcome-page">Welcome Page</a></li>
+  <li><a href="#control-the-access">Control the access</a></li>
+  <li><a href="#managing-sessions">Managing sessions</a></li>
+  <li><a href="#build-our-login-form-">Build our login form :</a></li>
+  <li><a href="#flash-messages">Flash messages</a></li>
+  <li><a href="#tip--auto-hide-rails-flash-messages">TIP : Auto hide Rails flash messages</a></li>
+  <li><a href="#sign-up">Sign up</a></li>
+  <li><a href="#refactoring-">Refactoring !!!</a></li>
+  <li><a href="#mmo-for-sorcery">Mémo for sorcery</a></li>
+</ul>
+
+<h3 id="skeleton-already-in-place-gemfile">Skeleton already in place :Gemfile</h3>
+
+<p>So I got</p>
+
+<ul>
+  <li>bootsrap 3 installed</li>
+  <li>a custom less configuration file (<em>assests/less/main-custom.less</em>)</li>
+  <li>some basics gem in <em>gemfile</em></li>
+</ul>
+
+<div class="highlight"><pre><code class="ruby">      <span class="n">gem</span> <span class="s1">&#39;rails&#39;</span><span class="p">,</span> <span class="s1">&#39;4.0.0.beta1&#39;</span>
+      <span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+      <span class="n">gem</span> <span class="s1">&#39;thin&#39;</span>
+      <span class="n">gem</span> <span class="s1">&#39;haml-rails&#39;</span> 
+
+      <span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+        <span class="n">gem</span> <span class="s1">&#39;pry-rails&#39;</span>
+        <span class="n">gem</span> <span class="s1">&#39;looksee&#39;</span>
+        <span class="n">gem</span> <span class="s1">&#39;awesome_print&#39;</span>
+        <span class="n">gem</span> <span class="s1">&#39;hirb&#39;</span>
+      <span class="k">end</span>
+
+      <span class="n">group</span> <span class="ss">:assets</span> <span class="k">do</span>
+        <span class="n">gem</span> <span class="s1">&#39;sass-rails&#39;</span><span class="p">,</span>   <span class="s1">&#39;~&gt; 4.0.0.beta1&#39;</span>
+        <span class="n">gem</span> <span class="s1">&#39;coffee-rails&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 4.0.0.beta1&#39;</span>
+        <span class="n">gem</span> <span class="s1">&#39;uglifier&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;= 1.0.3&#39;</span>
+      <span class="k">end</span>
+
+      <span class="n">gem</span> <span class="s1">&#39;jquery-rails&#39;</span>
+      <span class="n">gem</span> <span class="s1">&#39;turbolinks&#39;</span>
+      <span class="n">gem</span> <span class="s1">&#39;jbuilder&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.0.1&#39;</span>
+      
+</code></pre></div>
+
+<p>Just add <code>gem 'sorcery'</code>.</p>
+
+<blockquote>
+  <p>Memo :</p>
+
+  <ul>
+    <li>
+      <p><a href="http://code.macournoyer.com/thin/">Thin</a> is a better web server than the Webrick (default in Rails), and it work well with <a href="http://nginx.org/">Nginx</a>, even on windows.</p>
+    </li>
+    <li>
+      <p><a href="https://github.com/indirect/haml-rails">haml-rails</a> integrate Haml with Rails, and got some easily customizable templates.</p>
+    </li>
+    <li>
+      <p><a href="https://github.com/rweng/pry-rails">pry-rails</a> integrate pry in replacement of irb in Rails console</p>
+    </li>
+    <li>
+      <p>looksee, awesome_print and hirb are just some irb / pry helpers.</p>
+    </li>
+  </ul>
+</blockquote>
+
+<blockquote>
+  <p>Nota : don’t use the standard <code>bundle install</code> on windows, but <code>bundle install --local</code> because some gem are specifically build from a Git source and not already pack in a gem. In example : SQlite3 for Ruby 2 …</p>
+</blockquote>
+
+<h3 id="custom-configuration-file-">Custom configuration file :</h3>
+
+<p>One thing I keep from old Rails version : the migration numeration … So</p>
+
+<p>in <em>config/application.rb</em></p>
+
+<pre><code>config.active_record.timestamped_migrations = false
+</code></pre>
+
+<h3 id="creating-some-pages-">Creating some pages :</h3>
+
+<p>For testing purpose, I want a home page, an about and a test page :</p>
+
+<pre><code>rails g controller home about index test
+</code></pre>
+
+<p>Change our routes to fit them :</p>
+
+<p><em>config/routes.rb</em></p>
+
+<pre><code>root :to      =&gt; 'home#index'
+
+get "login"   =&gt; "sessions#new",        :as =&gt; "login"
+get "logout"  =&gt; "sessions#destroy",    :as =&gt; "logout"
+get "signup"  =&gt; "users#new",           :as =&gt; "signup"
+</code></pre>
+
+<h3 id="scaffolding-a-user-model-">Scaffolding a User model :</h3>
+
+<p>Simply :</p>
+
+<pre><code>rails g scaffold user username:string lastname:string birthdate:date email:string active:boolean --no-stylesheets
+</code></pre>
+
+<p>The –no-stylesheets is for not generating a scaffold.css file, witch overwrite bootstrap css …</p>
+
+<h3 id="authentication-with-sorcery">Authentication with Sorcery</h3>
+
+<p>For starting, I want a simple and robust authentication, there’re many choices, I had take Sorcery because it’s simplicity.</p>
+
+<p>Some documentations :</p>
+
+<ul>
+  <li><a href="https://github.com/NoamB/sorcery">https://github.com/NoamB/sorcery</a></li>
+  <li><a href="http://asciicasts.com/episodes/283-authentication-with-sorcery">http://asciicasts.com/episodes/283-authentication-with-sorcery</a></li>
+  <li><a href="http://stackoverflow.com/questions/tagged/sorcery">http://stackoverflow.com/questions/tagged/sorcery</a></li>
+</ul>
+
+<blockquote>
+  <p>Nota 1 : for Rails 4 you have to use the master branch</p>
+
+  <pre><code>  git clone https://github.com/NoamB/sorcery.git
+  gem build ./sorcery.gemspec
+  gem uni sorcery
+  gem i ./sorcery-0.8.1.gem
+</code></pre>
+
+  <p>Nota 2 : if you got some errors about bcrypt, just recompile it :</p>
+
+  <pre><code>  gem uni bcrypt-ruby
+  gem i bcrypt-ruby --platform=ruby
+</code></pre>
+</blockquote>
+
+<p>So let’s start a new Git branch <code>git br -b sorcery</code> and install it (with all the modules here for testing, I use only the core and will implement the others after ) :</p>
+
+<pre><code>rails g sorcery:install # some help
+rails g sorcery:install http_basic_auth external remember_me reset_password activity_logging brute_force_protection user_activation session_timeout 
+</code></pre>
+
+<p>Arrange your migration file (I drop all sorcery migration about user model in just one <a href="https://gist.github.com/Traz/5335846">gist</a> ) if you want and :</p>
+
+<pre><code>rake db:create
+rake db:migrate
+</code></pre>
+
+<h3 id="sorcery-configuration">Sorcery Configuration</h3>
+
+<p>Check options in <em>config/initializers/sorcery.rb</em> Each module (remember me, etc …) have to be specified here. Starting with just the core module, I’ll add the others after.
+I put only this one and keep other default config :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">user</span><span class="o">.</span><span class="n">username_attribute_names</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:email</span><span class="o">]</span>
+    <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">sorcery</span><span class="o">.</span><span class="n">submodules</span> <span class="o">=</span> <span class="o">[</span> <span class="ss">:http_basic_auth</span> <span class="o">]</span>
+    
+</code></pre></div>
+
+<p>We have to declare also the user model as authenticate model in <em>model/user.rb</em> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+      <span class="n">authenticates_with_sorcery!</span>
+     
+      <span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span>                <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">confirmation</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">length</span><span class="p">:</span> <span class="p">{</span> <span class="ss">minimum</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+      <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span>                   <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="ss">uniqueness</span><span class="p">:</span> <span class="kp">true</span>
+      <span class="n">validates</span> <span class="ss">:password_confirmation</span><span class="p">,</span>   <span class="ss">presence</span><span class="p">:</span> <span class="kp">true</span>
+
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>Then create a user in the Rails console :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="o">&gt;</span><span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span>
+    <span class="o">&gt;</span><span class="n">user</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="s2">&quot;MyName&quot;</span>
+    <span class="o">&gt;</span><span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="s2">&quot;my@email.com&quot;</span>
+    <span class="o">&gt;</span><span class="n">user</span><span class="o">.</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;password&quot;</span>
+    <span class="o">&gt;</span><span class="n">user</span><span class="o">.</span><span class="n">save</span>
+    
+</code></pre></div>
+
+<h3 id="basic-workflow">Basic workflow</h3>
+
+<pre><code>Welcome page (home#index)
+  └──&gt;  sign in ────────────────&gt; session#new ──────&gt; logged page
+  └──&gt;  sign up ──&gt; user#new  ──────────────────────&gt; Welcome page (not logged)
+  └──&gt;  logout  ────────────────&gt; session#destroy ──&gt; Welcome page
+</code></pre>
+
+<p>Already got home#index (welcome), home#about(will be out logged page) and home#test (will be protected for testing purpose).</p>
+
+<h3 id="welcome-page">Welcome Page</h3>
+
+<p>Simple (and brut css) welcome page, with some bootstrap stuff for the <em>home#index view</em> : </p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nc">.jumbotron</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;margin-top:200px&quot;</span><span class="p">}</span>
+      <span class="nc">.h1</span> Welcome to Red !
+      <span class="nt">%br</span>
+      <span class="nc">.h4</span> Test line H4
+      <span class="nt">%br</span>
+      <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Sign Up&#39;</span><span class="p">,</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;btn btn-large btn-primary&#39;</span>
+      <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Login&#39;</span><span class="p">,</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;btn btn-large btn-success&#39;</span>
+      <span class="p">-</span> <span class="k">if</span> <span class="n">current_user</span>
+        <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Logout&#39;</span><span class="p">,</span> <span class="n">logout_path</span>
+    <span class="nt">%br</span>
+    <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;About&quot;</span><span class="p">,</span> <span class="n">about_path</span>
+    <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">test_path</span>
+    
+</code></pre></div>
+
+<p><code>current_user</code> will be avaible if the user is already logged in.</p>
+
+<h3 id="control-the-access">Control the access</h3>
+
+<p>All the pages are accessible for the moment. So, in <em>application_controller.rb</em> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">before_filter</span> <span class="ss">:require_login</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:not_authenticated</span><span class="o">]</span>
+
+    <span class="kp">protected</span>
+
+    <span class="k">def</span> <span class="nf">not_authenticated</span>
+      <span class="n">redirect_to</span> <span class="n">login_path</span><span class="p">,</span> <span class="ss">:alert</span> <span class="o">=&gt;</span> <span class="s2">&quot;Login requis.&quot;</span> 
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>And in the <em>home\controller.rb</em> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">skip_before_filter</span> <span class="ss">:require_login</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:index</span><span class="p">,</span> <span class="ss">:test</span><span class="o">]</span>
+    
+</code></pre></div>
+
+<p>Now, only the welcome and the test page will be viewable for non registered users.</p>
+
+<h3 id="managing-sessions">Managing sessions</h3>
+
+<p>First, build the session controller :</p>
+
+<pre><code>rails g controller sessions new destroy
+</code></pre>
+
+<p>And :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">SessionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+
+      <span class="n">before_action</span> <span class="ss">:set_user</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span>
+      <span class="n">before_action</span> <span class="ss">:require_login</span><span class="p">,</span> <span class="ss">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:destroy</span><span class="o">]</span>
+
+      <span class="k">def</span> <span class="nf">new</span>
+      <span class="k">end</span>
+
+      <span class="k">def</span> <span class="nf">create</span>  
+        <span class="k">if</span> <span class="vi">@user</span>  
+          <span class="n">redirect_back_or_to</span> <span class="n">root_url</span> <span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Logged in!&quot;</span>  
+        <span class="k">else</span>  
+          <span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">:alert</span> <span class="o">=&gt;</span> <span class="s2">&quot;Email or password was invalid.&quot;</span> 
+        <span class="k">end</span>  
+      <span class="k">end</span> 
+      <span class="k">def</span> <span class="nf">destroy</span>
+        <span class="n">logout</span>
+        <span class="n">redirect_to</span> <span class="n">root_url</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s1">&#39;Logged out!&#39;</span>
+      <span class="k">end</span>
+
+      <span class="kp">private</span>
+        <span class="k">def</span> <span class="nf">set_user</span>
+          <span class="vi">@user</span> <span class="o">=</span> <span class="n">login</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:sessions</span><span class="o">][</span><span class="ss">:email</span><span class="o">]</span><span class="p">,</span> <span class="n">params</span><span class="o">[</span><span class="ss">:sessions</span><span class="o">][</span><span class="ss">:password</span><span class="o">]</span><span class="p">)</span>
+        <span class="k">end</span>
+
+        <span class="k">def</span> <span class="nf">session_params</span>
+          <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:email</span><span class="p">,</span> <span class="ss">:password</span><span class="p">)</span>
+        <span class="k">end</span>
+
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>The <code>logout</code>method is provided by Sorcery. Notice the new private methods introduced with Rails 4 (<a href="https://github.com/rails/strong_parameters">strong parameters</a>) (with a declaration in the model <code>include ActiveModel::ForbiddenAttributesProtection</code>)</p>
+
+<blockquote>
+  <p>Nota : when you redirect, must have a root_url instead of root_path</p>
+</blockquote>
+
+<h3 id="build-our-login-form-">Build our login form :</h3>
+
+<p>With use of bootstrap modal for testing ; the form will send a POST on session controller, witch redirect it to the create method : (in <em>index.html.haml</em>)</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nf">#modal_login</span><span class="nc">.modal.fade</span>
+      <span class="nc">.modal-dialog</span>
+        <span class="nc">.modal-content</span>
+          <span class="p">=</span> <span class="n">form_for</span> <span class="ss">:sessions</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">sessions_path</span><span class="p">,</span> <span class="ss">:html</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-horizontal&#39;</span><span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+            <span class="nc">.modal-header</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;background-color: #EEEEEE;&quot;</span><span class="p">}</span>
+              <span class="nt">%button</span><span class="nc">.close</span><span class="p">{</span><span class="ss">:type</span> <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span> <span class="s1">&#39;data-dismiss&#39;</span><span class="o">=&gt;</span> <span class="s1">&#39;modal&#39;</span><span class="p">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">=&gt;</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s2">&quot;right:0px;&quot;</span><span class="p">}=</span> <span class="n">raw</span> <span class="s1">&#39;&amp;times;&#39;</span>
+              <span class="nt">%h2</span><span class="nc">.modal-title</span> Login
+              <span class="nt">%small</span> Small text
+            <span class="nc">.modal-body</span>
+              <span class="nc">.control-group</span>
+                <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:email</span>
+              <span class="nc">.control-group</span>
+                <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span>
+            <span class="nc">.modal-footer</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;background-color: #EEEEEE;&quot;</span><span class="p">}</span>
+              <span class="nc">.control-group</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Sign In&quot;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;btn btn-sucess&quot;</span>
+    
+</code></pre></div>
+
+<p>And call it with our signin button :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Login&#39;</span><span class="p">,</span> <span class="s2">&quot;#modal_login&quot;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;btn btn-large btn-success&#39;</span><span class="p">,</span> <span class="s2">&quot;data-toggle&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;modal&quot;</span><span class="p">,</span> <span class="s2">&quot;data-target&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;#modal_login&quot;</span>
+    
+</code></pre></div>
+
+<p>So we’ve got a form pointing on sessions_path with POST method (so to the sessions create controller method ), with 2 parameters : <code>[sessions][email]</code> and <code>[sessions][password]</code>.</p>
+
+<h3 id="flash-messages">Flash messages</h3>
+
+<p>Ok, before the last part (creating a new user), let’s have more informations with flash message.</p>
+
+<p>Inspiration from <a href="https://gist.github.com/potomak/1600856">Gist flash</a></p>
+
+<p>So, in <em>application_helper.rb</em> </p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">flash_class</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+      <span class="k">case</span> <span class="n">level</span>
+      <span class="k">when</span> <span class="ss">:notice</span> <span class="k">then</span> <span class="s2">&quot;alert alert-info&quot;</span>
+      <span class="k">when</span> <span class="ss">:success</span> <span class="k">then</span> <span class="s2">&quot;alert alert-success&quot;</span>
+      <span class="k">when</span> <span class="ss">:error</span> <span class="k">then</span> <span class="s2">&quot;alert alert-error&quot;</span>
+      <span class="k">when</span> <span class="ss">:alert</span> <span class="k">then</span> <span class="s2">&quot;alert alert-block&quot;</span>
+      <span class="k">else</span> <span class="s2">&quot;alert </span><span class="si">#{</span><span class="n">level</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>Now define a shared partial view (in <em>app/view/shared/_flash_message.html.haml</em>) :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">-</span> <span class="n">flash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="o">|</span>
+      <span class="nt">%div</span><span class="nc">.fade.in</span><span class="p">{</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="n">flash_class</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="p">}</span>
+        <span class="nt">%a</span><span class="nc">.close</span><span class="p">{</span><span class="ss">:href</span> <span class="o">=&gt;</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;data-dismiss&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;alert&quot;</span><span class="p">,}</span> ×
+        <span class="nt">%h4</span><span class="nc">.alert-heading</span> Notice !
+        <span class="nt">%p</span><span class="p">=</span> <span class="n">message</span>
+    
+</code></pre></div>
+
+<p>And use it in our global layout : <em>layouts/application.html.haml</em> </p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nt">%body</span>
+      <span class="nc">.container</span>
+        <span class="p">=</span> <span class="n">render</span> <span class="s1">&#39;shared/flash_message&#39;</span>
+        <span class="p">=</span> <span class="k">yield</span>
+    
+</code></pre></div>
+
+<blockquote>
+  <h3 id="tip--auto-hide-rails-flash-messages">TIP : Auto hide Rails flash messages</h3>
+</blockquote>
+
+<p>Just drop this coffee script in your <em>assets/javascript</em> folder (look at <a href="http://reinteractive.net/posts/13-ui-tips-for-flash-messages-in-rails">http://reinteractive.net/posts/13-ui-tips-for-flash-messages-in-rails</a>)</p>
+
+<div class="highlight"><pre><code class="coffeescript">    <span class="nx">$</span> <span class="nf">-&gt;</span>
+      <span class="nv">flashCallback = </span><span class="nf">-&gt;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s">&quot;.alert&quot;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">()</span>
+      <span class="nx">$</span><span class="p">(</span><span class="s">&quot;.alert&quot;</span><span class="p">).</span><span class="nx">bind</span> <span class="s">&#39;click&#39;</span><span class="p">,</span> <span class="nf">(ev) =&gt;</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s">&quot;.alert&quot;</span><span class="p">).</span><span class="nx">fadeOut</span><span class="p">()</span>
+      <span class="nx">setTimeout</span> <span class="nx">flashCallback</span><span class="p">,</span> <span class="mi">3000</span>
+      
+</code></pre></div>
+
+<h3 id="sign-up">Sign up</h3>
+
+<p>Check some validations methods in user model and, same (brut) method, form pointing to the user controller this time.</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nf">#modal_signup</span><span class="nc">.modal.fade</span>
+      <span class="nc">.modal-dialog</span>
+        <span class="nc">.modal-content</span>
+          <span class="p">=</span> <span class="n">form_for</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:url</span> <span class="o">=&gt;</span> <span class="n">users_path</span><span class="p">,</span> <span class="ss">:html</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;form-horizontal&#39;</span><span class="p">}</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+            <span class="nc">.modal-header</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;background-color: #EEEEEE;&quot;</span><span class="p">}</span>
+              <span class="nt">%button</span><span class="nc">.close</span><span class="p">{</span><span class="ss">:type</span> <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span> <span class="s1">&#39;data-dismiss&#39;</span><span class="o">=&gt;</span> <span class="s1">&#39;modal&#39;</span><span class="p">,</span> <span class="s1">&#39;aria-hidden&#39;</span><span class="o">=&gt;</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s2">&quot;right:0px;&quot;</span><span class="p">}=</span> <span class="n">raw</span> <span class="s1">&#39;&amp;times;&#39;</span>
+              <span class="nt">%h2</span><span class="nc">.modal-title</span> SignUp
+              <span class="nt">%small</span> Create your account
+            <span class="nc">.modal-body</span>
+              <span class="nc">.control-group</span>
+                <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:email</span>
+              <span class="nc">.control-group</span>
+                <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span>
+              <span class="nc">.control-group</span>
+                <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;control-label&#39;</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span>
+              
+            <span class="nc">.modal-footer</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;background-color: #EEEEEE;&quot;</span><span class="p">}</span>
+              <span class="nc">.control-group</span>
+                <span class="nc">.controls</span>
+                  <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Sign Up&quot;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;btn btn-primary&quot;</span>
+    
+</code></pre></div>
+
+<p>Don’t forget to add password and password_confirmation to the user_params method (if not, you’ll got a nice blank value for this params) :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">user_params</span>
+      <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:user</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:username</span><span class="p">,</span> <span class="ss">:lastname</span><span class="p">,</span> <span class="ss">:identity</span><span class="p">,</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">:birthdate</span><span class="p">,</span> <span class="ss">:active</span><span class="p">,</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">:password_confirmation</span><span class="p">)</span>
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>And that’s all for this time :) In case of some error, you will be redirected to the standard scaffold user page, created on starting.</p>
+
+<h3 id="refactoring-">Refactoring !!!</h3>
+
+<p>Next steps :</p>
+
+<ul>
+  <li>create partial for both modal dialogs</li>
+  <li>use simple_form gem for clearing</li>
+  <li>create a semantic css declaration</li>
+</ul>
+
+<h2 id="mmo-for-sorcery">Mémo for sorcery</h2>
+
+<blockquote>
+  <p>Mémo : From the core library, this is the avaible methods :</p>
+</blockquote>
+
+<blockquote>
+  <pre><code> # core
+ require_login               # this is a before filter
+ login(username,password,remember_me = false)
+ auto_login(user)            # login without credentials
+ logout
+ logged_in?                  # available to view
+ current_user                # available to view
+  redirect_back_or_to         # used when a user tries to access a page while logged out, is asked to login, and we want to return him back to the page he originally wanted.
+ @user.external?             # external users, such as facebook/twitter etc.
+ User.authenticates_with_sorcery!
+</code></pre>
+</blockquote>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

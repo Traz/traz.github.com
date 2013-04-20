@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Starting a new Rails 4 : IV. Build an interface</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/IV-Menu-and-tools">Starting a new Rails 4 : IV. Build an interface</a>
+    <small><a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/bootstrap%203.html">bootstrap 3</a>, <a href="/tag/ssl%20certificate.html">ssl certificate</a>, <a href="/tag/kaminari.html">kaminari</a>, <a href="/tag/destroy%20confirmation.html">destroy confirmation</a></small>
+  </h1>
+
+  <section class="byline">
+    April 11, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#implementing-the-bootstrap-menu">Implementing the bootstrap menu</a></li>
+  <li><a href="#table-and-labels">Table and labels</a></li>
+  <li><a href="#refactoring-view">Refactoring view</a></li>
+  <li><a href="#pagination-with-kaminari">Pagination with Kaminari</a></li>
+  <li><a href="#tip--ssl-certificate-error">TIP : SSL Certificate error</a></li>
+  <li><a href="#kaminari-config--views">Kaminari config &amp; views</a></li>
+  <li><a href="#tip--a-modal-destroy-confirmation">TIP : A modal destroy confirmation</a></li>
+</ul>
+
+<h3 id="implementing-the-bootstrap-menu">Implementing the bootstrap menu</h3>
+
+<p>First create another layout : for the moment we use the <em>view/layouts/application.html.haml</em> copy it to <em>home.html.haml</em>, so we’ve got a different layout for the home page and the rest of the app.</p>
+
+<p><em>application.html.haml</em> :</p>
+
+<div class="highlight"><pre><code class="haml">      <span class="nt">%body</span>
+        <span class="p">=</span> <span class="n">render</span> <span class="s1">&#39;shared/navbar&#39;</span>
+        <span class="nc">.container</span>
+          <span class="p">=</span> <span class="n">render</span> <span class="s1">&#39;shared/flash_message&#39;</span>
+          <span class="p">=</span> <span class="k">yield</span>
+    
+</code></pre></div>
+
+<p>And create the <em>views/shared/_navbar.html.haml</em> :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nc">.navbar.navbar-static-top</span>
+      <span class="nc">.container</span>
+        <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Four&quot;</span><span class="p">,</span><span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">:class</span><span class="o">=&gt;</span> <span class="s1">&#39;navbar-brand&#39;</span>
+        <span class="nt">%ul</span><span class="nc">.nav</span>
+          <span class="nt">%li</span><span class="nc">.dropdown</span>
+            <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;dropdown-toggle&quot;</span><span class="p">,</span> <span class="s2">&quot;data-toggle&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;dropdown&quot;</span> <span class="k">do</span>
+              User
+              <span class="nt">%b</span><span class="nc">.caret</span>
+            <span class="nt">%ul</span><span class="nc">.dropdown-menu</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;#&#39;</span>
+              <span class="nt">%li</span><span class="nc">.divider</span>
+              <span class="nt">%li</span><span class="nc">.nav-header</span><span class="p">=</span> <span class="s2">&quot;Users&quot;</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;list&#39;</span><span class="p">,</span> <span class="n">users_path</span>
+        <span class="nt">%ul</span><span class="nc">.nav.pull-right</span>
+          <span class="nt">%li</span>
+            <span class="p">=</span> <span class="n">link_to</span> <span class="n">about_path</span>  <span class="k">do</span>
+              <span class="nt">%span</span><span class="p">{</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;glyphicon glyphicon-search&quot;</span><span class="p">}</span>
+          <span class="nt">%li</span><span class="nc">.dropdown</span>
+            <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="s2">&quot;data-toggle&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;dropdown&quot;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;btn dropdown-toggle&quot;</span> <span class="k">do</span>
+              <span class="nt">%span</span><span class="p">{</span><span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s2">&quot;glyphicon glyphicon-user&quot;</span><span class="p">}</span>
+              <span class="p">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">username</span>
+              <span class="nt">%b</span><span class="nc">.caret</span>
+            <span class="nt">%ul</span><span class="nc">.dropdown-menu</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Logout&quot;</span><span class="p">,</span> <span class="n">logout_path</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Profile&quot;</span><span class="p">,</span> <span class="n">user_path</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+              <span class="nt">%li</span><span class="nc">.divider</span>
+              <span class="nt">%li</span><span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Change password&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span>
+    
+</code></pre></div>
+
+<p>It’s done :)</p>
+
+<h3 id="table-and-labels">Table and labels</h3>
+
+<p>Just modify <code>%table.table.table-condensed</code> in <em>views/users/index.html.haml</em> for a better look.</p>
+
+<p>And replace the <code>%td= user.active</code> by :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nt">%td</span>
+      <span class="p">-</span> <span class="k">if</span> <span class="o">!</span><span class="n">user</span><span class="o">.</span><span class="n">active</span>
+        <span class="nt">%span</span><span class="nc">.label.label-warning</span><span class="p">=</span> <span class="s2">&quot;Not active&quot;</span> 
+    
+</code></pre></div>
+
+<p>for a label test.</p>
+
+<h3 id="refactoring-view">Refactoring view</h3>
+
+<p>There a lot of solution for a standard view (even some gem), use some tags like table, p, dl/dt/dd … For the moment I choose the easiest : p, with some helper for proper rending of a blank element.</p>
+
+<p>In <em>application\helper.rb</em> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="k">def</span> <span class="nf">nbsp</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+      <span class="n">obj</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">blank?</span> <span class="p">?</span> <span class="n">raw</span><span class="p">(</span><span class="s1">&#39;&amp;nbsp;&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="n">obj</span>
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>And my view <em>users/show.haml.haml</em> :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nt">%h1</span> User Detail
+
+    <span class="nc">.row.well</span>
+      <span class="nc">.col-span-3</span>
+        <span class="nt">%div</span><span class="p">{</span><span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s1">&#39;text-align:right;list-style-type:none;font-weight:bold;&#39;</span><span class="p">}</span>
+          <span class="nt">%p</span> Username :
+          <span class="nt">%p</span> Lastname :
+          <span class="nt">%p</span> Identity :
+          <span class="nt">%p</span> Email :
+          <span class="nt">%p</span> Birthdate :
+          <span class="nt">%p</span> Active :
+      <span class="nc">.col-span-8</span>
+        <span class="nt">%div</span><span class="p">{</span><span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s1">&#39;list-style-type:none;&#39;</span><span class="p">}</span>
+          <span class="nt">%p</span><span class="p">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">username</span> 
+          <span class="nt">%p</span><span class="p">=</span> <span class="n">nbsp</span> <span class="vi">@user</span><span class="o">.</span><span class="n">lastname</span>
+          <span class="nt">%p</span><span class="p">=</span> <span class="n">nbsp</span> <span class="vi">@user</span><span class="o">.</span><span class="n">identity</span>
+          <span class="nt">%p</span><span class="p">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">email</span>
+          <span class="nt">%p</span><span class="p">=</span> <span class="n">nbsp</span> <span class="vi">@user</span><span class="o">.</span><span class="n">birthdate</span>
+          <span class="nt">%p</span>
+            <span class="p">-</span> <span class="k">if</span> <span class="o">!</span><span class="vi">@user</span><span class="o">.</span><span class="n">active</span>
+              <span class="nt">%span</span><span class="nc">.label.label-warning</span><span class="p">=</span> <span class="s2">&quot;Not active&quot;</span> 
+            <span class="p">-</span> <span class="k">else</span>
+              <span class="nt">%span</span><span class="nc">.label.label-success</span><span class="p">=</span> <span class="s2">&quot;Active&quot;</span> 
+
+
+    <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Edit&#39;</span><span class="p">,</span> <span class="n">edit_user_path</span><span class="p">(</span><span class="vi">@user</span><span class="p">)</span>
+    \|
+    <span class="p">=</span> <span class="n">link_to</span> <span class="s1">&#39;Back&#39;</span><span class="p">,</span> <span class="n">users_path</span>
+    
+</code></pre></div>
+
+<h3 id="pagination-with-kaminari">Pagination with Kaminari</h3>
+
+<p>Ok, lets build some fakes users for the list view.</p>
+
+<p>First install <strong>kaminari</strong> (there other like will_paginate who work well also) : <code>gem i kaminari</code> and declare it in the <em>gemfile</em>.</p>
+
+<p>Generate the configuration file <code>rails g kaminari:config</code> and <code>rails g kaminari:views bootstrap</code> … If you’re starting with Ruby, you may have a strange SSL error …</p>
+
+<blockquote>
+  <h3 id="tip--ssl-certificate-error">TIP : SSL Certificate error</h3>
+</blockquote>
+
+<p>The solution : <a href="https://gist.github.com/fnichol/867550">https://gist.github.com/fnichol/867550</a> follow the instruction (copy the certificate file, declare an enviroment variable), and it’s work :) Thanks !!</p>
+
+<h3 id="kaminari-config--views">Kaminari config &amp; views</h3>
+
+<p>So now we have the config file <em>config/initializers/kaminari_config.rb</em> to change the whole pagination configuration if you want. And the views files in <em>app/views/kaminari</em>.</p>
+
+<p>Just for adapt to bootstrap pagination, change <em>apps/views/kaminari/_paginator.html.haml</em> from :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">render</span> <span class="k">do</span>
+      <span class="nc">.pagination</span>
+        <span class="nt">%ul</span>
+          <span class="p">=</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    
+</code></pre></div>
+
+<p>to </p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">paginator</span><span class="o">.</span><span class="n">render</span> <span class="k">do</span>
+      <span class="nt">%ul</span><span class="nc">.pagination</span>
+        <span class="p">=</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+     
+</code></pre></div>
+
+<p>Add a <code>= paginate @users</code> in your view file and modify the controller methods with <code>@users = User.all.page(params[:page]).per(2)</code> (the per(2) is for testing purpose, drop it after).</p>
+
+<blockquote>
+  <h3 id="tip--a-modal-destroy-confirmation">TIP : A modal destroy confirmation</h3>
+</blockquote>
+
+<p>And at the end of this day, a short tips come from here <a href="https://gist.github.com/postpostmodern/1862479">https://gist.github.com/postpostmodern/1862479</a>, just drop the file in your assets javascript folder with this modification for bootstrap 3 :</p>
+
+<div class="highlight"><pre><code class="coffeescript">    <span class="c1"># Override Rails handling of confirmation</span>
+
+    <span class="nv">$.rails.allowAction = </span><span class="nf">(element) -&gt;</span>
+      <span class="c1"># The message is something like &quot;Are you sure?&quot;</span>
+      <span class="nv">message = </span><span class="nx">element</span><span class="p">.</span><span class="nx">data</span><span class="p">(</span><span class="s">&#39;confirm&#39;</span><span class="p">)</span>
+      <span class="c1"># If there&#39;s no message, there&#39;s no data-confirm attribute, </span>
+      <span class="c1"># which means there&#39;s nothing to confirm</span>
+      <span class="k">return</span> <span class="kc">true</span> <span class="k">unless</span> <span class="nx">message</span>
+      <span class="c1"># Clone the clicked element (probably a delete link) so we can use it in the dialog box.</span>
+      <span class="nv">$link = </span><span class="nx">element</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="c1"># We don&#39;t necessarily want the same styling as the original link/button.</span>
+        <span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s">&#39;class&#39;</span><span class="p">)</span>
+        <span class="c1"># We don&#39;t want to pop up another confirmation (recursion)</span>
+        <span class="p">.</span><span class="nx">removeAttr</span><span class="p">(</span><span class="s">&#39;data-confirm&#39;</span><span class="p">)</span>
+        <span class="c1"># We want a button</span>
+        <span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;btn&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;btn-danger&#39;</span><span class="p">)</span>
+        <span class="c1"># We want it to sound confirmy</span>
+        <span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="s">&quot;Yes, I&#39;m positively certain.&quot;</span><span class="p">)</span>
+
+      <span class="c1"># Create the modal box with the message</span>
+      <span class="nv">modal_html = </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">                    &lt;div class=&quot;modal fade&quot; id=&quot;myModal&quot;&gt;</span>
+<span class="s">                      &lt;div class=&quot;modal-dialog&quot;&gt;</span>
+<span class="s">                        &lt;div class=&quot;modal-content&quot;&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-header&quot;&gt;</span>
+<span class="s">                            &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-hidden=&quot;true&quot;&gt;&amp;times;&lt;/button&gt;</span>
+<span class="s">                            &lt;h3&gt;</span><span class="si">#{</span><span class="nx">message</span><span class="si">}</span><span class="s">&lt;/h3&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-body&quot;&gt;</span>
+<span class="s">                            &lt;p&gt;Be certain, sonny.&lt;/p&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                          &lt;div class=&quot;modal-footer&quot;&gt;</span>
+<span class="s">                            &lt;a data-dismiss=&quot;modal&quot; class=&quot;btn&quot;&gt;Cancel&lt;/a&gt;</span>
+<span class="s">                          &lt;/div&gt;</span>
+<span class="s">                        &lt;/div&gt;</span>
+<span class="s">                      &lt;/div&gt;</span>
+<span class="s">                    &lt;/div&gt;</span>
+<span class="s">                   &quot;&quot;&quot;</span>
+      <span class="nv">$modal_html = </span><span class="nx">$</span><span class="p">(</span><span class="nx">modal_html</span><span class="p">)</span>
+      <span class="c1"># Add the new button to the modal box</span>
+      <span class="nx">$modal_html</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s">&#39;.modal-footer&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">$link</span><span class="p">)</span>
+      <span class="c1"># Pop it up</span>
+      <span class="nx">$modal_html</span><span class="p">.</span><span class="nx">modal</span><span class="p">()</span>
+      <span class="c1"># Prevent the original link from working</span>
+      <span class="k">return</span> <span class="kc">false</span>
+
+      
+</code></pre></div>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>
