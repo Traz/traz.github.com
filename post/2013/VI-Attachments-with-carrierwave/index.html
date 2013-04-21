@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Starting a new Rails 4 : VI. Attachments with carrierwave</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/VI-Attachments-with-carrierwave">Starting a new Rails 4 : VI. Attachments with carrierwave</a>
+    <small><a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/carrierwave.html">carrierwave</a>, <a href="/tag/minimagick.html">minimagick</a></small>
+  </h1>
+
+  <section class="byline">
+    April 18, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#roadmap">Roadmap</a></li>
+  <li><a href="#carrierwave-start-with-avatar-for-user">Carrierwave start with avatar for user</a></li>
+  <li><a href="#activerecord-integration">ActiveRecord integration</a></li>
+  <li><a href="#validations-on-the-model">Validations on the model</a></li>
+  <li><a href="#user-views">User Views</a></li>
+</ul>
+
+<h3 id="roadmap">Roadmap</h3>
+
+<p>I want to manage attachments : for starting, some avatar for users, and some files linked to projects in future.</p>
+
+<p>First install <a href="http://www.imagemagick.org/script/binary-releases.php#windows">ImageMagick</a>.</p>
+
+<h3 id="carrierwave-start-with-avatar-for-user">Carrierwave start with avatar for user</h3>
+
+<p>After installed carrierwave in gemfile (with mini_magick gem too for image processing), starting with :</p>
+
+<pre><code>rails g uploader avatar
+</code></pre>
+
+<p>witch create <em>app/uploaders/avatar.rb</em> with some change :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="kp">include</span> <span class="ss">CarrierWave</span><span class="p">:</span><span class="ss">:MiniMagick</span>
+    <span class="k">def</span> <span class="nf">default_url</span>
+      <span class="n">asset_path</span> <span class="o">[</span><span class="n">version_name</span><span class="p">,</span> <span class="s2">&quot;default_user_avatar_huge.png&quot;</span><span class="o">].</span><span class="n">compact</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span>
+    <span class="k">end</span>
+    <span class="n">version</span> <span class="ss">:small</span> <span class="k">do</span>
+      <span class="n">process</span> <span class="ss">:resize_to_fill</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="o">]</span>
+    <span class="k">end</span>
+    <span class="k">def</span> <span class="nf">extension_white_list</span>
+      <span class="sx">%w(jpg jpeg gif png)</span>
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>Where <code>default_user_avatar_huge.png</code> is a fallback avatar image in <em>assets/images</em>. (with a small version 32x32 named small_default_user_avatar_huge.png)</p>
+
+<h3 id="activerecord-integration">ActiveRecord integration</h3>
+
+<p>First add an <code>avatar</code> string column to the user model, and migrate.</p>
+
+<pre><code>rake g migration AddAvatarToUsers avatar:string
+</code></pre>
+
+<p>And ajust the <em>models/user.rb</em> :</p>
+
+<pre><code>mount_uploader :avatar, AvatarUploader
+</code></pre>
+
+<h3 id="validations-on-the-model">Validations on the model</h3>
+
+<p>For the file size, check out the solution <a href="https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-attachment-file-size">https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-attachment-file-size</a> and apply it in our model user :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="nb">require</span> <span class="s1">&#39;file_size_validator&#39;</span> 
+
+    <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+      <span class="n">authenticates_with_sorcery!</span>
+      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+
+      <span class="n">validates</span> <span class="ss">:avatar</span><span class="p">,</span> 
+        <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">,</span> 
+        <span class="ss">:file_size</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">.</span><span class="n">megabytes</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span> 
+    <span class="k">end</span> 
+    
+</code></pre></div>
+
+<p>Also we validate the processing and the file type (see <a href="https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-uploads-with-Active-Record">https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-uploads-with-Active-Record</a>) in <em>models/user.rb</em> :</p>
+
+<pre><code>validates_integrity_of :avatar
+validates_processing_of :avatar
+</code></pre>
+
+<p>And this is the full <em>config/locales/en.yml</em> : </p>
+
+<div class="highlight"><pre><code class="yaml">    <span class="l-Scalar-Plain">en</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">errors</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">messages</span><span class="p-Indicator">:</span>
+          <span class="l-Scalar-Plain">wrong_size</span><span class="p-Indicator">:</span> <span class="s">&quot;is</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">wrong</span><span class="nv"> </span><span class="s">size</span><span class="nv"> </span><span class="s">(should</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">%{file_size})&quot;</span>
+          <span class="l-Scalar-Plain">size_too_small</span><span class="p-Indicator">:</span> <span class="s">&quot;is</span><span class="nv"> </span><span class="s">too</span><span class="nv"> </span><span class="s">small</span><span class="nv"> </span><span class="s">(should</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">least</span><span class="nv"> </span><span class="s">%{file_size})&quot;</span>
+          <span class="l-Scalar-Plain">size_too_big</span><span class="p-Indicator">:</span> <span class="s">&quot;is</span><span class="nv"> </span><span class="s">too</span><span class="nv"> </span><span class="s">big</span><span class="nv"> </span><span class="s">(should</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">at</span><span class="nv"> </span><span class="s">most</span><span class="nv"> </span><span class="s">%{file_size})&quot;</span>
+          <span class="l-Scalar-Plain">carrierwave_processing_error</span><span class="p-Indicator">:</span> <span class="s">&quot;failed</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">be</span><span class="nv"> </span><span class="s">processed&quot;</span>
+          <span class="l-Scalar-Plain">carrierwave_integrity_error</span><span class="p-Indicator">:</span> <span class="s">&quot;is</span><span class="nv"> </span><span class="s">not</span><span class="nv"> </span><span class="s">an</span><span class="nv"> </span><span class="s">allowed</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">type&quot;</span>    
+          <span class="l-Scalar-Plain">carrierwave_download_error</span><span class="p-Indicator">:</span> <span class="s">&quot;Couldn&#39;t</span><span class="nv"> </span><span class="s">download</span><span class="nv"> </span><span class="s">image.&quot;</span>
+    
+</code></pre></div>
+
+<p>and the <em>models/user.rb</em> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+    <span class="n">mont_uploader</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="no">AvatarUploader</span>
+    <span class="n">validates</span> <span class="ss">:avatar</span><span class="p">,</span> 
+      <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">,</span> 
+      <span class="ss">:file_size</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">.</span><span class="n">megabytes</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span> 
+    <span class="n">validates_integrity_of</span> <span class="ss">:avatar</span>
+    <span class="n">validates_processing_of</span> <span class="ss">:avatar</span>    
+    
+</code></pre></div>
+
+<h3 id="user-views">User Views</h3>
+
+<p>In the index view :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nt">%td</span><span class="p">=</span> <span class="n">image_tag</span> <span class="n">user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">small</span><span class="o">.</span><span class="n">url</span>
+    
+</code></pre></div>
+
+<p>In the form view :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:file</span>
+    <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:remove_avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:boolean</span>
+    <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:avatar_cache</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:hidden</span>
+    
+</code></pre></div>
+
+<p>Add also those fields to the method <code>user_params</code> in the <em>controllers/users_controller.rb</em> </p>
+
+<p>In the show view :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="vi">@user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">small</span><span class="o">.</span><span class="n">url</span><span class="p">),</span> <span class="s1">&#39;#modal_avatar&#39;</span><span class="p">,</span> <span class="ss">:role</span> <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span><span class="p">,</span> <span class="s1">&#39;data-toggle&#39;</span><span class="o">=&gt;</span><span class="s1">&#39;modal&#39;</span>
+    ...
+    <span class="nf">#modal_avatar</span><span class="nc">.modal.fade</span>
+      <span class="nc">.modal-dialog</span>
+        <span class="nc">.modal-content</span>
+          <span class="nc">.modal-header</span>
+            <span class="p">=</span> <span class="n">button_close_modal</span>
+            <span class="nt">%h4</span> Image
+          <span class="nc">.modal-body</span>
+            <span class="p">=</span> <span class="n">image_tag</span> <span class="vi">@user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">url</span>
+          <span class="nc">.modal-footer</span>
+    
+</code></pre></div>
+
+<p>The modal dialog show the image in full size.</p>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

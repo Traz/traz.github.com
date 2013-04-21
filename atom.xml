@@ -4,12 +4,154 @@
  <title>Traz's notes</title>
  <link href="http://traz.github.com/atom.xml" rel="self"/>
  <link href="http://traz.github.com/"/>
- <updated>2013-04-20T22:20:30+11:00</updated>
+ <updated>2013-04-21T14:34:32+11:00</updated>
  <id>http://traz.github.com</id>
  <author>
    <name>Traz</name>
  </author>
 
+ 
+ <entry>
+   <title>Starting a new Rails 4 : VI. Attachments with carrierwave</title>
+   <link href="http://traz.github.com/post/2013/VI-Attachments-with-carrierwave"/>
+   <updated>2013-04-18T00:00:00+11:00</updated>
+   <id>http://traz.github.com/post/2013/VI-Attachments-with-carrierwave</id>
+<!--    <content type="html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#roadmap&quot;&gt;Roadmap&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#carrierwave-start-with-avatar-for-user&quot;&gt;Carrierwave start with avatar for user&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#activerecord-integration&quot;&gt;ActiveRecord integration&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#validations-on-the-model&quot;&gt;Validations on the model&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#user-views&quot;&gt;User Views&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;roadmap&quot;&gt;Roadmap&lt;/h3&gt;
+
+&lt;p&gt;I want to manage attachments : for starting, some avatar for users, and some files linked to projects in future.&lt;/p&gt;
+
+&lt;p&gt;First install &lt;a href=&quot;http://www.imagemagick.org/script/binary-releases.php#windows&quot;&gt;ImageMagick&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;carrierwave-start-with-avatar-for-user&quot;&gt;Carrierwave start with avatar for user&lt;/h3&gt;
+
+&lt;p&gt;After installed carrierwave in gemfile (with mini_magick gem too for image processing), starting with :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rails g uploader avatar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;witch create &lt;em&gt;app/uploaders/avatar.rb&lt;/em&gt; with some change :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;CarrierWave&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:MiniMagick&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;default_url&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;asset_path&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;default_user_avatar_huge.png&amp;quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;compact&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;join&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;_&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;version&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:small&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;process&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:resize_to_fill&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;32&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;extension_white_list&lt;/span&gt;
+      &lt;span class=&quot;sx&quot;&gt;%w(jpg jpeg gif png)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Where &lt;code&gt;default_user_avatar_huge.png&lt;/code&gt; is a fallback avatar image in &lt;em&gt;assets/images&lt;/em&gt;. (with a small version 32x32 named small_default_user_avatar_huge.png)&lt;/p&gt;
+
+&lt;h3 id=&quot;activerecord-integration&quot;&gt;ActiveRecord integration&lt;/h3&gt;
+
+&lt;p&gt;First add an &lt;code&gt;avatar&lt;/code&gt; string column to the user model, and migrate.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;rake g migration AddAvatarToUsers avatar:string
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And ajust the &lt;em&gt;models/user.rb&lt;/em&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mount_uploader :avatar, AvatarUploader
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;validations-on-the-model&quot;&gt;Validations on the model&lt;/h3&gt;
+
+&lt;p&gt;For the file size, check out the solution &lt;a href=&quot;https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-attachment-file-size&quot;&gt;https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-attachment-file-size&lt;/a&gt; and apply it in our model user :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;file_size_validator&amp;#39;&lt;/span&gt; 
+
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:Base&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;authenticates_with_sorcery!&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+
+      &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;ss&quot;&gt;:presence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;ss&quot;&gt;:file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:maximum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;megabytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; 
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Also we validate the processing and the file type (see &lt;a href=&quot;https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-uploads-with-Active-Record&quot;&gt;https://github.com/jnicklas/carrierwave/wiki/How-to%3A-Validate-uploads-with-Active-Record&lt;/a&gt;) in &lt;em&gt;models/user.rb&lt;/em&gt; :&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;validates_integrity_of :avatar
+validates_processing_of :avatar
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And this is the full &lt;em&gt;config/locales/en.yml&lt;/em&gt; : &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;yaml&quot;&gt;    &lt;span class=&quot;l-Scalar-Plain&quot;&gt;en&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;l-Scalar-Plain&quot;&gt;errors&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;l-Scalar-Plain&quot;&gt;messages&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;wrong_size&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;is&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;the&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;wrong&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;(should&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;%{file_size})&amp;quot;&lt;/span&gt;
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;size_too_small&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;is&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;too&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;(should&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;least&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;%{file_size})&amp;quot;&lt;/span&gt;
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;size_too_big&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;is&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;too&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;big&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;(should&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;most&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;%{file_size})&amp;quot;&lt;/span&gt;
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;carrierwave_processing_error&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;failed&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;processed&amp;quot;&lt;/span&gt;
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;carrierwave_integrity_error&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;is&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;not&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;an&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;allowed&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;file&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;type&amp;quot;&lt;/span&gt;    
+          &lt;span class=&quot;l-Scalar-Plain&quot;&gt;carrierwave_download_error&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Couldn&amp;#39;t&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;download&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;image.&amp;quot;&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and the &lt;em&gt;models/user.rb&lt;/em&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;mont_uploader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AvatarUploader&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+      &lt;span class=&quot;ss&quot;&gt;:presence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+      &lt;span class=&quot;ss&quot;&gt;:file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:maximum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;megabytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+    &lt;span class=&quot;n&quot;&gt;validates_integrity_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;validates_processing_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;    
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;user-views&quot;&gt;User Views&lt;/h3&gt;
+
+&lt;p&gt;In the index view :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;nt&quot;&gt;%td&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In the form view :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:file&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:remove_avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:boolean&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar_cache&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:hidden&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Add also those fields to the method &lt;code&gt;user_params&lt;/code&gt; in the &lt;em&gt;controllers/users_controller.rb&lt;/em&gt; &lt;/p&gt;
+
+&lt;p&gt;In the show view :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;#modal_avatar&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:role&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;button&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;data-toggle&amp;#39;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;modal&amp;#39;&lt;/span&gt;
+    ...
+    &lt;span class=&quot;nf&quot;&gt;#modal_avatar&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.modal.fade&lt;/span&gt;
+      &lt;span class=&quot;nc&quot;&gt;.modal-dialog&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;.modal-content&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;.modal-header&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;button_close_modal&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;%h4&lt;/span&gt; Image
+          &lt;span class=&quot;nc&quot;&gt;.modal-body&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;.modal-footer&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The modal dialog show the image in full size.&lt;/p&gt;
+</content> -->
+ </entry>
  
  <entry>
    <title>Rails Trick & Tips : A gem pointing to a local git repository</title>
