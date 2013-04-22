@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>RegExp</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/memos/2013/memo-regexp">RegExp</a>
+    <small><a href="/tag/regexp.html">regexp</a>, <a href="/tag/memos.html">memos</a></small>
+  </h1>
+
+  <section class="byline">
+    April 22, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#syntax">Syntax</a></li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#links-references">Links references</a></li>
+</ul>
+
+<h3 id="syntax">Syntax</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Regexp</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code>[abc]    </code></td>
+      <td>A single character of: a, b or c</td>
+    </tr>
+    <tr>
+      <td><code>[^abc]   </code></td>
+      <td>Any single character except: a, b, or c</td>
+    </tr>
+    <tr>
+      <td><code>[a-z]    </code></td>
+      <td>Any single character in the range a-z</td>
+    </tr>
+    <tr>
+      <td><code>[a-zA-Z] </code></td>
+      <td>Any single character in the range a-z or A-Z</td>
+    </tr>
+    <tr>
+      <td><code>^        </code></td>
+      <td>Start of line</td>
+    </tr>
+    <tr>
+      <td><code>$        </code></td>
+      <td>End of line</td>
+    </tr>
+    <tr>
+      <td><code>\A       </code></td>
+      <td>Start of string</td>
+    </tr>
+    <tr>
+      <td><code>\z       </code></td>
+      <td>End of string</td>
+    </tr>
+    <tr>
+      <td><code>.        </code></td>
+      <td>Any single character</td>
+    </tr>
+    <tr>
+      <td><code>\s       </code></td>
+      <td>Any whitespace character</td>
+    </tr>
+    <tr>
+      <td><code>\S       </code></td>
+      <td>Any non-whitespace character</td>
+    </tr>
+    <tr>
+      <td><code>\d       </code></td>
+      <td>Any digit</td>
+    </tr>
+    <tr>
+      <td><code>\D       </code></td>
+      <td>Any non-digit</td>
+    </tr>
+    <tr>
+      <td><code>\w       </code></td>
+      <td>Any word character (letter, number, underscore)</td>
+    </tr>
+    <tr>
+      <td><code>\W       </code></td>
+      <td>Any non-word character</td>
+    </tr>
+    <tr>
+      <td><code>\b       </code></td>
+      <td>Any word boundary</td>
+    </tr>
+    <tr>
+      <td><code>(...)    </code></td>
+      <td>Capture everything enclosed</td>
+    </tr>
+    <tr>
+      <td><code>(a|b)    </code></td>
+      <td>a or b</td>
+    </tr>
+    <tr>
+      <td><code>a?       </code></td>
+      <td>Zero or one of a</td>
+    </tr>
+    <tr>
+      <td><code>a*       </code></td>
+      <td>Zero or more of a</td>
+    </tr>
+    <tr>
+      <td><code>a+       </code></td>
+      <td>One or more of a</td>
+    </tr>
+    <tr>
+      <td><code>a{3}     </code></td>
+      <td>Exactly 3 of a</td>
+    </tr>
+    <tr>
+      <td><code>a{3,}    </code></td>
+      <td>3 or more of a</td>
+    </tr>
+    <tr>
+      <td><code>a{3,6}   </code></td>
+      <td>Between 3 and 6 of a</td>
+    </tr>
+    <tr>
+      <td><code>aeiou*    </code></td>
+      <td>Match “aeio” followed by any number of “u”</td>
+    </tr>
+    <tr>
+      <td><code>[aeiou]*  </code></td>
+      <td>Match any number of vowels</td>
+    </tr>
+    <tr>
+      <td><code>(aeiou)*  </code></td>
+      <td>Match any number of sequences of “aeiou”</td>
+    </tr>
+    <tr>
+      <td><code>(dog|cat) </code></td>
+      <td>Match either “dog” or “cat”</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="usage">Usage</h3>
+
+<p><code>$1</code>, <code>$2</code>… are the result of capture by <code>( )</code>.</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">reg</span> <span class="o">=</span> <span class="sr">%r=my reg exp=</span>
+    <span class="n">reg</span> <span class="o">=</span> <span class="sr">/my regexp/</span>
+
+    <span class="s2">&quot;string to test&quot;</span> <span class="o">=~</span> <span class="n">reg</span>
+    
+</code></pre></div>
+
+<p>Quick ways and api</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot; 12 5 &quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="sr">/ ([0-9]+)/</span>
+    <span class="nb">p</span> <span class="n">s</span><span class="o">[</span><span class="sr">/ ([0-9]+)/</span><span class="p">,</span> <span class="mi">1</span><span class="o">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">pre_match</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">post_match</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">captures</span> <span class="c1"># or x.to_a</span>
+    
+</code></pre></div>
+
+<p>Back references</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">pattern</span> <span class="o">=</span> <span class="sr">/aa(\d+)-\1/</span>
+    <span class="n">pattern</span> <span class="o">=~</span> <span class="s1">&#39;aa1234-1234&#39;</span> <span class="c1"># =&gt; 0</span>
+    <span class="n">pattern</span> <span class="o">=~</span> <span class="s1">&#39;aa1234-1233&#39;</span> <span class="c1"># =&gt; nil</span>
+    
+</code></pre></div>
+
+<p>Greedy </p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;Here another string&quot;</span>
+    <span class="n">greedy</span> <span class="o">=</span> <span class="sr">/[a-z]* [a-z]*/</span>
+    <span class="n">non_greedy</span> <span class="o">=</span> <span class="sr">/[a-z]*? [a-z]*?/</span>
+    <span class="nb">p</span> <span class="n">greedy</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>     <span class="c1"># =&gt; &quot;ere another&quot;</span>
+    <span class="nb">p</span> <span class="n">non_greedy</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="c1"># =&gt; &quot;ere &quot;</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="sr">/&lt;.*&gt;/</span>    <span class="c1"># Greedy repetition: matches &quot;&lt;ruby&gt;perl&gt;&quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="sr">/&lt;.*?&gt;/</span>   <span class="c1"># Nongreedy: matches &quot;&lt;ruby&gt;&quot; in &quot;&lt;ruby&gt;perl&gt;&quot;</span>
+    
+</code></pre></div>
+
+<p>Options</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="sr">/i         case insensitive</span>
+<span class="sr">    /m</span>         <span class="n">multiline</span> <span class="n">mode</span> <span class="o">-</span> <span class="s1">&#39;.&#39;</span> <span class="n">will</span> <span class="n">match</span> <span class="n">newline</span>
+    <span class="sr">/x         extended mode - whitespace is ignored</span>
+<span class="sr">    /o</span>         <span class="n">only</span> <span class="n">interpolate</span> <span class="c1">#{} blocks once</span>
+    <span class="sr">/[neus]    encoding: none, EUC, UTF-8, SJIS, respectively</span>
+<span class="sr">    </span>
+</code></pre></div>
+
+<h3 id="links-references">Links references</h3>
+
+<ul>
+  <li><a href="http://rubular.com/">http://rubular.com/</a></li>
+  <li><a href="http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html#UJ">http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html#UJ</a></li>
+  <li><a href="http://strugglingwithruby.blogspot.com/2009/05/regular-expressions-in-ruby.html">http://strugglingwithruby.blogspot.com/2009/05/regular-expressions-in-ruby.html</a></li>
+</ul>
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

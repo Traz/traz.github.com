@@ -4,7 +4,7 @@
  <title>Traz's notes</title>
  <link href="http://traz.github.com/atom.xml" rel="self"/>
  <link href="http://traz.github.com/"/>
- <updated>2013-04-21T14:34:32+11:00</updated>
+ <updated>2013-04-22T23:17:27+11:00</updated>
  <id>http://traz.github.com</id>
  <author>
    <name>Traz</name>
@@ -12,7 +12,266 @@
 
  
  <entry>
-   <title>Starting a new Rails 4 : VI. Attachments with carrierwave</title>
+   <title>RegExp</title>
+   <link href="http://traz.github.com/memos/2013/memo-regexp"/>
+   <updated>2013-04-22T00:00:00+11:00</updated>
+   <id>http://traz.github.com/memos/2013/memo-regexp</id>
+<!--    <content type="html">&lt;ul id=&quot;markdown-toc&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#syntax&quot;&gt;Syntax&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#usage&quot;&gt;Usage&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#links-references&quot;&gt;Links references&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;syntax&quot;&gt;Syntax&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Regexp&lt;/th&gt;
+      &lt;th&gt; &lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;[abc]    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;A single character of: a, b or c&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;[^abc]   &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any single character except: a, b, or c&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;[a-z]    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any single character in the range a-z&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;[a-zA-Z] &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any single character in the range a-z or A-Z&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;^        &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Start of line&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;$        &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;End of line&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\A       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Start of string&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\z       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;End of string&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;.        &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any single character&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\s       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any whitespace character&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\S       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any non-whitespace character&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\d       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any digit&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\D       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any non-digit&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\w       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any word character (letter, number, underscore)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\W       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any non-word character&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;\b       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Any word boundary&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;(...)    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Capture everything enclosed&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;(a|b)    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;a or b&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a?       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Zero or one of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a*       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Zero or more of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a+       &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;One or more of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a{3}     &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Exactly 3 of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a{3,}    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;3 or more of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;a{3,6}   &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Between 3 and 6 of a&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;aeiou*    &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Match “aeio” followed by any number of “u”&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;[aeiou]*  &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Match any number of vowels&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;(aeiou)*  &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Match any number of sequences of “aeiou”&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;code&gt;(dog|cat) &lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Match either “dog” or “cat”&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;usage&quot;&gt;Usage&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;$1&lt;/code&gt;, &lt;code&gt;$2&lt;/code&gt;… are the result of capture by &lt;code&gt;( )&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;%r=my reg exp=&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/my regexp/&lt;/span&gt;
+
+    &lt;span class=&quot;s2&quot;&gt;&amp;quot;string to test&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reg&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Quick ways and api&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot; 12 5 &amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/ ([0-9]+)/&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/ ([0-9]+)/&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pre_match&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;post_match&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;captures&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# or x.to_a&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Back references&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/aa(\d+)-\1/&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;aa1234-1234&amp;#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; 0&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;aa1234-1233&amp;#39;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; nil&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Greedy &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Here another string&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;greedy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/[a-z]* [a-z]*/&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;non_greedy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/[a-z]*? [a-z]*?/&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;greedy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &amp;quot;ere another&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;non_greedy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;match&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# =&amp;gt; &amp;quot;ere &amp;quot;&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&amp;lt;.*&amp;gt;/&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# Greedy repetition: matches &amp;quot;&amp;lt;ruby&amp;gt;perl&amp;gt;&amp;quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&amp;lt;.*?&amp;gt;/&lt;/span&gt;   &lt;span class=&quot;c1&quot;&gt;# Nongreedy: matches &amp;quot;&amp;lt;ruby&amp;gt;&amp;quot; in &amp;quot;&amp;lt;ruby&amp;gt;perl&amp;gt;&amp;quot;&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Options&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;sr&quot;&gt;/i         case insensitive&lt;/span&gt;
+&lt;span class=&quot;sr&quot;&gt;    /m&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;multiline&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;.&amp;#39;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;will&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;match&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;newline&lt;/span&gt;
+    &lt;span class=&quot;sr&quot;&gt;/x         extended mode - whitespace is ignored&lt;/span&gt;
+&lt;span class=&quot;sr&quot;&gt;    /o&lt;/span&gt;         &lt;span class=&quot;n&quot;&gt;only&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interpolate&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#{} blocks once&lt;/span&gt;
+    &lt;span class=&quot;sr&quot;&gt;/[neus]    encoding: none, EUC, UTF-8, SJIS, respectively&lt;/span&gt;
+&lt;span class=&quot;sr&quot;&gt;    &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;links-references&quot;&gt;Links references&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://rubular.com/&quot;&gt;http://rubular.com/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html#UJ&quot;&gt;http://www.ruby-doc.org/docs/ProgrammingRuby/html/language.html#UJ&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://strugglingwithruby.blogspot.com/2009/05/regular-expressions-in-ruby.html&quot;&gt;http://strugglingwithruby.blogspot.com/2009/05/regular-expressions-in-ruby.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content> -->
+ </entry>
+ 
+ <entry>
+   <title>Jekyll Hack : Highlighting multiples lines with pygments</title>
+   <link href="http://traz.github.com/tips/2013/tips-hacking-jekyll-pygments-multiples-lines-highlight"/>
+   <updated>2013-04-20T00:00:00+11:00</updated>
+   <id>http://traz.github.com/tips/2013/tips-hacking-jekyll-pygments-multiples-lines-highlight</id>
+<!--    <content type="html">&lt;h3 id=&quot;hacking-jekyll--allow-multiple-lines-highlight&quot;&gt;Hacking Jekyll : allow multiple lines highlight&lt;/h3&gt;
+
+&lt;p&gt;In Jekyll files, change the regexp syntax for allowing passing multiple parameters :&lt;/p&gt;
+
+&lt;p&gt;File &lt;em&gt;jekyll/lib/jekyll/tags/highlight.rb&lt;/em&gt; change from :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;        
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# The regular expression syntax checker. Start with the language specifier.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# Follow that by zero or more space separated options that take one of two&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# forms:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 1. name&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 2. name=value&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;    &lt;span class=&quot;no&quot;&gt;SYNTAX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/^([a-zA-Z0-9.+#-]+)((\s+\w+(=\w+)?)*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# line 29 :&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;      &lt;span class=&quot;vi&quot;&gt;@options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;to :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;        
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# The regular expression syntax checker. Start with the language specifier.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# Follow that by zero or more space separated options that take one of two&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# forms:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 1. name&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     linenos&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 2. name=value&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     linenos=table linenostart=56&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 3. name=value1,value2,value3 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     hl_lines=2,7 linenos linenostart=56&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;    &lt;span class=&quot;no&quot;&gt;SYNTAX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/^([a-zA-Z0-9.+#-]+)((\s+\w+(=\w+(,\w+)*)?)*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# line 29 :&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;      &lt;span class=&quot;vi&quot;&gt;@options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gsub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+</content> -->
+ </entry>
+ 
+ <entry>
+   <title>Starting a new Rails 4 : VI. Attachments with Carrierwave and Jasny</title>
    <link href="http://traz.github.com/post/2013/VI-Attachments-with-carrierwave"/>
    <updated>2013-04-18T00:00:00+11:00</updated>
    <id>http://traz.github.com/post/2013/VI-Attachments-with-carrierwave</id>
@@ -22,13 +281,14 @@
   &lt;li&gt;&lt;a href=&quot;#activerecord-integration&quot;&gt;ActiveRecord integration&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#validations-on-the-model&quot;&gt;Validations on the model&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#user-views&quot;&gt;User Views&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#bootstrap-3-and-jasny-fileupload&quot;&gt;Bootstrap 3 and Jasny FileUpload&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;roadmap&quot;&gt;Roadmap&lt;/h3&gt;
 
 &lt;p&gt;I want to manage attachments : for starting, some avatar for users, and some files linked to projects in future.&lt;/p&gt;
 
-&lt;p&gt;First install &lt;a href=&quot;http://www.imagemagick.org/script/binary-releases.php#windows&quot;&gt;ImageMagick&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;First install &lt;a href=&quot;http://www.imagemagick.org/script/binary-releases.php#windows&quot;&gt;ImageMagick&lt;/a&gt; : it need for all the mini magick stuff (as usual, in /c/dev for me).&lt;/p&gt;
 
 &lt;h3 id=&quot;carrierwave-start-with-avatar-for-user&quot;&gt;Carrierwave start with avatar for user&lt;/h3&gt;
 
@@ -52,7 +312,7 @@
     
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;Where &lt;code&gt;default_user_avatar_huge.png&lt;/code&gt; is a fallback avatar image in &lt;em&gt;assets/images&lt;/em&gt;. (with a small version 32x32 named small_default_user_avatar_huge.png)&lt;/p&gt;
+&lt;p&gt;Where &lt;em&gt;default_user_avatar_huge.png&lt;/em&gt; is a fallback avatar image in &lt;em&gt;assets/images&lt;/em&gt;. (with a small version 32x32 named &lt;em&gt;small_default_user_avatar_huge.png&lt;/em&gt;)&lt;/p&gt;
 
 &lt;h3 id=&quot;activerecord-integration&quot;&gt;ActiveRecord integration&lt;/h3&gt;
 
@@ -77,7 +337,6 @@
       &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
 
       &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-        &lt;span class=&quot;ss&quot;&gt;:presence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
         &lt;span class=&quot;ss&quot;&gt;:file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:maximum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;megabytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; 
     
@@ -105,13 +364,15 @@ validates_processing_of :avatar
 
 &lt;p&gt;and the &lt;em&gt;models/user.rb&lt;/em&gt; :&lt;/p&gt;
 
-&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;mont_uploader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AvatarUploader&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-      &lt;span class=&quot;ss&quot;&gt;:presence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-      &lt;span class=&quot;ss&quot;&gt;:file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:maximum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;megabytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
-    &lt;span class=&quot;n&quot;&gt;validates_integrity_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;validates_processing_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;    
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:Base&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;mont_uploader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;AvatarUploader&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;ss&quot;&gt;:presence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+        &lt;span class=&quot;ss&quot;&gt;:file_size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:maximum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;megabytes&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;to_i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; 
+      &lt;span class=&quot;n&quot;&gt;validates_integrity_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;validates_processing_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;   
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt; 
     
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
@@ -123,7 +384,7 @@ validates_processing_of :avatar
     
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;In the form view :&lt;/p&gt;
+&lt;p&gt;In the form view : (the &lt;code&gt;remove_avatar&lt;/code&gt;and &lt;code&gt;avatar_cache&lt;/code&gt; are specials fields build by carrierwave for removing the avatar and keep a cache of uploaded image when the form is reloaded if some validation has failed).&lt;/p&gt;
 
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:file&lt;/span&gt;
     &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:remove_avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:boolean&lt;/span&gt;
@@ -144,12 +405,45 @@ validates_processing_of :avatar
             &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;button_close_modal&lt;/span&gt;
             &lt;span class=&quot;nt&quot;&gt;%h4&lt;/span&gt; Image
           &lt;span class=&quot;nc&quot;&gt;.modal-body&lt;/span&gt;
-            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:style&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;max-height: 400px;max-width: 400px;margin: 0 auto;display:block;&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;img-thumbnail&amp;#39;&lt;/span&gt;
           &lt;span class=&quot;nc&quot;&gt;.modal-footer&lt;/span&gt;
     
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;The modal dialog show the image in full size.&lt;/p&gt;
+&lt;p&gt;The modal dialog show the image in full size (CSS have to move…).&lt;/p&gt;
+
+&lt;h3 id=&quot;bootstrap-3-and-jasny-fileupload&quot;&gt;Bootstrap 3 and Jasny FileUpload&lt;/h3&gt;
+
+&lt;p&gt;I use a part of &lt;a href=&quot;http://jasny.github.io&quot;&gt;Jasny Bootstrap enhancement&lt;/a&gt; : go to &lt;a href=&quot;http://jasny.github.io/bootstrap/javascript.html#fileupload&quot;&gt;http://jasny.github.io/bootstrap/javascript.html#fileupload&lt;/a&gt;, click on the button ‘download’ and copy the .css and the .js files you just just get in the correspondent &lt;em&gt;/assets/&lt;/em&gt; folder.&lt;/p&gt;
+
+&lt;p&gt;Now in the &lt;em&gt;\form.html.haml&lt;/em&gt; replace the &lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:file&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;with&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;render&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;partial&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;file_upload&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:locals&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;and create the partial &lt;em&gt;app/views/users/_file_upload.html.haml&lt;/em&gt; :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;haml&quot;&gt;    &lt;span class=&quot;nc&quot;&gt;.control-group.file.optional.user_avatar&lt;/span&gt;
+      &lt;span class=&quot;nt&quot;&gt;%label&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.file.optional.control-label&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;user_avatar&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; Avatar
+      &lt;span class=&quot;nc&quot;&gt;.controls&lt;/span&gt;
+        &lt;span class=&quot;nc&quot;&gt;.fileupload.fileupload-new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;data-provides&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;fileupload&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;.fileupload-new.thumbnail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;width: 50px; height: 50px;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;image_tag&lt;/span&gt; &lt;span class=&quot;vi&quot;&gt;@user&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;url&lt;/span&gt;
+          &lt;span class=&quot;nc&quot;&gt;.fileupload-preview.fileupload-exists.thumbnail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;width: 50px; height: 50px;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;%span&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.btn.btn-file.btn-primary&lt;/span&gt;
+            &lt;span class=&quot;nt&quot;&gt;%span&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.fileupload-new&lt;/span&gt; Select image
+            &lt;span class=&quot;nt&quot;&gt;%span&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.fileupload-exists&lt;/span&gt; Change
+            &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;input_field&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:as&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:file&lt;/span&gt;
+          &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;link_to&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Remove&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;#&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;btn fileupload-exists&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;data-dismiss&amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;fileupload&amp;quot;&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 </content> -->
  </entry>
  
@@ -183,6 +477,7 @@ bundle config local.vestal_versions /c/my_local_git_dir/vestal_versions/
    <id>http://traz.github.com/post/2013/Jekyll-twists</id>
 <!--    <content type="html">&lt;ul id=&quot;markdown-toc&quot;&gt;
   &lt;li&gt;&lt;a href=&quot;#pygments-with-line-number&quot;&gt;Pygments with line number&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#hacking-jekyll--allow-multiple-line-highlight&quot;&gt;Hacking Jekyll : allow multiple line highlight&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#some-kramdown-config&quot;&gt;Some kramdown config&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#what-i-had-to-change-&quot;&gt;What I had to change :&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;#sublime-text--table-editor&quot;&gt;Sublime Text : Table Editor&lt;/a&gt;&lt;/li&gt;
@@ -213,6 +508,52 @@ bundle config local.vestal_versions /c/my_local_git_dir/vestal_versions/
 &lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;       &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:projects&lt;/span&gt; 
 &lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;       &lt;span class=&quot;n&quot;&gt;has_many&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:owners&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:class_name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Project&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:foreign_key&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;owner_id&amp;#39;&lt;/span&gt;
 &lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;h3 id=&quot;hacking-jekyll--allow-multiple-line-highlight&quot;&gt;Hacking Jekyll : allow multiple line highlight&lt;/h3&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;In Jekyll files, change the regexp syntax for allowing passing multiple parameters :&lt;/p&gt;
+
+&lt;p&gt;File &lt;em&gt;jekyll/lib/jekyll/tags/highlight.rb&lt;/em&gt; change from :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;        
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# The regular expression syntax checker. Start with the language specifier.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# Follow that by zero or more space separated options that take one of two&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# forms:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 1. name&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 2. name=value&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;    &lt;span class=&quot;no&quot;&gt;SYNTAX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/^([a-zA-Z0-9.+#-]+)((\s+\w+(=\w+)?)*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# line 29 :&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;      &lt;span class=&quot;vi&quot;&gt;@options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;to :&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;ruby&quot;&gt;&lt;span class=&quot;lineno&quot;&gt; 5&lt;/span&gt;        
+&lt;span class=&quot;lineno&quot;&gt; 6&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# The regular expression syntax checker. Start with the language specifier.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 7&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# Follow that by zero or more space separated options that take one of two&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 8&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# forms:&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt; 9&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;10&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 1. name&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;11&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     linenos&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;12&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 2. name=value&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;13&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     linenos=table linenostart=56&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;14&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 3. name=value1,value2,value3 &lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;15&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;#     hl_lines=2,7 linenos linenostart=56&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;    &lt;span class=&quot;no&quot;&gt;SYNTAX&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/^([a-zA-Z0-9.+#-]+)((\s+\w+(=\w+(,\w+)*)?)*)$/&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;17&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;18&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;19&lt;/span&gt; 
+&lt;span class=&quot;lineno&quot;&gt;20&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# line 29 :&lt;/span&gt;
+&lt;span class=&quot;lineno&quot;&gt;21&lt;/span&gt; &lt;span class=&quot;hll&quot;&gt;      &lt;span class=&quot;vi&quot;&gt;@options&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gsub&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;22&lt;/span&gt;     
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;h3 id=&quot;some-kramdown-config&quot;&gt;Some kramdown config&lt;/h3&gt;
@@ -1526,7 +1867,7 @@ lessc /bootstrap/less/bootstrap.less bootstrap.css # put the full path from your
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;compile &lt;code&gt;lessc main-custom.less ./stylesheets/bootstrap.css&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;compile &lt;code&gt;lessc main-custom.less ../stylesheets/bootstrap.css&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h3 id=&quot;optional--uglify&quot;&gt;Optional : Uglify&lt;/h3&gt;

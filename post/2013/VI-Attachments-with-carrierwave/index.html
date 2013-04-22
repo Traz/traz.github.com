@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>Starting a new Rails 4 : VI. Attachments with carrierwave</title>
+  <title>Starting a new Rails 4 : VI. Attachments with Carrierwave and Jasny</title>
 
   <meta name="author" content="Traz" />
   <meta name="description" content="Small notes about Rails and Ruby" />
@@ -54,8 +54,8 @@
   <div class="container">
     <section class="content">
   <h1>
-    <a href="/post/2013/VI-Attachments-with-carrierwave">Starting a new Rails 4 : VI. Attachments with carrierwave</a>
-    <small><a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/carrierwave.html">carrierwave</a>, <a href="/tag/minimagick.html">minimagick</a></small>
+    <a href="/post/2013/VI-Attachments-with-carrierwave">Starting a new Rails 4 : VI. Attachments with Carrierwave and Jasny</a>
+    <small><a href="/tag/rails%204.html">rails 4</a>, <a href="/tag/carrierwave.html">carrierwave</a>, <a href="/tag/minimagick.html">minimagick</a>, <a href="/tag/bootstrap%203.html">bootstrap 3</a>, <a href="/tag/fileupload.html">fileupload</a></small>
   </h1>
 
   <section class="byline">
@@ -68,13 +68,14 @@
   <li><a href="#activerecord-integration">ActiveRecord integration</a></li>
   <li><a href="#validations-on-the-model">Validations on the model</a></li>
   <li><a href="#user-views">User Views</a></li>
+  <li><a href="#bootstrap-3-and-jasny-fileupload">Bootstrap 3 and Jasny FileUpload</a></li>
 </ul>
 
 <h3 id="roadmap">Roadmap</h3>
 
 <p>I want to manage attachments : for starting, some avatar for users, and some files linked to projects in future.</p>
 
-<p>First install <a href="http://www.imagemagick.org/script/binary-releases.php#windows">ImageMagick</a>.</p>
+<p>First install <a href="http://www.imagemagick.org/script/binary-releases.php#windows">ImageMagick</a> : it need for all the mini magick stuff (as usual, in /c/dev for me).</p>
 
 <h3 id="carrierwave-start-with-avatar-for-user">Carrierwave start with avatar for user</h3>
 
@@ -98,7 +99,7 @@
     
 </code></pre></div>
 
-<p>Where <code>default_user_avatar_huge.png</code> is a fallback avatar image in <em>assets/images</em>. (with a small version 32x32 named small_default_user_avatar_huge.png)</p>
+<p>Where <em>default_user_avatar_huge.png</em> is a fallback avatar image in <em>assets/images</em>. (with a small version 32x32 named <em>small_default_user_avatar_huge.png</em>)</p>
 
 <h3 id="activerecord-integration">ActiveRecord integration</h3>
 
@@ -123,7 +124,6 @@
       <span class="o">.</span><span class="n">.</span><span class="o">.</span>
 
       <span class="n">validates</span> <span class="ss">:avatar</span><span class="p">,</span> 
-        <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">,</span> 
         <span class="ss">:file_size</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">.</span><span class="n">megabytes</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span> 
     <span class="k">end</span> 
     
@@ -151,13 +151,15 @@ validates_processing_of :avatar
 
 <p>and the <em>models/user.rb</em> :</p>
 
-<div class="highlight"><pre><code class="ruby">    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
-    <span class="n">mont_uploader</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="no">AvatarUploader</span>
-    <span class="n">validates</span> <span class="ss">:avatar</span><span class="p">,</span> 
-      <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">,</span> 
-      <span class="ss">:file_size</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">.</span><span class="n">megabytes</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span> 
-    <span class="n">validates_integrity_of</span> <span class="ss">:avatar</span>
-    <span class="n">validates_processing_of</span> <span class="ss">:avatar</span>    
+<div class="highlight"><pre><code class="ruby">    <span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Base</span>
+      <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+      <span class="n">mont_uploader</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="no">AvatarUploader</span>
+      <span class="n">validates</span> <span class="ss">:avatar</span><span class="p">,</span> 
+        <span class="ss">:presence</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="p">,</span> 
+        <span class="ss">:file_size</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">:maximum</span> <span class="o">=&gt;</span> <span class="mi">5</span><span class="o">.</span><span class="n">megabytes</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span> 
+      <span class="n">validates_integrity_of</span> <span class="ss">:avatar</span>
+      <span class="n">validates_processing_of</span> <span class="ss">:avatar</span>   
+    <span class="k">end</span> 
     
 </code></pre></div>
 
@@ -169,7 +171,7 @@ validates_processing_of :avatar
     
 </code></pre></div>
 
-<p>In the form view :</p>
+<p>In the form view : (the <code>remove_avatar</code>and <code>avatar_cache</code> are specials fields build by carrierwave for removing the avatar and keep a cache of uploaded image when the form is reloaded if some validation has failed).</p>
 
 <div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:file</span>
     <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:remove_avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:boolean</span>
@@ -190,12 +192,45 @@ validates_processing_of :avatar
             <span class="p">=</span> <span class="n">button_close_modal</span>
             <span class="nt">%h4</span> Image
           <span class="nc">.modal-body</span>
-            <span class="p">=</span> <span class="n">image_tag</span> <span class="vi">@user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">url</span>
+            <span class="p">=</span> <span class="n">image_tag</span> <span class="vi">@user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="ss">:style</span> <span class="o">=&gt;</span> <span class="s1">&#39;max-height: 400px;max-width: 400px;margin: 0 auto;display:block;&#39;</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;img-thumbnail&#39;</span>
           <span class="nc">.modal-footer</span>
     
 </code></pre></div>
 
-<p>The modal dialog show the image in full size.</p>
+<p>The modal dialog show the image in full size (CSS have to move…).</p>
+
+<h3 id="bootstrap-3-and-jasny-fileupload">Bootstrap 3 and Jasny FileUpload</h3>
+
+<p>I use a part of <a href="http://jasny.github.io">Jasny Bootstrap enhancement</a> : go to <a href="http://jasny.github.io/bootstrap/javascript.html#fileupload">http://jasny.github.io/bootstrap/javascript.html#fileupload</a>, click on the button ‘download’ and copy the .css and the .js files you just just get in the correspondent <em>/assets/</em> folder.</p>
+
+<p>Now in the <em>\form.html.haml</em> replace the </p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:file</span>
+    
+</code></pre></div>
+
+<p>with</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="p">=</span> <span class="n">render</span> <span class="ss">partial</span><span class="p">:</span> <span class="s1">&#39;file_upload&#39;</span><span class="p">,</span> <span class="ss">:locals</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">f</span><span class="p">:</span> <span class="n">f</span><span class="p">}</span>
+    
+</code></pre></div>
+
+<p>and create the partial <em>app/views/users/_file_upload.html.haml</em> :</p>
+
+<div class="highlight"><pre><code class="haml">    <span class="nc">.control-group.file.optional.user_avatar</span>
+      <span class="nt">%label</span><span class="nc">.file.optional.control-label</span><span class="p">{</span><span class="k">for</span><span class="p">:</span> <span class="s2">&quot;user_avatar&quot;</span><span class="p">}</span> Avatar
+      <span class="nc">.controls</span>
+        <span class="nc">.fileupload.fileupload-new</span><span class="p">{</span><span class="s2">&quot;data-provides&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;fileupload&quot;</span><span class="p">}</span>
+          <span class="nc">.fileupload-new.thumbnail</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;width: 50px; height: 50px;&quot;</span><span class="p">}=</span> <span class="n">image_tag</span> <span class="vi">@user</span><span class="o">.</span><span class="n">avatar</span><span class="o">.</span><span class="n">small</span><span class="o">.</span><span class="n">url</span>
+          <span class="nc">.fileupload-preview.fileupload-exists.thumbnail</span><span class="p">{</span><span class="ss">style</span><span class="p">:</span> <span class="s2">&quot;width: 50px; height: 50px;&quot;</span><span class="p">}</span>
+          <span class="nt">%span</span><span class="nc">.btn.btn-file.btn-primary</span>
+            <span class="nt">%span</span><span class="nc">.fileupload-new</span> Select image
+            <span class="nt">%span</span><span class="nc">.fileupload-exists</span> Change
+            <span class="p">=</span> <span class="n">f</span><span class="o">.</span><span class="n">input_field</span> <span class="ss">:avatar</span><span class="p">,</span> <span class="ss">:as</span> <span class="o">=&gt;</span> <span class="ss">:file</span>
+          <span class="p">=</span> <span class="n">link_to</span> <span class="s2">&quot;Remove&quot;</span><span class="p">,</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;btn fileupload-exists&quot;</span><span class="p">,</span> <span class="s2">&quot;data-dismiss&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;fileupload&quot;</span>
+    
+</code></pre></div>
+
 
   <div class="pull"></div>
   <a  href="https://twitter.com/share" class="twitter-share-button"
