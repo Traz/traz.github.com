@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Exploring Network with Ruby : PCap/WinPCap, FFI</title>
+
+  <meta name="author" content="Traz" />
+  <meta name="description" content="Small notes about Rails and Ruby" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="alternate" type="application/rss+xml" href="/atom.xml" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link href="/css/up.css" rel="stylesheet">
+  <link href="/css/pygments.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300'
+  rel='stylesheet' type='text/css'>
+
+
+  <!--[if lt IE 9]>
+  <link href="/css/font-awesome-ie7.css" rel="stylesheet">
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Traz's notes</a>
+        <ul class="nav">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/versions.html">Softwares versions</a></li>
+          <li><a href="/tags.html">Tags</a></li>
+          <li><a href="/tips.html">Tips & Tricks</a>
+          <li><a href="/memos.html">Mémos</a>
+          <li><a href="https://github.com/Traz/Four">Github repository</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li>
+            <a href="/atom.xml" title="Atom Feed">
+              <i class="icon-rss icon-large"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="content">
+  <h1>
+    <a href="/post/2013/Exploring-network-PCap-FFI">Exploring Network with Ruby : PCap/WinPCap, FFI</a>
+    <small><a href="/tag/pcap.html">pcap</a>, <a href="/tag/ffi.html">ffi</a>, <a href="/tag/packets.html">packets</a>, <a href="/tag/winpcap.html">winpcap</a>, <a href="/tag/hexdump.html">hexdump</a>, <a href="/tag/ethernet.html">ethernet</a></small>
+  </h1>
+
+  <section class="byline">
+    April 23, 2013
+  </section>
+
+  <ul id="markdown-toc">
+  <li><a href="#purpose">Purpose</a></li>
+  <li><a href="#installing-libraries">Installing libraries</a></li>
+  <li><a href="#listing-network-devices">Listing network devices</a></li>
+  <li><a href="#listening-raw-packet">Listening raw packet</a></li>
+  <li><a href="#filtering">Filtering</a></li>
+  <li><a href="#hexdump">Hexdump</a></li>
+  <li><a href="#ethernet-frame-structure">Ethernet frame structure</a></li>
+  <li><a href="#analyzing-ethernet-frame">Analyzing Ethernet Frame</a></li>
+</ul>
+
+<h3 id="purpose">Purpose</h3>
+
+<p>Since I got some times some overload in my lan wireless network, I want to see who and what traffic is in it, and take this task for exploring the OSI model …</p>
+
+<h3 id="installing-libraries">Installing libraries</h3>
+
+<p>For Windows, install the <a href="http://www.winpcap.org/">winpcap library</a> : this dll is use by common network tools like wireshark for listening packet over networks.</p>
+
+<p>And get a Ruby binding : <a href="https://github.com/sophsec/ffi-pcap">FFI-PCap</a> installed with <code>gem i ffi-pcap</code>. FFI is a nice library for use other language library.</p>
+
+<h3 id="listing-network-devices">Listing network devices</h3>
+
+<p>There are several methods for listing active network device : check methods in pry by :</p>
+
+<pre><code>cd FFI::PCap
+ls
+</code></pre>
+
+<p><code>device_names</code> and <code>dump_devices</code> just list actives devices use later for listening (<code>FFI::PCap.device_names</code> in full).</p>
+
+<p>Other methods like <code>pcap_lookupnet</code>, <code>pcap_findalldevs</code> take some unusual arguments in Ruby but common in C : pointers … (look at source <em>pcap.rb</em> in the gem for full description of parameters of each methods). The FFI library provide all the help.</p>
+
+<p>Example for <code>pcap_lookupnet</code> for the first device :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="nb">require</span> <span class="s1">&#39;ffi/pcap&#39;</span>
+
+    <span class="n">dev</span>     <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">.</span><span class="n">device_names</span><span class="o">.</span><span class="n">first</span>
+    <span class="n">netp</span>    <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:MemoryPointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">find_type</span><span class="p">(</span><span class="ss">:bpf_uint32</span><span class="p">))</span>
+    <span class="n">maskp</span>   <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:MemoryPointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">find_type</span><span class="p">(</span><span class="ss">:bpf_uint32</span><span class="p">))</span>
+    <span class="n">errbuf</span>  <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">::</span><span class="no">ErrorBuffer</span><span class="o">.</span><span class="n">new</span>
+
+    <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">.</span><span class="n">pcap_lookupnet</span> <span class="n">dev</span><span class="p">,</span> <span class="n">netp</span><span class="p">,</span> <span class="n">maskp</span><span class="p">,</span> <span class="n">errbuf</span>
+
+    <span class="nb">puts</span> <span class="n">netp</span><span class="o">.</span><span class="n">get_array_of_uchar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="nb">puts</span> <span class="n">maskp</span><span class="o">.</span><span class="n">get_array_of_uchar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    
+</code></pre></div>
+
+<p>Example for <code>pcap_findalldevs</code> :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="nb">require</span> <span class="s1">&#39;ffi/pcap&#39;</span>
+
+    <span class="n">devices</span> <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:MemoryPointer</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:pointer</span><span class="p">)</span>
+    <span class="n">errbuf</span>  <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">::</span><span class="no">ErrorBuffer</span><span class="o">.</span><span class="n">new</span> 
+    
+    <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">.</span><span class="n">pcap_findalldevs</span><span class="p">(</span><span class="n">devices</span><span class="p">,</span> <span class="n">errbuf</span><span class="p">)</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">devices</span><span class="o">.</span><span class="n">get_pointer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dev</span> <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">::</span><span class="no">Interface</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="c1"># return a structure object for exploring :</span>
+
+    <span class="n">dev</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">dev</span><span class="o">.</span><span class="n">description</span>
+    <span class="n">dev</span><span class="o">.</span><span class="n">addresses</span>
+    <span class="n">dev</span><span class="o">.</span><span class="n">addresses</span><span class="o">.</span><span class="n">addr</span>
+
+    <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">.</span><span class="n">pcap_freealldevs</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    
+</code></pre></div>
+
+<h3 id="listening-raw-packet">Listening raw packet</h3>
+
+<p>We’ve got our active device, so let listen to packets :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="nb">require</span> <span class="s1">&#39;ffi/cap&#39;</span>
+
+    <span class="n">dev</span> <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">.</span><span class="n">device_names</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>  <span class="c1"># or another for you</span>
+
+    <span class="n">pcap</span> <span class="o">=</span> <span class="ss">FFI</span><span class="p">:</span><span class="ss">:PCap</span><span class="o">::</span><span class="no">Live</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:dev</span> <span class="o">=&gt;</span> <span class="n">dev</span><span class="p">)</span>   <span class="c1"># for this time, listening is active, as show with stats</span>
+
+    <span class="n">pcap</span><span class="o">.</span><span class="n">stats</span>
+    <span class="n">pcap</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">ps_recv</span>
+
+    <span class="n">pcap</span><span class="o">.</span><span class="n">datalink</span><span class="o">.</span><span class="n">describe</span>
+
+    <span class="n">pakt</span> <span class="o">=</span> <span class="o">[]</span>
+
+    <span class="n">pcap</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="ss">:count</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">this</span><span class="p">,</span><span class="n">pkt</span><span class="o">|</span>   <span class="c1"># :count =&gt; -1 for infinite loop, break with .breakloop method</span>
+      <span class="n">pakt</span> <span class="o">&lt;&lt;</span> <span class="n">pkt</span>
+      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">pkt</span><span class="o">.</span><span class="n">time</span><span class="si">}</span><span class="s2"> :: </span><span class="si">#{</span><span class="n">pkt</span><span class="o">.</span><span class="n">len</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="n">pkt</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">each_byte</span> <span class="p">{</span><span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="nb">print</span> <span class="s2">&quot;%0.2x &quot;</span> <span class="o">%</span> <span class="n">x</span> <span class="p">}</span>
+      <span class="nb">putc</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">end</span>
+    
+</code></pre></div>
+
+<p>The first packet ! :)</p>
+
+<h3 id="filtering">Filtering</h3>
+
+<p>The filter is set before the loop.
+Start by the man page with lot of examples : <a href="http://www.manpagez.com/man/7/pcap-filter/">http://www.manpagez.com/man/7/pcap-filter/</a></p>
+
+<pre><code>set_filter = "port 80" # simple filter
+</code></pre>
+
+<p>Now let’s look into this packet …</p>
+
+<h3 id="hexdump">Hexdump</h3>
+
+<p>Start first with a better hexdump look with … Hexdump gem :) (<code>gem i hexdump</code>) :</p>
+
+<div class="highlight"><pre><code class="ruby">    <span class="n">pcap</span><span class="o">.</span><span class="n">loop</span><span class="p">(</span><span class="ss">count</span><span class="p">:</span> <span class="mi">2</span><span class="p">){</span><span class="o">|</span><span class="n">t</span><span class="p">,</span><span class="nb">p</span><span class="o">|</span> <span class="no">Hexdump</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">p</span><span class="o">.</span><span class="n">body</span><span class="p">);</span><span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">;};</span>
+    
+</code></pre></div>
+
+<p>render :</p>
+
+<pre><code>00000000  33 33 00 00 00 0c 74 e5 43 82 96 a2 86 dd 60 00  |33....t.C.....`.|
+00000010  00 00 00 9a 11 01 fe 80 00 00 00 00 00 00 1c 3e  |...............&gt;|
+00000020  c1 df 18 3d 8d ea ff 02 00 00 00 00 00 00 00 00  |...=............|
+...
+</code></pre>
+
+<h3 id="ethernet-frame-structure">Ethernet frame structure</h3>
+
+<p>We are on OSI level 2, so our ‘packet’ are in reality some ‘frame’ (packet denomination is for level 3 OSI) :check <a href="http://en.wikipedia.org/wiki/OSI_model#Examples">http://en.wikipedia.org/wiki/OSI_model#Examples</a>.</p>
+
+<pre><code>| Destination MAC address | Source MAC address | Type/Length | User Data |
+| :---------------------: | :----------------: | :---------: | :-------: |
+|     vendor  /    id     |  vendor  /    id   |             |           |
+|       3     /    3      |    3     /    3    |      2      | 46 - 1500 |
+</code></pre>
+
+<p>The list of vendor / organization can be found here <a href="http://anonsvn.wireshark.org/wireshark/trunk/manuf">http://anonsvn.wireshark.org/wireshark/trunk/manuf</a> or here <a href="http://standards.ieee.org/develop/regauth/oui/oui.txt">http://standards.ieee.org/develop/regauth/oui/oui.txt</a>.</p>
+
+<p>A short script to transform the wireshark database (saved as <em>./manuf</em>) into a local YAML hash : </p>
+
+<pre><code>def create_manuf
+  ctr = {}
+  File.readlines("./manuf").each do |line|
+    line =~ /^([^\s]+)\s+([^#]+)(\s+#(.*))?$/
+    ctr[$1] = {:sh =&gt; ($2 ? $2.strip : $2), :lg =&gt; ($4 ? $4.strip : $4)}
+  end
+  File.open("./manuf.yaml", "w+"){|f| f.write(ctr.to_yaml)}
+  return ctr 
+end
+</code></pre>
+
+<p>ie <code>ctr["00:00:0C"]</code> give a short and a long name of the constructor.</p>
+
+<p>Nota: A destination MAC address of <code>ff:ff:ff:ff:ff:ff</code> indicate a broadcast message from the source.</p>
+
+<h3 id="analyzing-ethernet-frame">Analyzing Ethernet Frame</h3>
+
+<p>First get a full frame :</p>
+
+<pre><code>frame = ''
+pcap.loop(count: 1){|t,p| frame = p.body}
+</code></pre>
+
+<p>And then initialize FFI::Packets::Eth :</p>
+
+<pre><code>eth = FFI::Packets::Eth.new raw: frame
+</code></pre>
+
+<p>and get the MAC source and destination adresse and the type :</p>
+
+<pre><code>puts eth.dump
+eth.src
+eth.lookup_etype
+</code></pre>
+
+<blockquote>
+  <p>Nota : the ffi-packets gem need some adjustments (the gemspec isn’t complete), you can use my <a href="https://github.com/Traz/ffi-packets">fork</a> for the moment.</p>
+</blockquote>
+
+<blockquote>
+  <p>Nota 2 : read the source of ffi/dry, ffi/pcap and ffi/packets for better understanding the usage.</p>
+</blockquote>
+
+
+  <div class="pull"></div>
+  <a  href="https://twitter.com/share" class="twitter-share-button"
+data-via="iTraz" data-lang="en" data-size="large">Tweet</a>
+<script>
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);
+    js.id=id;
+    js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);
+  }
+}(document,"script","twitter-wjs");
+</script>
+
+  <hr>
+  <div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'traz';
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+</section>
+
+  </div>
+
+  <div id="footer">
+    <section class="meta">
+      <div class="container">
+        <div class="row">
+          <div class="span3"></div>
+          <div class="span2">
+            <a href="https://twitter.com/iTraz">
+              <i class="icon icon-twitter icon-4x"></i>
+              <div>Follow me on Twitter.</div>
+            </a>
+          </div>
+          <div class="span2"></div>
+          <div class="span2 next">
+            <a href="https://github.com/Traz">
+              <i class="icon icon-github icon-4x"></i>
+              <div>
+                See my github profile.
+              </div>
+            </a>
+          </div>
+          <div class="span3"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-35208058-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+</body>
+
+</html>

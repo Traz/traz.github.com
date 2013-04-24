@@ -67,6 +67,7 @@
   <li><a href="#pry---basic-stuff">PRY - basic stuff</a></li>
   <li><a href="#pry-plugins">Pry Plugins</a></li>
   <li><a href="#configure-rails-with-pry">Configure Rails with Pry</a></li>
+  <li><a href="#pry-tips">PRY Tips</a></li>
   <li><a href="#looksee-gem">Looksee gem</a></li>
   <li><a href="#my-pryrc">My .pryrc</a></li>
 </ul>
@@ -145,6 +146,22 @@ Note that some theme are in 256 colors … and they don’t work well with windo
     <span class="n">show</span><span class="o">-</span><span class="n">models</span>
     
 </code></pre></div>
+
+<blockquote>
+  <h3 id="pry-tips">PRY Tips</h3>
+
+  <p>If you want a quiet return (don’t show the result), just put a <code>;</code> at the end of the pry line, ie :</p>
+
+  <pre><code>  User.first
+</code></pre>
+
+  <p>vs</p>
+
+  <pre><code>  User.first;
+</code></pre>
+
+  <p>Usefull when calling a method formatting a result …</p>
+</blockquote>
 
 <h3 id="looksee-gem">Looksee gem</h3>
 
